@@ -1,14 +1,19 @@
-﻿using Convience.JwtAuthentication;
+﻿using BPMAPI;
+using Convience.JwtAuthentication;
 using Convience.ManagentApi.Infrastructure.Logs.LoginLog;
 using Convience.Model.Constants;
 using Convience.Model.Models.Account;
+using Convience.Model.Models.SystemManage;
 using Convience.Service.Account;
 using Convience.Service.SystemManage;
 using Convience.Util.Extension;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
+using System.ServiceModel;
 using System.Threading.Tasks;
 
 namespace Convience.ManagentApi.Controllers
@@ -17,19 +22,28 @@ namespace Convience.ManagentApi.Controllers
     [ApiController]
     public class AccountController : ControllerBase
     {
+        public class UserData
+        {
+            public string USERNAME { get; set; }
+            public string CUST_4 { get; set; }
+            public string EMAIL { get; set; }
+        }
         private readonly IAccountService _loginService;
 
         private readonly IMenuService _menuService;
 
         private readonly IRoleService _roleService;
+        private readonly IUserService _userService;
 
         public AccountController(IAccountService loginService,
             IMenuService menuService,
-            IRoleService roleService)
+            IRoleService roleService,
+            IUserService userService)
         {
             _loginService = loginService;
             _menuService = menuService;
             _roleService = roleService;
+            _userService = userService;
         }
 
         [HttpGet("captcha")]
@@ -50,12 +64,48 @@ namespace Convience.ManagentApi.Controllers
                 return this.BadRequestResult(validResult);
             }
 
-            // 验证用户是否可以使用
-            var isActive = _loginService.IsStopUsing(model.UserName);
-            if (!isActive)
+            BasicHttpBinding binding = new BasicHttpBinding();
+
+            EndpointAddress address = new EndpointAddress("http://service3.chenfull.com.tw/CF.BPM.Service/BPMAPI.asmx");
+
+            BPMAPISoapClient client = new BPMAPISoapClient(binding, address);
+
+            CallMethodParams callMethodParm = new CallMethodParams();//GetBorgEmpDataByLogonID
+            JObject param = new JObject();
+            param.Add("logonid", model.UserName);
+            param.Add("password", model.Password == null ? "" : model.Password);
+            callMethodParm.Method = "LoginValidate";
+            callMethodParm.Options = JsonConvert.SerializeObject(param);
+            Task<CallMethodResponse> response = client.CallMethodAsync(callMethodParm);
+            CallMethodResult result = response.Result.Body.CallMethodResult;
+            if (!result.Success)
             {
-                return this.BadRequestResult(AccountConstants.ACCOUNT_NOT_ACTIVE);
+                return this.BadRequestResult(result.Message);
+                //throw new Exception(result.Message);
             }
+            UserData UserData = JsonConvert.DeserializeObject<UserData>(result.Options.ToString());
+            //如果BPM通過本地不存在就新增
+            bool isExsit = _loginService.IsExist(model.UserName);
+            if (!isExsit)
+            {
+                UserViewModel newuser = new UserViewModel()
+                {
+                    Name = UserData.USERNAME,
+                    UserName = model.UserName,
+                    Password = model.Password,
+                    RoleIds = "7",
+                    PositionIds = "",
+                    IsActive = true
+                };
+                await _userService.AddUserAsync(newuser);
+            }
+
+            // 验证用户是否可以使用
+            //var isActive = _loginService.IsStopUsing(model.UserName);
+            //if (!isActive)
+            //{
+            //    return this.BadRequestResult(AccountConstants.ACCOUNT_NOT_ACTIVE);
+            //}
 
             // 取得用户信息
             var validateResult = await _loginService.ValidateCredentialsAsync(model.UserName, model.Password);

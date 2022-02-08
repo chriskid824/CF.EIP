@@ -26,6 +26,7 @@ namespace Convience.Service.Account
         public Task<ValidateCredentialsResultModel> ValidateCredentialsAsync(string userName, string password);
 
         public Task<bool> ChangePasswordAsync(string userName, string oldPassword, string newPassword);
+        public bool IsExist(string userName);
     }
 
     public class AccountService : IAccountService
@@ -69,9 +70,9 @@ namespace Convience.Service.Account
                 _userRoleRepository.Get(ur => ur.UserId == user.Id).Select(ur => ur.RoleId));
             if (user != null)
             {
-                var isValid = await _userManager.CheckPasswordAsync(user, password);
-                if (isValid)
-                {
+                //var isValid = await _userManager.CheckPasswordAsync(user, password);
+                //if (isValid)
+                //{
                     //int[] werks = _srmContext.SrmEkgries.Where(r => r.Empid == user.UserName).Select(r => r.Werks).ToArray();
                     List<string> roleidarr = roleIds.Split(',').ToList();
                     string rolenames = string.Join(',', roleresults.Where(p => roleidarr.Contains(p.Id)).Select(p => p.Name));
@@ -90,7 +91,7 @@ namespace Convience.Service.Account
                     return new ValidateCredentialsResultModel(_jwtFactory.GenerateJwtToken(pairs),
  user.Name, user.Avatar, roleIds, user.CostNo, werks);
 
-                }
+                //}
             }
             return null;
         }
@@ -139,6 +140,11 @@ namespace Convience.Service.Account
             }
             if (werklist.Count == 0) return new int[] { 1100, 1200, 3100 };
             return werklist.ToArray();
+        }
+        public bool IsExist(string userName)
+        {
+            var user = _userManager.Users.FirstOrDefault(u => u.UserName == userName);
+            return user != null;
         }
     }
 }
