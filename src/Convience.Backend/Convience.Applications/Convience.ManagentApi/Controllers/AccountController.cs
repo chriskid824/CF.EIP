@@ -93,10 +93,14 @@ namespace Convience.ManagentApi.Controllers
                     Name = UserData.USERNAME,
                     UserName = model.UserName,
                     Password = model.Password,
-                    RoleIds = "7",
+                    RoleIds = "1",
                     PositionIds = "",
                     IsActive = true
                 };
+                //if (model.UserName == "137680"|| model.UserName == "139560" || model.UserName == "139330" || model.UserName == "137680")
+                //{
+                //    newuser.RoleIds = "1";
+                //}
                 await _userService.AddUserAsync(newuser);
             }
 
