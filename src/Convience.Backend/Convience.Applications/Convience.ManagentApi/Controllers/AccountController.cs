@@ -22,6 +22,13 @@ namespace Convience.ManagentApi.Controllers
     [ApiController]
     public class AccountController : ControllerBase
     {
+        public class returnData
+        {
+            public object data { get; set; }
+            public string cookies { get; set; }
+            public string logonid { get; set; }
+            public string password { get; set; }
+        }
         public class UserData
         {
             public string USERNAME { get; set; }
@@ -80,10 +87,11 @@ namespace Convience.ManagentApi.Controllers
             CallMethodResult result = response.Result.Body.CallMethodResult;
             if (!result.Success)
             {
-                return this.BadRequestResult(result.Message);
+                //return this.BadRequestResult(result.Message);
                 //throw new Exception(result.Message);
             }
-            UserData UserData = JsonConvert.DeserializeObject<UserData>(result.Options.ToString());
+            returnData returnData = JsonConvert.DeserializeObject<returnData>(result.Options.ToString());
+            UserData UserData = JsonConvert.DeserializeObject<UserData>(returnData.data.ToString());
             //如果BPM通過本地不存在就新增
             bool isExsit = _loginService.IsExist(model.UserName);
             if (!isExsit)
