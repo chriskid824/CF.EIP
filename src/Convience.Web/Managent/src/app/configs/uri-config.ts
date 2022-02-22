@@ -84,19 +84,5 @@ export class UriConfig {
 
     get LoginLogUri(): string { return `${this._apiUri}/loginLog` };
 
-    get SrmRfq(): string { return `${this._apiUri}/SrmRfq` };
-
-    get SrmQot(): string { return `${this._apiUri}/SrmQot` };
-
-    get SrmPrice(): string { return `${this._apiUri}/SrmPrice` };
-
-    get SrmPo(): string { return `${this._apiUri}/SrmPo` };
-
-    get SrmDelivery(): string { return `${this._apiUri}/SrmDelivery` };
-
-    get SrmSupplier(): string { return `${this._apiUri}/SrmSupplier` };
-    
-    get SrmMaterial(): string { return `${this._apiUri}/SrmMaterial` };
-
-    get SrmMaterialTrend(): string { return `${this._apiUri}/SrmMaterialTrend` };
+    get EipHR(): string { return `${this._apiUri}/EipHR` };
 }

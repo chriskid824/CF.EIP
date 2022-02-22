@@ -6,8 +6,11 @@
 
   <ItemGroup>
     <Compile Remove="Entity\Common\**" />
+    <Compile Remove="Entity\NewFolder1\**" />
     <EmbeddedResource Remove="Entity\Common\**" />
+    <EmbeddedResource Remove="Entity\NewFolder1\**" />
     <None Remove="Entity\Common\**" />
+    <None Remove="Entity\NewFolder1\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -18,6 +21,10 @@
 		  <PrivateAssets>all</PrivateAssets>
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 	  </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Entity\EIP\" />
   </ItemGroup>
 
 </Project>

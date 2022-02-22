@@ -17,6 +17,7 @@ import { ErrorHandlerInterceptor } from './inceptors/error-handler-inceptor';
 import { UriConfig } from './configs/uri-config';
 
 
+
 registerLocaleData(zh);
 
 export function initializeApp(uriConstant: UriConfig) {
@@ -26,6 +27,7 @@ export function initializeApp(uriConstant: UriConfig) {
 @NgModule({
   declarations: [
     AppComponent,
+
   ],
   imports: [
     BrowserModule,

@@ -13,6 +13,7 @@ const routes: Routes = [
       { path: "tool", loadChildren: () => import("./pages/system-tool/system-tool.module").then(m => m.SystemToolModule) },
       { path: "workflow", loadChildren: () => import("./pages/workflow/workflow.module").then(m => m.WorkflowModule) },
       { path: "log", loadChildren: () => import("./pages/system-log/system-log.module").then(m => m.SystemLogModule) },
+      { path: "eip", loadChildren: () => import("./pages/eip/eip.module").then(m => m.EipModule) },
     ]
   },
   { path: "**", loadChildren: () => import("./pages/nofound/nofound.module").then(m => m.NofoundModule) },
