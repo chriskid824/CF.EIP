@@ -21,7 +21,7 @@
   
       <nz-card [nzSize]="'small'" id="rfqCard">
         <div>
-          <button nz-button class="" (click)="addmaterial()" *canOperate="'addMatnrBtn'"><i nz-icon nzType="plus"></i>建立應聘者</button>
+          <button nz-button class="" (click)="add(addUserTitleTpl,userContentTp2)" *canOperate="'addCandidateBtn'"><i nz-icon nzType="plus"></i>建立應聘者</button>
           <button nz-button class="" (click)="refresh()"><i nz-icon nzType="sync"></i>刷新</button>
         </div>
         <div class="mt-10">
@@ -31,24 +31,20 @@
               <tr>
                 <th nzAlign="center" nzWidth="40px">操作</th>
                 <th nzAlign="center" nzWidth="60px">應聘者姓名</th>
-                <th nzAlign="center" nzWidth="40px">手機</th>
+                <th nzAlign="center" nzWidth="60px">手機</th>
                 <th nzAlign="center" nzWidth="100px">Email</th>
-                <th nzAlign="center" nzWidth="40px">狀態</th>
-
-  
-                
-                <!--<th nzAlign="center" nzWidth="80px" nzRight>操作</th>-->
+                <th nzAlign="center" nzWidth="40px">狀態</th>                
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let data of dataTable.data;let i = index">
-                <td nzAlign="center"><button nz-button nz-tooltip nzTooltipTitle="編輯" nzShape="circle"  (click)="edit(editUserTitleTpl,userContentTpl,data)" ><i nz-icon nzType="edit"></i></button>
+                <td nzAlign="center" nzWidth="40px"><button nz-button nz-tooltip nzTooltipTitle="編輯" nzShape="circle"  (click)="edit(editUserTitleTpl,userContentTpl,data)" ><i nz-icon nzType="edit"></i></button>
                 &nbsp;<button nz-button nz-tooltip nzTooltipTitle="刪除" nzShape="circle" (click)="delete(editUserTitleTpl,userContentTpl,data)" ><i nz-icon nzType="delete"></i></button></td>
-                <td nzAlign="center" >{{ data.username }}</td>
-                <td nzAlign="center" >{{ data.cellphone }}</td>
-                <td nzAlign="center" >{{ data.email }}</td>
-                <td nzAlign="center">{{ data.status }}</td>
-
+                <td nzAlign="center" hidden>{{ data.candidateId }}</td>
+                <td nzAlign="center" nzWidth="60px">{{ data.username }}</td>
+                <td nzAlign="center" nzWidth="60px">{{ data.cellphone }}</td>
+                <td nzAlign="center" nzWidth="100px">{{ data.email }}</td>
+                <td nzAlign="center" nzWidth="40px">{{ data.status }}</td>
                 
               </tr>
             </tbody>            
@@ -62,156 +58,89 @@
       </nz-card>
   
   
-      <ng-template #editUserTitleTpl>
-        <span>编辑料號</span>
+    <ng-template #editUserTitleTpl>
+        <span>编辑應聘者資料</span>
     </ng-template>
     <ng-template #userContentTpl>
         <form nz-form [formGroup]="editForm" (ngSubmit)="submitEdit()">
+            <nz-form-item hidden>
+                <nz-form-label [nzSm]="8" [nzXs]="20" [nzFor]="'edit_candidateId'">ID</nz-form-label>
+                <nz-form-control [nzSm]="10" [nzXs]="20">
+                    <input [attr.id]="'edit_candidateId'" formControlName="candidateId" nz-input placeholder="ID" autocomplete="off" />
+                </nz-form-control>
+              </nz-form-item>
             <nz-form-item>
-                <nz-form-label [nzSm]="6" [nzXs]="24" [nzFor]="'edit_srmMatnr1'">SRM料號</nz-form-label>
-                <nz-form-control [nzSm]="10" [nzXs]="24" [nzErrorTip]="srm_srmMatnr1ErrorTpl">
-                    <input [attr.id]="'edit_srmMatnr1'" formControlName="srmMatnr1" nz-input placeholder="SRM料號"
-                        autocomplete="off" readonly="readonly" style="background-color:#F5F5F5"/>
+                <nz-form-label [nzSm]="8" [nzXs]="20" [nzFor]="'edit_username'">應聘者</nz-form-label>
+                <nz-form-control [nzSm]="10" [nzXs]="20" [nzErrorTip]="usernameErrorTpl">
+                    <input [attr.id]="'edit_username'" formControlName="username" nz-input placeholder="應聘者"
+                        autocomplete="off"/>
                 </nz-form-control>
             </nz-form-item>
             <nz-form-item>
-              <nz-form-label [nzSm]="6" [nzXs]="24" [nzFor]="'edit_sapMatnr'">SAP料號</nz-form-label>
-              <nz-form-control [nzSm]="10" [nzXs]="24">
-                  <input [attr.id]="'edit_sapMatnr'" formControlName="sapMatnr" nz-input placeholder="SAP料號" autocomplete="off" />
+              <nz-form-label [nzSm]="8" [nzXs]="20" [nzFor]="'edit_cellphone'">手機</nz-form-label>
+              <nz-form-control [nzSm]="10" [nzXs]="20">
+                  <input [attr.id]="'edit_cellphone'" formControlName="cellphone" nz-input placeholder="手機" autocomplete="off" />
               </nz-form-control>
             </nz-form-item>
             <nz-form-item>
-                <nz-form-label [nzSm]="6" [nzXs]="24" [nzFor]="'edit_matnrGroup'">物料群組</nz-form-label>
-                <nz-form-control [nzSm]="10" [nzXs]="24">
-                    <input [attr.id]="'edit_matnrGroup'" formControlName="matnrGroup" nz-input placeholder="物料群組" autocomplete="off" />
+                <nz-form-label [nzSm]="8" [nzXs]="20" [nzFor]="'edit_email'">Email</nz-form-label>
+                <nz-form-control [nzSm]="10" [nzXs]="20">
+                    <input [attr.id]="'edit_email'" formControlName="email" nz-input placeholder="Email" autocomplete="off" />
                 </nz-form-control>
             </nz-form-item>
-            <nz-form-item>
-                <nz-form-label [nzSm]="6" [nzXs]="24" [nzFor]="'edit_description'">物料內文</nz-form-label>
-                <nz-form-control>
-                    <input [attr.id]="'edit_description'" formControlName="description" nz-input
-                        placeholder="物料內文" autocomplete="off" />
-                </nz-form-control>
-            </nz-form-item>
-            <nz-form-item>
-              <nz-form-label [nzSm]="6" [nzXs]="24" [nzFor]="'edit_version'">版次</nz-form-label>
-              <nz-form-control [nzSm]="10" [nzXs]="24">
-                  <input [attr.id]="'edit_version'" formControlName="version" nz-input
-                      placeholder="版次" autocomplete="off" />
-              </nz-form-control>
-            </nz-form-item>
-            <nz-form-item>
-              <nz-form-label [nzSm]="6" [nzXs]="24" [nzFor]="'edit_material'">材質規格</nz-form-label>
-              <nz-form-control [nzSm]="10" [nzXs]="24"> 
-                <input [attr.id]="'edit_material'" formControlName="material" nz-input
-                placeholder="材質規格" autocomplete="off" />
-              </nz-form-control>
-            </nz-form-item>
-            <nz-form-item>
-              <nz-form-label [nzSm]="6" [nzXs]="24" [nzFor]="'edit_length'">長</nz-form-label>
-              <nz-form-control [nzSm]="10" [nzXs]="24">
-                  <input [attr.id]="'edit_length'" formControlName="length" nz-input
-                      placeholder="長" autocomplete="off" />
-              </nz-form-control>
-            </nz-form-item>
-            <nz-form-item>
-              <nz-form-label [nzSm]="6" [nzXs]="24" [nzFor]="'edit_tel_hone'">寬</nz-form-label>
-              <nz-form-control [nzSm]="10" [nzXs]="24">
-                  <input [attr.id]="'edit_width'" formControlName="width" nz-input
-                      placeholder="寬" autocomplete="off" />
-              </nz-form-control>
-            </nz-form-item>
-            <nz-form-item>
-              <nz-form-label [nzSm]="6" [nzXs]="24" [nzFor]="'edit_height'">高(厚)</nz-form-label>
-              <nz-form-control [nzSm]="10" [nzXs]="24">
-                  <input [attr.id]="'edit_height'" formControlName="height" nz-input
-                      placeholder="高(厚)" autocomplete="off" />
-              </nz-form-control>
-            </nz-form-item>
-            <nz-form-item>
-              <nz-form-label [nzSm]="6" [nzXs]="24" [nzFor]="'edit_minor_diameter'">圓內徑</nz-form-label>
-              <nz-form-control [nzSm]="10" [nzXs]="24">
-                  <input [attr.id]="'edit_minor_diameter'" formControlName="minor_diameter" nz-input
-                      placeholder="圓內徑" autocomplete="off" />
-              </nz-form-control>
-            </nz-form-item>
-            <nz-form-item>
-              <nz-form-label [nzSm]="6" [nzXs]="24" [nzFor]="'edit_major_diameter'">圓外徑</nz-form-label>
-              <nz-form-control [nzSm]="10" [nzXs]="24">
-                  <input [attr.id]="'edit_major_diameter'" formControlName="major_diameter" nz-input
-                      placeholder="圓外徑" autocomplete="off" />
-              </nz-form-control>
-            </nz-form-item>
-            <nz-form-item>
-              <nz-form-label [nzSm]="6" [nzXs]="24" [nzFor]="'edit_density'">密度</nz-form-label>
-              <nz-form-control [nzSm]="10" [nzXs]="24">
-                  <input [attr.id]="'edit_density'" formControlName="density" nz-input
-                      placeholder="密度" autocomplete="off" />
-              </nz-form-control>
-            </nz-form-item>
-            <nz-form-item>
-              <nz-form-label [nzSm]="6" [nzXs]="24" [nzFor]="'edit_weight'">重量</nz-form-label>
-              <nz-form-control [nzSm]="10" [nzXs]="24">
-                  <input [attr.id]="'edit_weight'" formControlName="weight" nz-input
-                      placeholder="重量" autocomplete="off" />
-              </nz-form-control>
-            </nz-form-item>
-            <nz-form-item>
-              <nz-form-label [nzSm]="6" [nzXs]="24" [nzFor]="'edit_gewei'">重量單位</nz-form-label>
-              <nz-form-control [nzSm]="10" [nzXs]="24"> 
-                  <input [attr.id]="'edit_gewei'" formControlName="gewei" nz-input
-                      placeholder="重量單位" autocomplete="off" />
-              </nz-form-control>
-            </nz-form-item>
-            <nz-form-item>
-              <nz-form-label [nzSm]="6" [nzXs]="24" [nzFor]="'edit_unitDesc'">計量單位</nz-form-label>
-              <nz-form-control [nzSm]="10" [nzXs]="24"> 
-                  <input [attr.id]="'edit_unitDesc'" formControlName="unitDesc" nz-input
-                      placeholder="計量單位" autocomplete="off" />
-              </nz-form-control>
-            </nz-form-item>
-            <nz-form-item>
-              <nz-form-label [nzSm]="6" [nzXs]="24" [nzFor]="'edit_ekgrp'">採購群組代碼</nz-form-label>
-              <nz-form-control [nzSm]="10" [nzXs]="24">
-                  <input [attr.id]="'edit_ekgrp'" formControlName="ekgrp" nz-input
-                      placeholder="採購群組代碼" autocomplete="off" />
-              </nz-form-control>
-            </nz-form-item>
-            <nz-form-item>
-              <nz-form-label [nzSm]="6" [nzXs]="24" [nzFor]="'edit_bnnum'">評估案號</nz-form-label>
-              <nz-form-control [nzSm]="10" [nzXs]="24">
-                  <input [attr.id]="'edit_bnnum'" formControlName="bnnum" nz-input
-                      placeholder="評估案號" autocomplete="off" />
-              </nz-form-control>
-            </nz-form-item>
-            <nz-form-item>
-              <nz-form-label [nzSm]="6" [nzXs]="24" [nzFor]="'edit_statusDesc'">狀態</nz-form-label>
-              <nz-form-control [nzSm]="10" [nzXs]="24">
-                  <input [attr.id]="'edit_statusDesc'" formControlName="statusDesc" nz-input
-                      placeholder="狀態" autocomplete="off" readonly="readonly" style="background-color:#F5F5F5"/>
-              </nz-form-control>
-            </nz-form-item>
-            <nz-form-item>
-              <nz-form-label [nzSm]="6" [nzXs]="24" [nzFor]="'edit_note'">備註</nz-form-label>
-              <nz-form-control>
-                  <input [attr.id]="'edit_note'" formControlName="note" nz-input
-                      placeholder="備註" autocomplete="off"  />
-              </nz-form-control>
-            </nz-form-item>
-            <nz-form-item>
-              <nz-form-label [nzSm]="6" [nzXs]="24" [nzFor]="'edit_otherDesc'">其他內文</nz-form-label>
-              <nz-form-control> 
-                <textarea [attr.id]="'edit_otherDesc'"
-                formControlName="otherDesc" nz-input placeholder="其他內文" rows="4"></textarea>
-              </nz-form-control>
-            </nz-form-item>
-      
-  
   
             <nz-form-item>
-                <nz-form-control [nzSpan]="14" [nzOffset]="6">
+                <nz-form-control [nzSpan]="14" [nzOffset]="8">
                     <button nz-button nzType="primary" class="mr-10">提交</button>
                     <button nz-button type="reset" (click)="cancelEdit()">取消</button>
+                </nz-form-control>
+            </nz-form-item>
+        </form>
+    </ng-template>
+
+
+    <ng-template #addUserTitleTpl>
+        <span>新增應聘者資料</span>
+    </ng-template>
+    <ng-template #userContentTp2>
+        <form nz-form [formGroup]="addForm" (ngSubmit)="submitadd()">
+            <nz-form-item hidden>
+                <nz-form-label [nzSm]="8" [nzXs]="20" [nzFor]="'add_candidateId'">ID</nz-form-label>
+                <nz-form-control [nzSm]="10" [nzXs]="20">
+                    <input [attr.id]="'add_candidateId'" formControlName="candidateId" nz-input placeholder="ID" autocomplete="off" />
+                </nz-form-control>
+              </nz-form-item>
+            <nz-form-item>
+                <nz-form-label [nzSm]="8" [nzXs]="20" [nzFor]="'add_username'">應聘者</nz-form-label>
+                <nz-form-control [nzSm]="10" [nzXs]="20" [nzErrorTip]="usernameErrorTpl">
+                    <input [attr.id]="'add_username'" formControlName="username" nz-input placeholder="應聘者"
+                        autocomplete="off"/>
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label [nzSm]="8" [nzXs]="20" [nzFor]="'add_cellphone'">手機</nz-form-label>
+              <nz-form-control [nzSm]="10" [nzXs]="20">
+                  <input [attr.id]="'add_cellphone'" formControlName="cellphone" nz-input placeholder="手機" autocomplete="off" />
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+                <nz-form-label [nzSm]="8" [nzXs]="20" [nzFor]="'add_email'">Email</nz-form-label>
+                <nz-form-control [nzSm]="10" [nzXs]="20">
+                    <input [attr.id]="'add_email'" formControlName="email" nz-input placeholder="Email" autocomplete="off" />
+                </nz-form-control>
+            </nz-form-item>
+            <!-- <nz-form-item>
+              <nz-form-label [nzSm]="8" [nzXs]="20" [nzFor]="'add_status'">狀態</nz-form-label>
+              <nz-form-control [nzSm]="10" [nzXs]="20">
+                  <input [attr.id]="'add_status'" formControlName="status" nz-input
+                      placeholder="狀態" autocomplete="off" readonly="readonly" style="background-color:#F5F5F5"/>
+              </nz-form-control>
+            </nz-form-item> -->
+  
+            <nz-form-item>
+                <nz-form-control [nzSpan]="14" [nzOffset]="8">
+                    <button nz-button nzType="primary" class="mr-10">提交</button>
+                    <button nz-button type="reset" (click)="canceladd()">取消</button>
                 </nz-form-control>
             </nz-form-item>
         </form>

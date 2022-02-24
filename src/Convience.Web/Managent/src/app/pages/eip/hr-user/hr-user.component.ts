@@ -18,6 +18,7 @@ import { HrUserService } from '../../../business/eip/hr-user.service';
 export class HrUserComponent implements OnInit {
   searchForm: FormGroup = new FormGroup({});
   editForm: FormGroup = new FormGroup({});
+  addForm: FormGroup = new FormGroup({});
 
   isNewUser: boolean;
   tplModal: NzModalRef;
@@ -25,6 +26,7 @@ export class HrUserComponent implements OnInit {
   size: number = 6;
   total: number;
   data;
+  fileList: any[] = [];
 
   editedUser: user;
 
@@ -33,7 +35,7 @@ export class HrUserComponent implements OnInit {
     private _formBuilder: FormBuilder,
     //private _srmSrmService: SrmSupplierService,
     private _storageService: StorageService, 
-    private _layout: LayoutComponent, 
+    //private _layout: LayoutComponent, 
     private _router: Router,
     private _modalService: NzModalService,
     private _messageService: NzMessageService,
@@ -41,53 +43,38 @@ export class HrUserComponent implements OnInit {
 
   ngOnInit(): void {
     this.searchForm = this._formBuilder.group({
+      //candidateId:[null],
       name:[null]
     });
   }
   submitSearch() {
-    //this.refresh();
+    this.refresh();
   }
   pageChange() {
-    //this.refresh();
+    this.refresh();
   }
   addmaterial() {
     //this._layout.navigateTo('material-c');
     this._router.navigate(['srm/material-c']);
     //window.open('../srm/rfq');
   }
-  edit(title: TemplateRef<{}>, content: TemplateRef<{}>,user:user) {
-
-    //console.log(material.srmMatnr1)
+  edit(title: TemplateRef<{}>, content: TemplateRef<{}>,user:user) {    
     var query = {
-      material:user.userid
+      candidateId:user.candidateId,
     }
-    this._eipHrUserService.GetUserDetail(query).subscribe(result => {      
+    console.log(query);
+    this._eipHrUserService.GetCandidateDetail(query).subscribe(result => {      
 
       console.log(result);
 
       this.isNewUser = false;
       this.editedUser = result;
       this.editForm = this._formBuilder.group({
-        srmMatnr1: [result['srmMatnr1']],
-        sapMatnr: [result['sapMatnr']],
-        matnrGroup: [result['matnrGroup']],
-        description: [result['description']],
-        version: [result['version']],
-        material: [result['material']],
-        length: [result['length']],
-        width: [result['width']],
-        height: [result['height']],
-        density: [result['density']],
-        weight: [result['weight']],
-        gewei: [result['gewei']],
-        unitDesc: [result['unitDesc']],
-        ekgrp: [result['ekgrp']],
-        bnnum: [result['bn_num']],
-        major_diameter: [result['major_diameter']],
-        minor_diameter: [result['minor_diameter']],
-        statusDesc: [result['statusDesc']],
-        note: [result['note']],
-        otherDesc: [result['otherDesc']],
+        candidateId: [result['candidateId']],
+        username: [result['username']],
+        cellphone: [result['cellphone']],
+        email: [result['email']],  
+        status: [result['status']],        
       });
       this.tplModal = this._modalService.create({
         nzTitle: title,
@@ -98,70 +85,94 @@ export class HrUserComponent implements OnInit {
       });
     });
   }
+  initaddForm() {
+    this.addForm = this._formBuilder.group({
+      candidateId: [null],
+      username: [null, [Validators.required]],
+      cellphone: [null, [Validators.required]],
+      email: [null, [Validators.required]],
+    });
+    this.fileList = [];
+  }
+  add(title: TemplateRef<{}>, content: TemplateRef<{}>) {   
+    this.initaddForm(); 
+    this.tplModal = this._modalService.create({
+      nzTitle: title,
+      nzContent: content,
+      nzFooter: null,
+      nzClosable: true,
+      nzMaskClosable: false
+    });
+  }
   delete(title: TemplateRef<{}>, content: TemplateRef<{}>,user:user){
     var data = {
-      material:user.userid
+      candidateId:user.candidateId,
+      username:user.username
     }
 
-    // this.tplModal = this._modalService.confirm({
-    //   nzTitle: '你確定要刪除料號：'+data.srmMatnr1+' 嗎？',
-    //   //nzContent: '<b style="color: red;">Some descriptions</b>',
-    //   nzOkText: '確認',
-    //   nzOkType: 'primary',
-    //   nzOkDanger: true,
-    //   nzOnOk: () => this.submitDelete(data),
-    //   nzCancelText: '取消',
-    //   //nzOnCancel: () => alert("取消")
-    // });
+    this.tplModal = this._modalService.confirm({
+      nzTitle: '你確定要刪除應聘人員：'+data.username+' 嗎？',
+      //nzContent: '<b style="color: red;">Some descriptions</b>',
+      nzOkText: '確認',
+      nzOkType: 'primary',
+      nzOkDanger: true,
+      nzOnOk: () => this.submitDelete(data),
+      nzCancelText: '取消',
+      //nzOnCancel: () => alert("取消")
+    });
 
   }
   submitDelete(data){
-    // this._eipHrUserService.DeleteList(data).subscribe((result) => {
-    //   alert("刪除成功");
-    //   this.refresh();
-    //   this.tplModal.close();
-    // });
+    this._eipHrUserService.DeleteList(data).subscribe((result) => {
+      alert("刪除成功");
+      this.refresh();
+      this.tplModal.close();
+    });
   }
 
-  submitEdit() {
+  submitEdit(title: TemplateRef<{}>, content: TemplateRef<{}>,user:user) {
     for (const i in this.editForm.controls) {
       this.editForm.controls[i].markAsDirty();
       this.editForm.controls[i].updateValueAndValidity();
     }
     if (this.editForm.valid) {
-      let material: any = {};
-      material.srmMatnr1 = this.editForm.value['srmMatnr1'];
-      material.sapMatnr = this.editForm.value['sapMatnr'];
-      material.matnrGroup = this.editForm.value['matnrGroup'];
-      material.description = this.editForm.value['description'];
-      material.version = this.editForm.value['version'];
-      material.material = this.editForm.value['material'];
-      material.length=this.editForm.value['length'];
-      material.width = this.editForm.value['width'];
-      material.height = this.editForm.value['height'];
-      material.density = this.editForm.value['density'];
-      material.weight = this.editForm.value['weight'];
-      material.statusDesc = this.editForm.value['statusDesc'];
-      material.note = this.editForm.value['note'];
-      material.user = this._storageService.userName;
-      material.gewei = this.editForm.value['gewei'];
-      material.unitDesc = this.editForm.value['unitDesc'];
-      material.ekgrp = this.editForm.value['ekgrp'];
-      material.bn_num = this.editForm.value['bnnum'];
-      material.minor_diameter = this.editForm.value['minor_diameter'];
-      material.major_diameter = this.editForm.value['major_diameter'];
-      material.otherDesc = this.editForm.value['otherDesc'];
-      console.log(this._storageService.userName);
+      let candidate: any = {};
+      candidate.candidateid = this.editForm.value['candidateId'];     
+      candidate.username = this.editForm.value['username'];
+      candidate.cellphone = this.editForm.value['cellphone'];
+      candidate.email = this.editForm.value['email'];
+      candidate.status = this.editForm.value['status'];    
+      candidate.user = this._storageService.userName;
 
-      this._eipHrUserService.update(material).subscribe(result => {
+      this._eipHrUserService.update(candidate).subscribe(result => {
         this._messageService.success("更新成功！");
         this.tplModal.close();
         this.refresh();
       });
     }
   } 
+  submitadd(title: TemplateRef<{}>, content: TemplateRef<{}>,user:user) {
+    for (const i in this.editForm.controls) {
+      this.editForm.controls[i].markAsDirty();
+      this.editForm.controls[i].updateValueAndValidity();
+    }
+    if (this.editForm.valid) {
+      let candidate: any = {};  
+      candidate.username = this.addForm.value['username'];
+      candidate.cellphone = this.addForm.value['cellphone'];
+      candidate.email = this.addForm.value['email'];
+      candidate.user = this._storageService.userName;
 
-
+      this._eipHrUserService.add(candidate).subscribe(result => {
+        this._messageService.success("新增成功");
+        this.tplModal.close();
+        this.refresh();
+      });
+    }
+  }
+  canceladd() {
+    this.tplModal.close();
+  }
   cancelEdit() {
     this.tplModal.close();
   }

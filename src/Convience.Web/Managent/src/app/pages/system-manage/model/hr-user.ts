@@ -1,3 +1,4 @@
 export class user {
-    userid?: number;
+    candidateId?: number;
+    username?: string;
 }

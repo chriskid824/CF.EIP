@@ -10,6 +10,8 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { AppCommonModule } from '../app-common/app-common.module';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
+import { NzTimePickerModule } from 'ng-zorro-antd/time-picker';
 
 import { HrUserComponent } from './hr-user/hr-user.component';
 import { HrInterviewComponent } from './hr-interview/hr-interview.component';
@@ -33,6 +35,8 @@ import { HrDataComponent } from './hr-data/hr-data.component';
     AppCommonModule,
     NzButtonModule,
     NzIconModule,
+    NzDatePickerModule,
+    NzTimePickerModule,
     RouterModule.forChild([
       { path: "hr-user", component: HrUserComponent, canActivate: [LoginGuard] },
       { path: "hr-interview", component: HrInterviewComponent, canActivate: [LoginGuard] },

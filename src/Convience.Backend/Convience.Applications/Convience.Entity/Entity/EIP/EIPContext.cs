@@ -18,6 +18,7 @@ namespace Convience.Entity.Entity.EIP
         }
 
         public virtual DbSet<HrCandidate> HrCandidates { get; set; }
+        public virtual DbSet<HrInterview> HrInterviews { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -69,6 +70,69 @@ namespace Convience.Entity.Entity.EIP
                 entity.Property(e => e.Username)
                     .HasMaxLength(10)
                     .HasColumnName("USERNAME");
+            });
+
+            modelBuilder.Entity<HrInterview>(entity =>
+            {
+                entity.HasKey(e => e.InterviewId);
+
+                entity.ToTable("HR_INTERVIEW");
+
+                entity.Property(e => e.InterviewId).HasColumnName("INTERVIEW_ID");
+
+                entity.Property(e => e.Candidate)
+                    .HasMaxLength(10)
+                    .HasColumnName("CANDIDATE");
+
+                entity.Property(e => e.CheckDate)
+                    .HasColumnType("date")
+                    .HasColumnName("CHECK_DATE");
+
+                entity.Property(e => e.CreateBy)
+                    .HasMaxLength(10)
+                    .HasColumnName("CREATE_BY");
+
+                entity.Property(e => e.CreateDate)
+                    .HasColumnType("datetime")
+                    .HasColumnName("CREATE_DATE");
+
+                entity.Property(e => e.Dept)
+                    .HasMaxLength(20)
+                    .HasColumnName("DEPT");
+
+                entity.Property(e => e.InterviewDate)
+                    .HasColumnType("datetime")
+                    .HasColumnName("INTERVIEW_DATE");
+
+                entity.Property(e => e.Interviewer)
+                    .HasMaxLength(10)
+                    .HasColumnName("INTERVIEWER");
+
+                entity.Property(e => e.LastUpdateBy)
+                    .HasMaxLength(10)
+                    .HasColumnName("LAST_UPDATE_BY");
+
+                entity.Property(e => e.LastUpdateDate)
+                    .HasColumnType("datetime")
+                    .HasColumnName("LAST_UPDATE_DATE");
+
+                entity.Property(e => e.NoticeDate)
+                    .HasColumnType("date")
+                    .HasColumnName("NOTICE_DATE");
+
+                entity.Property(e => e.Place)
+                    .HasMaxLength(10)
+                    .HasColumnName("PLACE");
+
+                entity.Property(e => e.ReplyDate)
+                    .HasColumnType("date")
+                    .HasColumnName("REPLY_DATE");
+
+                entity.Property(e => e.Status).HasColumnName("STATUS");
+
+                entity.Property(e => e.ValidDate)
+                    .HasColumnType("date")
+                    .HasColumnName("VALID_DATE");
             });
 
             OnModelCreatingPartial(modelBuilder);

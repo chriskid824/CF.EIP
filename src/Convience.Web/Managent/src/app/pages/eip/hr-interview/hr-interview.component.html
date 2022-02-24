@@ -1,1 +1,197 @@
-<p>hr-interview works!</p>
+<div class="two-column">
+    <div class="right">
+      <!--搜索欄-->
+      <nz-card [nzSize]="'small'" id="searchBar">
+        <form nz-form [nzLayout]="'inline'" [formGroup]="searchForm" (ngSubmit)="submitSearch()">
+          <nz-form-item>
+            <nz-form-label [nzFor]="'date'">面試日期</nz-form-label>
+            <nz-form-control>
+              <nz-date-picker style="width: 160px;" nzplaceholder="日期選擇" [formControlName]="'date'" [attr.id]="'date'"
+                     autocomplete="off"></nz-date-picker>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-control>
+              <button nz-button nzType="primary">搜索</button>
+            </nz-form-control>
+          </nz-form-item>
+        </form>
+      </nz-card>
+  
+  
+      <nz-card [nzSize]="'small'" id="rfqCard">
+        <div>
+          <button nz-button class="" (click)="add(addUserTitleTpl,userContentTp2)" *canOperate="'addCandidateBtn'"><i nz-icon nzType="plus"></i>建立應聘者</button>
+          <button nz-button class="" (click)="refresh()"><i nz-icon nzType="sync"></i>刷新</button>
+        </div>
+        <div class="mt-10">
+          <nz-table #dataTable nzSize="middle" [nzData]="data" nzShowPagination="false" nzFrontPagination="false"
+          nzBordered="true" pagination="true">
+            <thead>
+              <tr>
+                <th nzAlign="center" nzWidth="20px">操作</th>
+                <th nzAlign="center" nzWidth="40px">應聘者</th>
+                <th nzAlign="center" nzWidth="40px">面試職位</th>
+                <th nzAlign="center" nzWidth="40px">通知日期</th>
+                <th nzAlign="center" nzWidth="40px">面試日期</th>
+                <th nzAlign="center" nzWidth="40px">面試官</th>   
+                <th nzAlign="center" nzWidth="40px">面試地點</th>    
+                <th nzAlign="center" nzWidth="40px">面試者回復日期</th>    
+                <th nzAlign="center" nzWidth="40px">面試者確認日期</th>   
+                <th nzAlign="center" nzWidth="40px">邀約有效日期</th>   
+                <th nzAlign="center" nzWidth="20px">狀態</th>           
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let data of dataTable.data;let i = index">
+                <td nzAlign="center" nzWidth="20px"><button nz-button nz-tooltip nzTooltipTitle="編輯" nzShape="circle"  (click)="edit(editUserTitleTpl,userContentTpl,data)" ><i nz-icon nzType="edit"></i></button>
+                &nbsp;<button nz-button nz-tooltip nzTooltipTitle="刪除" nzShape="circle" (click)="delete(editUserTitleTpl,userContentTpl,data)" ><i nz-icon nzType="delete"></i></button></td>
+                <td nzAlign="center" hidden>{{ data.interviewId }}</td>
+                <td nzAlign="center" nzWidth="40px">{{ data.candidate }}</td>
+                <td nzAlign="center" nzWidth="40px">{{ data.dept }}</td>
+                <td nzAlign="center" nzWidth="40px">{{ data.n_date }}</td>
+                <td nzAlign="center" nzWidth="40px">{{ data.i_date }}</td>
+                <td nzAlign="center" nzWidth="40px">{{ data.interviewer }}</td>
+                <td nzAlign="center" nzWidth="40px">{{ data.place }}</td>
+                <td nzAlign="center" nzWidth="40px">{{ data.replyDate }}</td>
+                <td nzAlign="center" nzWidth="40px">{{ data.checkDate }}</td>
+                <td nzAlign="center" nzWidth="40px">{{ data.validdate }}</td>
+                <td nzAlign="center" nzWidth="20px">{{ data.status }}</td>
+                
+              </tr>
+            </tbody>            
+          </nz-table>
+        </div>
+        <div class="mt-10">
+          <nz-pagination [(nzPageSize)]="size" [(nzPageIndex)]="page" [nzTotal]="total" nzShowSizeChanger
+                         nzShowQuickJumper (nzPageIndexChange)="pageChange()">
+          </nz-pagination>
+        </div>
+      </nz-card>
+  
+  
+    <ng-template #editUserTitleTpl>
+        <span>编辑面試申請</span>
+    </ng-template>
+    <ng-template #userContentTpl>
+        <form nz-form [formGroup]="editForm" (ngSubmit)="submitEdit()">
+            <nz-form-item hidden>
+                <nz-form-label [nzSm]="8" [nzXs]="20" [nzFor]="'edit_candidateId'">ID</nz-form-label>
+                <nz-form-control [nzSm]="10" [nzXs]="20">
+                    <input [attr.id]="'edit_candidateId'" formControlName="candidateId" nz-input placeholder="ID" autocomplete="off" />
+                </nz-form-control>
+              </nz-form-item>
+            <nz-form-item>
+                <nz-form-label [nzSm]="8" [nzXs]="20" [nzFor]="'edit_username'">應聘者</nz-form-label>
+                <nz-form-control [nzSm]="10" [nzXs]="20" [nzErrorTip]="usernameErrorTpl">
+                    <input [attr.id]="'edit_username'" formControlName="username" nz-input placeholder="應聘者"
+                        autocomplete="off"/>
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label [nzSm]="8" [nzXs]="20" [nzFor]="'edit_cellphone'">手機</nz-form-label>
+              <nz-form-control [nzSm]="10" [nzXs]="20">
+                  <input [attr.id]="'edit_cellphone'" formControlName="cellphone" nz-input placeholder="手機" autocomplete="off" />
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+                <nz-form-label [nzSm]="8" [nzXs]="20" [nzFor]="'edit_email'">Email</nz-form-label>
+                <nz-form-control [nzSm]="10" [nzXs]="20">
+                    <input [attr.id]="'edit_email'" formControlName="email" nz-input placeholder="Email" autocomplete="off" />
+                </nz-form-control>
+            </nz-form-item>
+  
+            <nz-form-item>
+                <nz-form-control [nzSpan]="14" [nzOffset]="8">
+                    <button nz-button nzType="primary" class="mr-10">提交</button>
+                    <button nz-button type="reset" (click)="cancelEdit()">取消</button>
+                </nz-form-control>
+            </nz-form-item>
+        </form>
+    </ng-template>
+
+
+    <ng-template #addUserTitleTpl>
+        <span>新增面試申請</span>
+    </ng-template>
+    <ng-template #userContentTp2>
+        <form nz-form [formGroup]="addForm" (ngSubmit)="submitadd()">
+            <nz-form-item hidden>
+                <nz-form-label [nzSm]="8" [nzXs]="20" [nzFor]="'add_interviewId'">ID</nz-form-label>
+                <nz-form-control [nzSm]="10" [nzXs]="20">
+                    <input [attr.id]="'add_interviewId'" formControlName="interviewId" nz-input placeholder="ID" autocomplete="off" />
+                </nz-form-control>
+              </nz-form-item>
+            <nz-form-item>
+                <nz-form-label [nzSm]="8" [nzXs]="20" [nzFor]="'add_candidate'">應聘者</nz-form-label>
+                <nz-form-control [nzSm]="10" [nzXs]="20" nzErrorTip="欄位必填">
+                    <input [attr.id]="'add_candidate'" formControlName="candidate" nz-input placeholder="應聘者"
+                        autocomplete="off"/>
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+              <nz-form-label [nzSm]="8" [nzXs]="20" [nzFor]="'add_dept'">面試職位</nz-form-label>
+              <nz-form-control [nzSm]="10" [nzXs]="20" nzErrorTip="欄位必填">
+                  <input [attr.id]="'add_dept'" formControlName="dept" nz-input placeholder="面試職位" autocomplete="off" />
+              </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+                <nz-form-label [nzSm]="8" [nzXs]="20" [nzFor]="'add_noticedate'">通知日期</nz-form-label>
+                <nz-form-control [nzSm]="10" [nzXs]="20" nzErrorTip="欄位必填">
+                    <nz-date-picker style="width: 200px;" [nzSm]="10" [nzXs]="20" formControlName="noticedate" nz-input placeholder="通知日期" autocomplete="off"></nz-date-picker>
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+                <nz-form-label [nzSm]="8" [nzXs]="20" [nzFor]="'add_interviewdate'">面試日期</nz-form-label>
+                <nz-form-control [nzSm]="10" [nzXs]="20" nzErrorTip="欄位必填">
+                    <nz-date-picker style="width: 200px;" nzFormat="yyyy-MM-dd HH:mm"
+                    [nzDisabledDate]="disabledEndDate"
+                    [nzDisabledTime]="disabledDateTime"
+                    [nzShowTime]="{nzMinuteStep:15,nzFormat: 'HH:mm' }" [nzSm]="10" [nzXs]="20" formControlName="interviewdate" placeholder="面試日期" autocomplete="off">
+                    </nz-date-picker>
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+                <nz-form-label [nzSm]="8" [nzXs]="20" [nzFor]="'add_interviewer'">面試官</nz-form-label>
+                <nz-form-control [nzSm]="10" [nzXs]="20" nzErrorTip="欄位必填">
+                    <input [attr.id]="'add_interviewer'" formControlName="interviewer" nz-input placeholder="面試官" autocomplete="off" />
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+                <nz-form-label [nzSm]="8" [nzXs]="20" [nzFor]="'add_place'">面試地點</nz-form-label>
+                <nz-form-control [nzSm]="10" [nzXs]="20" nzErrorTip="欄位必填">
+                    <input [attr.id]="'add_place'" formControlName="place" nz-input placeholder="面試地點" autocomplete="off" />
+                </nz-form-control>
+            </nz-form-item>
+            <!-- <nz-form-item>
+                <nz-form-label [nzSm]="8" [nzXs]="20" [nzFor]="'add_replydate'">面試者回復日期</nz-form-label>
+                <nz-date-picker style="width: 200px;" [nzSm]="10" [nzXs]="20">
+                    <input [attr.id]="'add_replydate'" formControlName="replydate" nz-input placeholder="面試者回復日期" autocomplete="off" />
+                </nz-date-picker>
+            </nz-form-item>
+            <nz-form-item>
+                <nz-form-label [nzSm]="8" [nzXs]="20" [nzFor]="'add_checkdate'">面試者確認日期</nz-form-label>
+                <nz-date-picker style="width: 200px;" [nzSm]="10" [nzXs]="20">
+                    <input [attr.id]="'add_checkdate'" formControlName="checkdate" nz-input placeholder="面試者確認日期" autocomplete="off" />
+                </nz-date-picker>
+            </nz-form-item> -->
+            <nz-form-item>
+                <nz-form-label [nzSm]="8" [nzXs]="20" [nzFor]="'add_validdate'">邀約有效日期</nz-form-label>
+                <nz-date-picker style="width: 200px;" [nzSm]="10" [nzXs]="20" nzErrorTip="欄位必填">
+                    <input [attr.id]="'add_validdate'" formControlName="validdate" nz-input placeholder="邀約有效日期" autocomplete="off" />
+                </nz-date-picker>
+            </nz-form-item>
+            <nz-form-item>
+                <nz-form-control [nzSpan]="14" [nzOffset]="8">
+                    <button nz-button [disabled]="false" nzType="primary" class="mr-10">提交</button>
+                    <button nz-button type="reset" (click)="canceladd()">取消</button>
+                </nz-form-control>
+            </nz-form-item>
+        </form>
+    </ng-template>
+  
+    </div>
+  </div>
+  
+  
+  

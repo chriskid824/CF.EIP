@@ -9,12 +9,18 @@ export class HrUserService {
 
   constructor(private httpClient: HttpClient,private uriConstant: UriConfig) { }
   GetCandidatelList(query) {
-    return this.httpClient.post(`${this.uriConstant.EipHR}/GetCandidatelList`, query);
+    return this.httpClient.post(`${this.uriConstant.HrCandidate}/GetCandidatelList`, query);
   }
-  GetUserDetail(query) {
-    return this.httpClient.post(`${this.uriConstant.EipHR}/GetUserDetail`, query);
+  GetCandidateDetail(query) {
+    return this.httpClient.post(`${this.uriConstant.HrCandidate}/GetCandidateDetail`, query);
   }    
-  update(material) {
-    return this.httpClient.post(`${this.uriConstant.EipHR}/UpdateMaterial`, material);
+  update(candidate) {
+    return this.httpClient.post(`${this.uriConstant.HrCandidate}/Update`, candidate);
+  }
+  DeleteList(data) {
+    return this.httpClient.post(`${this.uriConstant.HrCandidate}/DeleteList`, data);
+  }
+  add(data) {
+    return this.httpClient.post(`${this.uriConstant.HrCandidate}/AddList`, data);
   }
 }

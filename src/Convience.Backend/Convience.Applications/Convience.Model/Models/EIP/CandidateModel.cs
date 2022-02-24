@@ -11,11 +11,11 @@ namespace Convience.Model.Models.EIP
     {
         public string StatusDesc { get; set; }
         //public string UnitDesc { get; set; }
-        //public string User { get; set; }
+        public string User { get; set; }
     }
     public record QueryCandidate : PageQueryModel
     {
-        //public string material { get; set; }
+        public int CandidateId { get; set; }
         public string name { get; set; }
     }
 }

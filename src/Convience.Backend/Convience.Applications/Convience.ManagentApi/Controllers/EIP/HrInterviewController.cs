@@ -11,37 +11,34 @@ namespace Convience.ManagentApi.Controllers.EIP
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class HrCandidateController : ControllerBase
+    public class HrInterviewController : ControllerBase
     {
-        private readonly IHrCandidateService _hrCandidateService;
-        //private readonly appSettings _appSettingsService;
-
-
-        public HrCandidateController(IHrCandidateService hrCandidateService)
-            //IOptions<appSettings> appSettingsOption,
-            //ISrmSupplierService srmSupplierService)
+        private readonly IHrInterviewService _hrInterviewService;
+        public HrInterviewController(IHrInterviewService hrInterviewService)
+        //IOptions<appSettings> appSettingsOption,
+        //ISrmSupplierService srmSupplierService)
         {
-            _hrCandidateService = hrCandidateService;
+            _hrInterviewService = hrInterviewService;
             //_appSettingsService = appSettingsOption.Value;
             //_srmSupplierService = srmSupplierService;
         }
-        [HttpPost("GetCandidatelList")]
-        public IActionResult GetCandidatelList(QueryCandidate query)
+        [HttpPost("GetInterviewList")]
+        public IActionResult GetInterviewList(QueryInterview query)
         {
-            return Ok(_hrCandidateService.GetCandidatelList(query));
+            return Ok(_hrInterviewService.GetInterviewList(query));
         }
-        [HttpPost("GetCandidateDetail")]
-        public IActionResult GetCandidateDetail(QueryCandidate query)
+        [HttpPost("GetInterviewDetail")]
+        public IActionResult GetInterviewDetail(QueryInterview query)
         {
-            var detail = _hrCandidateService.GetCandidateDetail(query);
+            var detail = _hrInterviewService.GetInterviewDetail(query);
             return Ok(detail);
         }
         [HttpPost("Update")]
-        public IActionResult UpdateCandidate(ViewhrCandidate data)
+        public IActionResult UpdateInterview(ViewhrInterview data)
         {
             try
             {
-                _hrCandidateService.UpdateCandidate(data);
+                _hrInterviewService.UpdateInterview(data);
                 return Ok();
             }
             catch (Exception ex)
@@ -50,11 +47,11 @@ namespace Convience.ManagentApi.Controllers.EIP
             }
         }
         [HttpPost("DeleteList")]
-        public IActionResult DeleteList(ViewhrCandidate data)
+        public IActionResult DeleteList(ViewhrInterview data)
         {
             try
             {
-                return Ok(_hrCandidateService.DeleteList(data));
+                return Ok(_hrInterviewService.DeleteList(data));
             }
             catch (Exception ex)
             {
@@ -62,11 +59,11 @@ namespace Convience.ManagentApi.Controllers.EIP
             }
         }
         [HttpPost("AddList")]
-        public IActionResult AddList(ViewhrCandidate data)
+        public IActionResult AddList(ViewhrInterview data)
         {
             try
             {
-                return Ok(_hrCandidateService.AddList(data));
+                return Ok(_hrInterviewService.AddList(data));
             }
             catch (Exception ex)
             {
