@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { HrUserService } from './hr-user.service';
+import { HrFormService } from './hr-form.service';
 
-describe('HrUserService', () => {
-  let service: HrUserService;
+describe('HrFormService', () => {
+  let service: HrFormService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(HrUserService);
+    service = TestBed.inject(HrFormService);
   });
 
   it('should be created', () => {

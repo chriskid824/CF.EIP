@@ -15,6 +15,9 @@ import { AuthHeaderInterceptor } from './inceptors/auth-header-inceptor';
 import { CacheInterceptor } from './inceptors/cache-inceptor';
 import { ErrorHandlerInterceptor } from './inceptors/error-handler-inceptor';
 import { UriConfig } from './configs/uri-config';
+import { HrFormWorkComponent } from './pages/hr-form/hr-form-work/hr-form-work.component';
+import { HrFormConsentComponent } from './pages/hr-form/hr-form-consent/hr-form-consent.component';
+import { HrFormImformationComponent } from './pages/hr-form/hr-form-imformation/hr-form-imformation.component';
 
 
 
@@ -27,7 +30,6 @@ export function initializeApp(uriConstant: UriConfig) {
 @NgModule({
   declarations: [
     AppComponent,
-
   ],
   imports: [
     BrowserModule,

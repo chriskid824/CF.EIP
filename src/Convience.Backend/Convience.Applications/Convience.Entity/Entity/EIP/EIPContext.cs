@@ -25,7 +25,8 @@ namespace Convience.Entity.Entity.EIP
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Data Source=10.1.1.181;Initial Catalog=KPI;User ID=sa;Password=Chen@full");
+                optionsBuilder.UseSqlServer("Data Source=10.1.1.181;Initial Catalog=EIP;User ID=sa;Password=Chen@full");
+                //optionsBuilder.UseSqlServer("Data Source=10.1.1.181;Initial Catalog=SPM;User ID=sa;Password=Chen@full");
             }
         }
 
@@ -100,6 +101,10 @@ namespace Convience.Entity.Entity.EIP
                     .HasMaxLength(20)
                     .HasColumnName("DEPT");
 
+                entity.Property(e => e.Guid)
+                    .HasMaxLength(50)
+                    .HasColumnName("GUID");
+
                 entity.Property(e => e.InterviewDate)
                     .HasColumnType("datetime")
                     .HasColumnName("INTERVIEW_DATE");
@@ -121,7 +126,7 @@ namespace Convience.Entity.Entity.EIP
                     .HasColumnName("NOTICE_DATE");
 
                 entity.Property(e => e.Place)
-                    .HasMaxLength(10)
+                    .HasMaxLength(30)
                     .HasColumnName("PLACE");
 
                 entity.Property(e => e.ReplyDate)

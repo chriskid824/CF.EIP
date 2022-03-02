@@ -85,6 +85,7 @@ export class UriConfig {
     get LoginLogUri(): string { return `${this._apiUri}/loginLog` };
 
     get HrCandidate(): string { return `${this._apiUri}/HrCandidate` };
-    
+
     get HrInterview(): string { return `${this._apiUri}/HrInterview` };
+    get HrForm(): string { return `${this._apiUri}/HrForm` };
 }

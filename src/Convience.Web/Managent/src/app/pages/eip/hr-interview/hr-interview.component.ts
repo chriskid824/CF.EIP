@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { EipModule } from '../eip.module';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { user } from '../../system-manage/model/hr-user';
+import { hr } from '../../system-manage/model/hr';
 
 import { HrInterviewService } from '../../../business/eip/hr-interview.service';
 
@@ -28,7 +28,7 @@ export class HrInterviewComponent implements OnInit {
   data;
   fileList: any[] = [];
 
-  editedUser: user;
+  editedInterview: hr;
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -52,9 +52,9 @@ export class HrInterviewComponent implements OnInit {
   pageChange() {
     this.refresh();
   }
-  edit(title: TemplateRef<{}>, content: TemplateRef<{}>,user:user) {    
+  edit(title: TemplateRef<{}>, content: TemplateRef<{}>,interview:hr) {    
     var query = {
-      candidateId:user.candidateId,
+      InterviewId:interview.interviewId,
     }
     console.log(query);
     this._eipHrInterviewService.GetInterviewDetail(query).subscribe(result => {      
@@ -62,13 +62,18 @@ export class HrInterviewComponent implements OnInit {
       console.log(result);
 
       this.isNewUser = false;
-      this.editedUser = result;
+      this.editedInterview = result;
       this.editForm = this._formBuilder.group({
-        candidateId: [result['candidateId']],
-        username: [result['username']],
-        cellphone: [result['cellphone']],
-        email: [result['email']],  
-        status: [result['status']],        
+        interviewId: [result['interviewId']],
+        candidate: [result['candidate']],
+        dept: [result['dept']],
+        noticeDate: [result['noticeDate']],  
+        interviewDate: [result['interviewDate']],  
+        interviewer: [result['interviewer']],
+        place: [result['place']],
+        replyDate: [result['replyDate']],
+        checkDate: [result['checkDate']],  
+        validDate: [result['validDate']],
       });
       this.tplModal = this._modalService.create({
         nzTitle: title,
@@ -104,14 +109,17 @@ export class HrInterviewComponent implements OnInit {
       nzMaskClosable: false
     });
   }
-  delete(title: TemplateRef<{}>, content: TemplateRef<{}>,user:user){
+  delete(title: TemplateRef<{}>, content: TemplateRef<{}>,interview:hr){
     var data = {
-      candidateId:user.candidateId,
-      username:user.username
+      interviewId:interview.interviewId,
+      candidate:interview.candidate,
+      interviewDate:interview.i_date.toString(),
+      dept:interview.dept,
     }
+    console.log(data);
 
     this.tplModal = this._modalService.confirm({
-      nzTitle: '你確定要刪除應聘人員：'+data.username+' 嗎？',
+      nzTitle: '你確定要刪除此面試申請嗎？<br/><br/>應聘者：'+interview.candidate+'<br/>面試職位：'+interview.dept+'<br/>面試時段：'+interview.i_date,
       //nzContent: '<b style="color: red;">Some descriptions</b>',
       nzOkText: '確認',
       nzOkType: 'primary',
@@ -130,28 +138,32 @@ export class HrInterviewComponent implements OnInit {
     });
   }
 
-  submitEdit(title: TemplateRef<{}>, content: TemplateRef<{}>,user:user) {
+  submitEdit(title: TemplateRef<{}>, content: TemplateRef<{}>,HR:hr) {
     for (const i in this.editForm.controls) {
       this.editForm.controls[i].markAsDirty();
       this.editForm.controls[i].updateValueAndValidity();
     }
     if (this.editForm.valid) {
-      let candidate: any = {};
-      candidate.candidateid = this.editForm.value['candidateId'];     
-      candidate.username = this.editForm.value['username'];
-      candidate.cellphone = this.editForm.value['cellphone'];
-      candidate.email = this.editForm.value['email'];
-      candidate.status = this.editForm.value['status'];    
-      candidate.user = this._storageService.userName;
+      let interview: any = {};
+      interview.interviewId = this.editForm.value['interviewId'];     
+      interview.candidate = this.editForm.value['candidate'];
+      interview.dept = this.editForm.value['dept'];
+      interview.noticeDate = this.editForm.value['noticeDate'];
+      interview.interviewDate = this.editForm.value['interviewDate'];  
+      interview.interviewer = this.editForm.value['interviewer'];
+      interview.replyDate = this.editForm.value['replyDate'];
+      interview.checkDate = this.editForm.value['checkDate'];
+      interview.validDate = this.editForm.value['validDate'];   
+      interview.user = this._storageService.userName;      
 
-      this._eipHrInterviewService.update(candidate).subscribe(result => {
+      this._eipHrInterviewService.update(interview).subscribe(result => {
         this._messageService.success("更新成功！");
         this.tplModal.close();
         this.refresh();
       });
     }
   } 
-  submitadd(title: TemplateRef<{}>, content: TemplateRef<{}>,user:user) {
+  submitadd(title: TemplateRef<{}>, content: TemplateRef<{}>,HR:hr) {
     for (const i in this.addForm.controls) {
       this.addForm.controls[i].markAsDirty();
       this.addForm.controls[i].updateValueAndValidity();
@@ -161,7 +173,8 @@ export class HrInterviewComponent implements OnInit {
       interview.candidate = this.addForm.value['candidate'];
       interview.dept = this.addForm.value['dept'];
       interview.noticedate = this.addForm.value['noticedate'];
-      interview.interviewdate = this.addForm.value['interviewdate'];
+      interview.interviewdate = 
+      `${this.addForm.value['interviewdate'].getFullYear()}-${this.addForm.value['interviewdate'].getMonth() + 1}-${this.addForm.value['interviewdate'].getDate()} ${this.addForm.value['interviewdate'].getHours()}:${this.addForm.value['interviewdate'].getMinutes()}`;
       interview.interviewer = this.addForm.value['interviewer'];
       interview.place = this.addForm.value['place'];
       // interview.replydate = this.addForm.value['replydate'];
@@ -169,7 +182,7 @@ export class HrInterviewComponent implements OnInit {
       interview.validdate = this.addForm.value['validdate'];
       interview.user = this._storageService.userName;
 
-      console.log(interview.interviewdate);
+      console.log(interview);
 
       this._eipHrInterviewService.add(interview).subscribe(result => {
         this._messageService.success("新增成功");

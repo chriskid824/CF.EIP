@@ -4,6 +4,7 @@ import { LayoutComponent } from './pages/layout/layout/layout.component';
 
 const routes: Routes = [
   { path: "account", loadChildren: () => import("./pages/account/account.module").then(m => m.AccountModule) },
+  { path: "hr-form", loadChildren: () => import("./pages/hr-form/hr-form.module").then(m => m.HrFormModule) },
   {
     path: "", component: LayoutComponent, children: [
       { path: "", loadChildren: () => import("./pages/infomation/infomation.module").then(m => m.InfomationModule) },

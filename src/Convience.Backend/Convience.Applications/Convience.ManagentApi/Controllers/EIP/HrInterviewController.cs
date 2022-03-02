@@ -15,12 +15,8 @@ namespace Convience.ManagentApi.Controllers.EIP
     {
         private readonly IHrInterviewService _hrInterviewService;
         public HrInterviewController(IHrInterviewService hrInterviewService)
-        //IOptions<appSettings> appSettingsOption,
-        //ISrmSupplierService srmSupplierService)
         {
             _hrInterviewService = hrInterviewService;
-            //_appSettingsService = appSettingsOption.Value;
-            //_srmSupplierService = srmSupplierService;
         }
         [HttpPost("GetInterviewList")]
         public IActionResult GetInterviewList(QueryInterview query)

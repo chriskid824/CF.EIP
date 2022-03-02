@@ -14,11 +14,14 @@ namespace Convience.Model.Models.EIP
         public string User { get; set; }
         public string N_date { get { return NoticeDate.HasValue ? NoticeDate.Value.ToString("yyyy/MM/dd") : ""; } }
 
-        public string I_date { get { return InterviewDate.HasValue ? InterviewDate.Value.ToString("yyyy/MM/dd HH:mm:ss") : ""; } }
+        public string I_date { get { return InterviewDate.HasValue ? InterviewDate.Value.ToString("yyyy/MM/dd HH:mm") : ""; } }
     }
     public record QueryInterview : PageQueryModel
     {
         public int InterviewId { get; set; }
-        public string date { get; set; }
+        public DateTime? date { get; set; }
+
+        public string _date { get { return date.HasValue ? date.Value.ToString("yyyy-MM-dd") : ""; } }
+
     }
 }

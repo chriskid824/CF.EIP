@@ -24,5 +24,6 @@ namespace Convience.Entity.Entity.EIP
         public DateTime? LastUpdateDate { get; set; }
         public string LastUpdateBy { get; set; }
         public int? Status { get; set; }
+        public string Guid { get; set; }
     }
 }

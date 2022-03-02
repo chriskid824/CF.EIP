@@ -18,12 +18,8 @@ namespace Convience.ManagentApi.Controllers.EIP
 
 
         public HrCandidateController(IHrCandidateService hrCandidateService)
-            //IOptions<appSettings> appSettingsOption,
-            //ISrmSupplierService srmSupplierService)
         {
             _hrCandidateService = hrCandidateService;
-            //_appSettingsService = appSettingsOption.Value;
-            //_srmSupplierService = srmSupplierService;
         }
         [HttpPost("GetCandidatelList")]
         public IActionResult GetCandidatelList(QueryCandidate query)

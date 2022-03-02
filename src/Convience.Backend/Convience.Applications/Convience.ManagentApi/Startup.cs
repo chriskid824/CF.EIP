@@ -65,7 +65,7 @@ namespace Convience.ManagentApi
                 .AddSignalR();
             //連結EIP資料庫
             services.AddCustomDbContext<EIPContext>(Configuration.GetConnectionString("ConnDB"), DataBaseType.SqlServer);
-            //services.AddCustomDbContext<SRMContext>(Configuration.GetConnectionString("ConnDB"), DataBaseType.SqlServer);
+            services.AddCustomDbContext<SPMContext>(Configuration.GetConnectionString("ConnDB_SPM"), DataBaseType.SqlServer);
             //services.AddCustomDbContext<CFEDIContext>(Configuration.GetConnectionString("CFEDISQL"), DataBaseType.SqlServer);
             //services.AddTransient<ISrmMatnrService, SrmMatnrService>();
             //        services.Configure<Model.Models.SRM.appSettings>(

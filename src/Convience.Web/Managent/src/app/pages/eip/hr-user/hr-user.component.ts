@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { EipModule } from '../eip.module';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { user } from '../../system-manage/model/hr-user';
+import { hr } from '../../system-manage/model/hr';
 
 import { HrUserService } from '../../../business/eip/hr-user.service';
 
@@ -28,7 +28,7 @@ export class HrUserComponent implements OnInit {
   data;
   fileList: any[] = [];
 
-  editedUser: user;
+  editedUser: hr;
 
 
   constructor(
@@ -58,7 +58,7 @@ export class HrUserComponent implements OnInit {
     this._router.navigate(['srm/material-c']);
     //window.open('../srm/rfq');
   }
-  edit(title: TemplateRef<{}>, content: TemplateRef<{}>,user:user) {    
+  edit(title: TemplateRef<{}>, content: TemplateRef<{}>,user:hr) {    
     var query = {
       candidateId:user.candidateId,
     }
@@ -104,7 +104,7 @@ export class HrUserComponent implements OnInit {
       nzMaskClosable: false
     });
   }
-  delete(title: TemplateRef<{}>, content: TemplateRef<{}>,user:user){
+  delete(title: TemplateRef<{}>, content: TemplateRef<{}>,user:hr){
     var data = {
       candidateId:user.candidateId,
       username:user.username
@@ -130,7 +130,7 @@ export class HrUserComponent implements OnInit {
     });
   }
 
-  submitEdit(title: TemplateRef<{}>, content: TemplateRef<{}>,user:user) {
+  submitEdit(title: TemplateRef<{}>, content: TemplateRef<{}>,user:hr) {
     for (const i in this.editForm.controls) {
       this.editForm.controls[i].markAsDirty();
       this.editForm.controls[i].updateValueAndValidity();
@@ -151,7 +151,7 @@ export class HrUserComponent implements OnInit {
       });
     }
   } 
-  submitadd(title: TemplateRef<{}>, content: TemplateRef<{}>,user:user) {
+  submitadd(title: TemplateRef<{}>, content: TemplateRef<{}>,user:hr) {
     for (const i in this.editForm.controls) {
       this.editForm.controls[i].markAsDirty();
       this.editForm.controls[i].updateValueAndValidity();

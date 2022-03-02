@@ -31,14 +31,14 @@
               <tr>
                 <th nzAlign="center" nzWidth="20px">操作</th>
                 <th nzAlign="center" nzWidth="40px">應聘者</th>
-                <th nzAlign="center" nzWidth="40px">面試職位</th>
+                <th nzAlign="center" nzWidth="50px">面試職位</th>
                 <th nzAlign="center" nzWidth="40px">通知日期</th>
                 <th nzAlign="center" nzWidth="40px">面試日期</th>
                 <th nzAlign="center" nzWidth="40px">面試官</th>   
-                <th nzAlign="center" nzWidth="40px">面試地點</th>    
-                <th nzAlign="center" nzWidth="40px">面試者回復日期</th>    
-                <th nzAlign="center" nzWidth="40px">面試者確認日期</th>   
-                <th nzAlign="center" nzWidth="40px">邀約有效日期</th>   
+                <th nzAlign="center" nzWidth="80px">面試地點</th>    
+                <th nzAlign="center" nzWidth="40px">回復日期</th>    
+                <th nzAlign="center" nzWidth="40px">確認日期</th>   
+                <th nzAlign="center" nzWidth="40px">有效日期</th>   
                 <th nzAlign="center" nzWidth="20px">狀態</th>           
               </tr>
             </thead>
@@ -48,11 +48,11 @@
                 &nbsp;<button nz-button nz-tooltip nzTooltipTitle="刪除" nzShape="circle" (click)="delete(editUserTitleTpl,userContentTpl,data)" ><i nz-icon nzType="delete"></i></button></td>
                 <td nzAlign="center" hidden>{{ data.interviewId }}</td>
                 <td nzAlign="center" nzWidth="40px">{{ data.candidate }}</td>
-                <td nzAlign="center" nzWidth="40px">{{ data.dept }}</td>
+                <td nzAlign="center" nzWidth="50px">{{ data.dept }}</td>
                 <td nzAlign="center" nzWidth="40px">{{ data.n_date }}</td>
                 <td nzAlign="center" nzWidth="40px">{{ data.i_date }}</td>
                 <td nzAlign="center" nzWidth="40px">{{ data.interviewer }}</td>
-                <td nzAlign="center" nzWidth="40px">{{ data.place }}</td>
+                <td nzAlign="center" nzWidth="80px">{{ data.place }}</td>
                 <td nzAlign="center" nzWidth="40px">{{ data.replyDate }}</td>
                 <td nzAlign="center" nzWidth="40px">{{ data.checkDate }}</td>
                 <td nzAlign="center" nzWidth="40px">{{ data.validdate }}</td>
@@ -76,29 +76,69 @@
     <ng-template #userContentTpl>
         <form nz-form [formGroup]="editForm" (ngSubmit)="submitEdit()">
             <nz-form-item hidden>
-                <nz-form-label [nzSm]="8" [nzXs]="20" [nzFor]="'edit_candidateId'">ID</nz-form-label>
+                <nz-form-label [nzSm]="8" [nzXs]="20" [nzFor]="'edit_interviewId'">ID</nz-form-label>
                 <nz-form-control [nzSm]="10" [nzXs]="20">
-                    <input [attr.id]="'edit_candidateId'" formControlName="candidateId" nz-input placeholder="ID" autocomplete="off" />
+                    <input [attr.id]="'editinterviewId'" formControlName="interviewId" nz-input placeholder="ID" autocomplete="off" />
                 </nz-form-control>
               </nz-form-item>
             <nz-form-item>
-                <nz-form-label [nzSm]="8" [nzXs]="20" [nzFor]="'edit_username'">應聘者</nz-form-label>
-                <nz-form-control [nzSm]="10" [nzXs]="20" [nzErrorTip]="usernameErrorTpl">
-                    <input [attr.id]="'edit_username'" formControlName="username" nz-input placeholder="應聘者"
+                <nz-form-label [nzSm]="8" [nzXs]="20" [nzFor]="'editcandidate'">應聘者</nz-form-label>
+                <nz-form-control [nzSm]="10" [nzXs]="20" nzErrorTip="欄位必填">
+                    <input [attr.id]="'editcandidate'" formControlName="candidate" nz-input placeholder="應聘者"
                         autocomplete="off"/>
                 </nz-form-control>
             </nz-form-item>
             <nz-form-item>
-              <nz-form-label [nzSm]="8" [nzXs]="20" [nzFor]="'edit_cellphone'">手機</nz-form-label>
-              <nz-form-control [nzSm]="10" [nzXs]="20">
-                  <input [attr.id]="'edit_cellphone'" formControlName="cellphone" nz-input placeholder="手機" autocomplete="off" />
+              <nz-form-label [nzSm]="8" [nzXs]="20" [nzFor]="'editdept'">面試職位</nz-form-label>
+              <nz-form-control [nzSm]="10" [nzXs]="20" nzErrorTip="欄位必填">
+                  <input [attr.id]="'editdept'" formControlName="dept" nz-input placeholder="面試職位" autocomplete="off" />
               </nz-form-control>
             </nz-form-item>
             <nz-form-item>
-                <nz-form-label [nzSm]="8" [nzXs]="20" [nzFor]="'edit_email'">Email</nz-form-label>
-                <nz-form-control [nzSm]="10" [nzXs]="20">
-                    <input [attr.id]="'edit_email'" formControlName="email" nz-input placeholder="Email" autocomplete="off" />
+                <nz-form-label [nzSm]="8" [nzXs]="20" [nzFor]="'editnoticeDate'">通知日期</nz-form-label>
+                <nz-form-control [nzSm]="10" [nzXs]="20" nzErrorTip="欄位必填">
+                    <nz-date-picker style="width: 200px;" [nzSm]="10" [nzXs]="20" formControlName="noticeDate" nz-input placeholder="通知日期" autocomplete="off"></nz-date-picker>
                 </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+                <nz-form-label [nzSm]="8" [nzXs]="20" [nzFor]="'editinterviewDate'">面試日期</nz-form-label>
+                <nz-form-control [nzSm]="10" [nzXs]="20" nzErrorTip="欄位必填">
+                    <nz-date-picker style="width: 200px;" nzFormat="yyyy-MM-dd HH:mm"
+                    [nzDisabledDate]="disabledEndDate"
+                    [nzDisabledTime]="disabledDateTime"
+                    [nzShowTime]="{nzMinuteStep:10,nzFormat: 'HH:mm' }" [nzSm]="10" [nzXs]="20" formControlName="interviewDate" placeholder="面試日期" autocomplete="off">
+                    </nz-date-picker>
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+                <nz-form-label [nzSm]="8" [nzXs]="20" [nzFor]="'editinterviewer'">面試官</nz-form-label>
+                <nz-form-control [nzSm]="10" [nzXs]="20" nzErrorTip="欄位必填">
+                    <input [attr.id]="'editinterviewer'" formControlName="interviewer" nz-input placeholder="面試官" autocomplete="off" />
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+                <nz-form-label [nzSm]="8" [nzXs]="20" [nzFor]="'editplace'">面試地點</nz-form-label>
+                <nz-form-control [nzSm]="10" [nzXs]="20" nzErrorTip="欄位必填">
+                    <input [attr.id]="'editplace'" formControlName="place" nz-input placeholder="面試地點" autocomplete="off" />
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+                <nz-form-label [nzSm]="8" [nzXs]="20" [nzFor]="'editreplyDate'">面試者回復日期</nz-form-label>
+                <nz-date-picker style="width: 200px;" [nzSm]="10" [nzXs]="20">
+                    <input [attr.id]="'editreplyDate'" formControlName="replyDate" nz-input placeholder="面試者回復日期" autocomplete="off" />
+                </nz-date-picker>
+            </nz-form-item>
+            <nz-form-item>
+                <nz-form-label [nzSm]="8" [nzXs]="20" [nzFor]="'editcheckDate'">面試者確認日期</nz-form-label>
+                <nz-date-picker style="width: 200px;" [nzSm]="10" [nzXs]="20">
+                    <input [attr.id]="'editcheckDate'" formControlName="checkDate" nz-input placeholder="面試者確認日期" autocomplete="off" />
+                </nz-date-picker>
+            </nz-form-item>
+            <nz-form-item>
+                <nz-form-label [nzSm]="8" [nzXs]="20" [nzFor]="'editvalidDate'">邀約有效日期</nz-form-label>
+                <nz-date-picker style="width: 200px;" [nzSm]="10" [nzXs]="20" nzErrorTip="欄位必填">
+                    <input [attr.id]="'editvalidDate'" formControlName="validDate" nz-input placeholder="邀約有效日期" autocomplete="off" />
+                </nz-date-picker>
             </nz-form-item>
   
             <nz-form-item>
@@ -147,7 +187,7 @@
                     <nz-date-picker style="width: 200px;" nzFormat="yyyy-MM-dd HH:mm"
                     [nzDisabledDate]="disabledEndDate"
                     [nzDisabledTime]="disabledDateTime"
-                    [nzShowTime]="{nzMinuteStep:15,nzFormat: 'HH:mm' }" [nzSm]="10" [nzXs]="20" formControlName="interviewdate" placeholder="面試日期" autocomplete="off">
+                    [nzShowTime]="{nzMinuteStep:10,nzFormat: 'HH:mm' }" [nzSm]="10" [nzXs]="20" formControlName="interviewdate" placeholder="面試日期" autocomplete="off">
                     </nz-date-picker>
                 </nz-form-control>
             </nz-form-item>
