@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { HrFormService } from '../../../business/eip/hr-form.service';
 @Component({
+  //以本地css為主
+  encapsulation: ViewEncapsulation.None,
   selector: 'app-hr-form-imformation',
   templateUrl: './hr-form-imformation.component.html',
   styleUrls: ['./hr-form-imformation.component.less']

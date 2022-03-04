@@ -1,9 +1,816 @@
-<div style="width:900px;height:1400px;margin:0px auto;margin-top: 10px;">
-    
+<div style="width:900px;height:1800px;margin:0px auto;margin-top: 10px;">   
     <div style="margin-left: 10px;
     margin-right: 10px;">
-        <h1 style="font-family: 微軟正黑體;font-size:30px;text-align: center;">工作申請表</h1>
-        <button nz-button class="mr-10" ><i nz-icon nzType="save"></i>送出</button>
-        <nz-card></nz-card>
+        <h1 style="font-family: 微軟正黑體;font-size:28px;text-align: center;">工作申請表</h1>
+        <nz-card>
+            <form nz-form [nzLayout]="'inline'" [formGroup]="workForm">
+                <table>
+                    <tr>
+                        <td>
+                            <nz-form-label [nzFor]="'name_ch'">中文姓名</nz-form-label>
+                        </td>
+                        <td>
+                            <nz-form-control> 
+                                <input nz-input [attr.id]="'name_ch'" formControlName="name_ch" placeholder="中文姓名"/>
+                            </nz-form-control>
+                        </td>
+                        <td>
+                            <nz-form-label [nzFor]="'name_en'">英文姓名</nz-form-label>
+                        </td>
+                        <td>
+                            <nz-form-control> 
+                                <input nz-input [attr.id]="'name_en'" formControlName="name_en" placeholder="英文姓名"/>
+                            </nz-form-control>
+                        </td>
+                        <td>
+                            <nz-form-label [nzFor]="'birthdate'">出生日期</nz-form-label>
+                        </td>
+                        <td>
+                            <nz-form-control> 
+                                <input nz-input [attr.id]="'birthdate'" formControlName="birthdate" placeholder="出生日期"/>
+                            </nz-form-control>
+                        </td>
+                        <td>
+                            <nz-form-label [nzFor]="'gender'">性別</nz-form-label>
+                        </td>
+                        <td>
+                            <nz-form-control> 
+                                <input nz-input [attr.id]="'gender'" formControlName="gender" placeholder="性別"/>
+                            </nz-form-control>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <nz-form-label [nzFor]="'birthplace'">籍貫</nz-form-label>
+                        </td>
+                        <td>
+                            <nz-form-control> 
+                                <input nz-input [attr.id]="'birthplace'" formControlName="birthplace" placeholder="                  省             縣"/>
+                            </nz-form-control>
+                        </td>  
+                        <td>
+                            <nz-form-label [nzFor]="'personid'">身分證號</nz-form-label>
+                        </td>
+                        <td>
+                            <nz-form-control> 
+                                <input nz-input [attr.id]="'personid'" formControlName="personid" placeholder="身分證號"/>
+                            </nz-form-control>
+                        </td>   
+                        <td rowspan="3">
+                            <nz-form-label [nzFor]="'phone'">電話</nz-form-label>
+                        </td>
+                        <td>
+                            <nz-form-control> 
+                                <input nz-input [attr.id]="'phone'" formControlName="phone" placeholder="永久"/>
+                            </nz-form-control>
+                        </td>                     
+                    </tr>
+                    <tr>
+                        <td>
+                            <nz-form-label [nzFor]="'address'">戶籍地址</nz-form-label>
+                        </td>
+                        <td colspan="3">
+                            <nz-form-control> 
+                                <input nz-input [attr.id]="'address'" formControlName="address" placeholder="戶籍地址" />
+                            </nz-form-control>
+                        </td>
+                        <td>
+                            <nz-form-control> 
+                                <input nz-input [attr.id]="'phone'" formControlName="phone" placeholder="手機"/>
+                            </nz-form-control>
+                        </td>
+                        <td>
+                            <nz-form-label [nzFor]="'address'">血型</nz-form-label>
+                        </td>
+                        <td>
+                            <nz-form-control> 
+                                <input nz-input [attr.id]="'address'" formControlName="address" placeholder="血型" />
+                            </nz-form-control>
+                        </td>                
+                    </tr>
+                    <tr>
+                        <td>
+                            <nz-form-label [nzFor]="'address'">通訊地址</nz-form-label>
+                        </td>
+                        <td colspan="3">
+                            <nz-form-control> 
+                                <input nz-input [attr.id]="'address'" formControlName="address" placeholder="通訊地址" />
+                            </nz-form-control>
+                        </td>
+                        <td>
+                            <nz-form-control> 
+                                <input nz-input [attr.id]="'phone'" formControlName="phone" placeholder="住宅"/>
+                            </nz-form-control>
+                        </td>                    
+                    </tr>
+                </table>
+            </form>
+        </nz-card>
+        <nz-card>
+            <form nz-form [nzLayout]="'inline'" [formGroup]="workForm">
+                <table style="text-align: center;">
+                    <tr>
+                        <td rowspan="6" colspan="2">
+                            <nz-form-label style="height: 150px;" [nzFor]="'address'" [nzNoColon]="true"><br><br><br>學<br><br>歷</nz-form-label>
+                        </td>
+                        <td colspan="3">
+                            <nz-form-label [nzFor]="'schoolname'" [nzNoColon]="true">學校名稱</nz-form-label>
+                        </td>
+                        <td colspan="2">
+                            <nz-form-label [nzFor]="'address'" [nzNoColon]="true">科 系</nz-form-label>
+                        </td>
+                        <td>
+                            <nz-form-label [nzFor]="'address'" [nzNoColon]="true">學位</nz-form-label>
+                        </td>
+                        <td>
+                            <nz-form-label [nzFor]="'address'" [nzNoColon]="true">年制</nz-form-label>
+                        </td>
+                        <td>
+                            <nz-form-label [nzFor]="'address'" [nzNoColon]="true">畢 肄</nz-form-label>
+                        </td>
+                        <td>
+                            <nz-form-label [nzFor]="'address'" [nzNoColon]="true">畢業年度</nz-form-label>
+                        </td>
+                        <td colspan="2">
+                            <nz-form-label [nzFor]="'address'" [nzNoColon]="true">日間 夜間 假日</nz-form-label>
+                        </td>                 
+                    </tr>
+                    <tr>
+                        <td>
+                            <nz-form-label [nzFor]="'institute'" [nzNoColon]="true">研究所</nz-form-label>
+                        </td>
+                        <td colspan="2">
+                            <input nz-input [attr.id]="'institute'" formControlName="institute" placeholder="研究所"/>
+                        </td>
+                        <td colspan="2">
+                            <input nz-input [attr.id]="'department'" formControlName="department" placeholder="科系"/>
+                        </td>
+                        <td>
+                            <input nz-input [attr.id]="'bachelorofscience'" formControlName="bachelorofscience" placeholder="學位"/>
+                        </td>
+                        <td>
+                            <input nz-input [attr.id]="'year'" formControlName="year" placeholder="年制"/>
+                        </td>
+                        <td>
+                            <input nz-input [attr.id]="'graduate'" formControlName="graduate" placeholder="畢肄"/>
+                        </td>
+                        <td>
+                            <input nz-input [attr.id]="'graduate_y'" formControlName="graduate_y" placeholder="畢業年度"/>
+                        </td>
+                        <td>
+                            <input nz-input  formControlName="time" placeholder=""/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <nz-form-label [nzFor]="'institute'" [nzNoColon]="true">大學/<br>學院</nz-form-label>
+                        </td>
+                        <td colspan="2">
+                            <input nz-input [attr.id]="'institute'" formControlName="institute" placeholder="大學/學院"/>
+                        </td>
+                        <td colspan="2">
+                            <input nz-input [attr.id]="'department'" formControlName="department" placeholder="科系"/>
+                        </td>
+                        <td>
+                            <input nz-input [attr.id]="'bachelorofscience'" formControlName="bachelorofscience" placeholder="學位"/>
+                        </td>
+                        <td>
+                            <input nz-input [attr.id]="'year'" formControlName="year" placeholder="年制"/>
+                        </td>
+                        <td>
+                            <input nz-input [attr.id]="'graduate'" formControlName="graduate" placeholder="畢肄"/>
+                        </td>
+                        <td>
+                            <input nz-input [attr.id]="'graduate_y'" formControlName="graduate_y" placeholder="畢業年度"/>
+                        </td>
+                        <td>
+                            <input nz-input  formControlName="time" placeholder=""/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <nz-form-label [nzFor]="'institute'" [nzNoColon]="true">專 科</nz-form-label>
+                        </td>
+                        <td colspan="2">
+                            <input nz-input [attr.id]="'institute'" formControlName="institute" placeholder="專 科"/>
+                        </td>
+                        <td colspan="2">
+                            <input nz-input [attr.id]="'department'" formControlName="department" placeholder="科系"/>
+                        </td>
+                        <td>
+                            <input nz-input [attr.id]="'bachelorofscience'" formControlName="bachelorofscience" placeholder="學位"/>
+                        </td>
+                        <td>
+                            <input nz-input [attr.id]="'year'" formControlName="year" placeholder="年制"/>
+                        </td>
+                        <td>
+                            <input nz-input [attr.id]="'graduate'" formControlName="graduate" placeholder="畢肄"/>
+                        </td>
+                        <td>
+                            <input nz-input [attr.id]="'graduate_y'" formControlName="graduate_y" placeholder="畢業年度"/>
+                        </td>
+                        <td>
+                            <input nz-input  formControlName="time" placeholder=""/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <nz-form-label [nzFor]="'institute'" [nzNoColon]="true">高中職</nz-form-label>
+                        </td>
+                        <td colspan="2">
+                            <input nz-input [attr.id]="'institute'" formControlName="institute" placeholder="高中職"/>
+                        </td>
+                        <td colspan="2">
+                            <input nz-input [attr.id]="'department'" formControlName="department" placeholder="科系"/>
+                        </td>
+                        <td>
+                            <input nz-input [attr.id]="'bachelorofscience'" formControlName="bachelorofscience" placeholder="學位"/>
+                        </td>
+                        <td>
+                            <input nz-input [attr.id]="'year'" formControlName="year" placeholder="年制"/>
+                        </td>
+                        <td>
+                            <input nz-input [attr.id]="'graduate'" formControlName="graduate" placeholder="畢肄"/>
+                        </td>
+                        <td>
+                            <input nz-input [attr.id]="'graduate_y'" formControlName="graduate_y" placeholder="畢業年度"/>
+                        </td>
+                        <td>
+                            <input nz-input  formControlName="time" placeholder=""/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <nz-form-label [nzFor]="'institute'" [nzNoColon]="true">國 中</nz-form-label>
+                        </td>
+                        <td colspan="2">
+                            <input nz-input [attr.id]="'institute'" formControlName="institute" placeholder="國 中"/>
+                        </td>
+                        <td colspan="2">
+                            <input nz-input [attr.id]="'department'" formControlName="department" placeholder="科系"/>
+                        </td>
+                        <td>
+                            <input nz-input [attr.id]="'bachelorofscience'" formControlName="bachelorofscience" placeholder="學位"/>
+                        </td>
+                        <td>
+                            <input nz-input [attr.id]="'year'" formControlName="year" placeholder="年制"/>
+                        </td>
+                        <td>
+                            <input nz-input [attr.id]="'graduate'" formControlName="graduate" placeholder="畢肄"/>
+                        </td>
+                        <td>
+                            <input nz-input [attr.id]="'graduate_y'" formControlName="graduate_y" placeholder="畢業年度"/>
+                        </td>
+                        <td>
+                            <input nz-input  formControlName="time" placeholder=""/>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </nz-card>
+        <nz-card>
+            <form nz-form [nzLayout]="'inline'" [formGroup]="workForm">
+                <table style="text-align: center;">
+                    <tr class="col">
+                        <td rowspan="7" colspan="2">
+                            <nz-form-label style="height: 150px;" [nzFor]="'address'" [nzNoColon]="true"><br><br><br>經<br><br>歷</nz-form-label>
+                        </td>
+                        <td rowspan="2" colspan="2">
+                            <nz-form-label [nzFor]="'schoolname'" [nzNoColon]="true">服務單位</nz-form-label>
+                        </td>
+                        <td rowspan="2" colspan="2">
+                            <nz-form-label [nzFor]="'address'" [nzNoColon]="true">服務期間</nz-form-label>
+                        </td>
+                        <td  rowspan="2">
+                            <nz-form-label [nzFor]="'address'" [nzNoColon]="true">每月收入</nz-form-label>
+                        </td>
+                        <td  rowspan="2">
+                            <nz-form-label [nzFor]="'address'" [nzNoColon]="true">年所得</nz-form-label>
+                        </td>
+                        <td rowspan="2">
+                            <nz-form-label [nzFor]="'address'" [nzNoColon]="true">擔任職位</nz-form-label>
+                        </td>
+                        <td rowspan="2">
+                            <nz-form-label [nzFor]="'address'" [nzNoColon]="true">直屬主管<br>姓名/職稱</nz-form-label>
+                        </td>
+                        <td colspan="4">
+                            <nz-form-label style="height:25px;" [nzFor]="'address'" [nzNoColon]="true">離 職</nz-form-label>
+                        </td>                 
+                    </tr>
+                    <tr>
+                        <td><nz-form-label style="height:25px;" [nzNoColon]="true">自願</nz-form-label></td>
+                        <td><nz-form-label style="height:25px;" [nzNoColon]="true">非自願</nz-form-label></td>
+                        <td colspan="3"><nz-form-label style="height:25px;" [nzNoColon]="true">原因</nz-form-label></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <input nz-input [attr.id]="'institute'" formControlName="institute" placeholder=""/>
+                        </td>
+                        <td colspan="2">
+                            <input nz-input [attr.id]="'department'" formControlName="department" placeholder=""/>
+                        </td>
+                        <td>
+                            <input nz-input [attr.id]="'bachelorofscience'" formControlName="bachelorofscience" placeholder=""/>
+                        </td>
+                        <td>
+                            <input nz-input [attr.id]="'year'" formControlName="year" placeholder=""/>
+                        </td>
+                        <td>
+                            <input nz-input [attr.id]="'graduate'" formControlName="graduate" placeholder=""/>
+                        </td>
+                        <td>
+                            <input nz-input [attr.id]="'graduate_y'" formControlName="graduate_y" placeholder=""/>
+                        </td>
+                        <td>
+                            <input nz-input  formControlName="time" placeholder=""/>
+                        </td>
+                        <td>
+                            <input nz-input  formControlName="time" placeholder=""/>
+                        </td>
+                        <td>
+                            <input nz-input  formControlName="time" placeholder=""/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <input nz-input [attr.id]="'institute'" formControlName="institute" placeholder=""/>
+                        </td>
+                        <td colspan="2">
+                            <input nz-input [attr.id]="'department'" formControlName="department" placeholder=""/>
+                        </td>
+                        <td>
+                            <input nz-input [attr.id]="'bachelorofscience'" formControlName="bachelorofscience" placeholder=""/>
+                        </td>
+                        <td>
+                            <input nz-input [attr.id]="'year'" formControlName="year" placeholder=""/>
+                        </td>
+                        <td>
+                            <input nz-input [attr.id]="'graduate'" formControlName="graduate" placeholder=""/>
+                        </td>
+                        <td>
+                            <input nz-input [attr.id]="'graduate_y'" formControlName="graduate_y" placeholder=""/>
+                        </td>
+                        <td>
+                            <input nz-input  formControlName="time" placeholder=""/>
+                        </td>
+                        <td>
+                            <input nz-input  formControlName="time" placeholder=""/>
+                        </td>
+                        <td>
+                            <input nz-input  formControlName="time" placeholder=""/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <input nz-input [attr.id]="'institute'" formControlName="institute" placeholder=""/>
+                        </td>
+                        <td colspan="2">
+                            <input nz-input [attr.id]="'department'" formControlName="department" placeholder=""/>
+                        </td>
+                        <td>
+                            <input nz-input [attr.id]="'bachelorofscience'" formControlName="bachelorofscience" placeholder=""/>
+                        </td>
+                        <td>
+                            <input nz-input [attr.id]="'year'" formControlName="year" placeholder=""/>
+                        </td>
+                        <td>
+                            <input nz-input [attr.id]="'graduate'" formControlName="graduate" placeholder=""/>
+                        </td>
+                        <td>
+                            <input nz-input [attr.id]="'graduate_y'" formControlName="graduate_y" placeholder=""/>
+                        </td>
+                        <td>
+                            <input nz-input  formControlName="time" placeholder=""/>
+                        </td>
+                        <td>
+                            <input nz-input  formControlName="time" placeholder=""/>
+                        </td>
+                        <td>
+                            <input nz-input  formControlName="time" placeholder=""/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <input nz-input [attr.id]="'institute'" formControlName="institute" placeholder=""/>
+                        </td>
+                        <td colspan="2">
+                            <input nz-input [attr.id]="'department'" formControlName="department" placeholder=""/>
+                        </td>
+                        <td>
+                            <input nz-input [attr.id]="'bachelorofscience'" formControlName="bachelorofscience" placeholder=""/>
+                        </td>
+                        <td>
+                            <input nz-input [attr.id]="'year'" formControlName="year" placeholder=""/>
+                        </td>
+                        <td>
+                            <input nz-input [attr.id]="'graduate'" formControlName="graduate" placeholder=""/>
+                        </td>
+                        <td>
+                            <input nz-input [attr.id]="'graduate_y'" formControlName="graduate_y" placeholder=""/>
+                        </td>
+                        <td>
+                            <input nz-input  formControlName="time" placeholder=""/>
+                        </td>
+                        <td>
+                            <input nz-input  formControlName="time" placeholder=""/>
+                        </td>
+                        <td>
+                            <input nz-input  formControlName="time" placeholder=""/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <input nz-input [attr.id]="'institute'" formControlName="institute" placeholder=""/>
+                        </td>
+                        <td colspan="2">
+                            <input nz-input [attr.id]="'department'" formControlName="department" placeholder=""/>
+                        </td>
+                        <td>
+                            <input nz-input [attr.id]="'bachelorofscience'" formControlName="bachelorofscience" placeholder=""/>
+                        </td>
+                        <td>
+                            <input nz-input [attr.id]="'year'" formControlName="year" placeholder=""/>
+                        </td>
+                        <td>
+                            <input nz-input [attr.id]="'graduate'" formControlName="graduate" placeholder=""/>
+                        </td>
+                        <td>
+                            <input nz-input [attr.id]="'graduate_y'" formControlName="graduate_y" placeholder=""/>
+                        </td>
+                        <td>
+                            <input nz-input  formControlName="time" placeholder=""/>
+                        </td>
+                        <td>
+                            <input nz-input  formControlName="time" placeholder=""/>
+                        </td>
+                        <td>
+                            <input nz-input  formControlName="time" placeholder=""/>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </nz-card>
+        <nz-card>
+            <form nz-form [nzLayout]="'inline'" [formGroup]="workForm">
+                <table style="text-align: center;">
+                    <tr>
+                        <td rowspan="4">
+                            <nz-form-label style="height:150px;"  [nzFor]="'address'" [nzNoColon]="true"><br><br>家<br>庭<br>成<br>員</nz-form-label>
+                        </td>
+                        <td>
+                            <nz-form-label [nzFor]="'schoolname'" [nzNoColon]="true">稱謂</nz-form-label>
+                        </td>
+                        <td style="width: 100px;">
+                            <nz-form-label [nzFor]="'address'" [nzNoColon]="true">姓名</nz-form-label>
+                        </td>
+                        <td>
+                            <nz-form-label [nzFor]="'address'" [nzNoColon]="true">年齡</nz-form-label>
+                        </td>
+                        <td style="width: 100px;">
+                            <nz-form-label [nzFor]="'address'" [nzNoColon]="true">學歷</nz-form-label>
+                        </td>
+                        <td>
+                            <nz-form-label [nzFor]="'address'" [nzNoColon]="true">服務單位或職稱</nz-form-label>
+                        </td>
+                        <td>
+                            <nz-form-label [nzFor]="'schoolname'" [nzNoColon]="true">稱謂</nz-form-label>
+                        </td>
+                        <td style="width: 100px;">
+                            <nz-form-label [nzFor]="'address'" [nzNoColon]="true">姓名</nz-form-label>
+                        </td>
+                        <td>
+                            <nz-form-label [nzFor]="'address'" [nzNoColon]="true">年齡</nz-form-label>
+                        </td>
+                        <td style="width: 100px;">
+                            <nz-form-label [nzFor]="'address'" [nzNoColon]="true">學歷</nz-form-label>
+                        </td>
+                        <td>
+                            <nz-form-label [nzFor]="'address'" [nzNoColon]="true">服務單位或職稱</nz-form-label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input nz-input  formControlName="time" placeholder=""/>
+                        </td>
+                        <td>
+                            <input nz-input  formControlName="time" placeholder=""/>
+                        </td>
+                        <td>
+                            <input nz-input  formControlName="time" placeholder=""/>
+                        </td>
+                        <td>
+                            <input nz-input  formControlName="time" placeholder=""/>
+                        </td>
+                        <td>
+                            <input nz-input  formControlName="time" placeholder=""/>
+                        </td>
+                        <td>
+                            <input nz-input  formControlName="time" placeholder=""/>
+                        </td>
+                        <td>
+                            <input nz-input  formControlName="time" placeholder=""/>
+                        </td>
+                        <td>
+                            <input nz-input  formControlName="time" placeholder=""/>
+                        </td>
+                        <td>
+                            <input nz-input  formControlName="time" placeholder=""/>
+                        </td>
+                        <td>
+                            <input nz-input  formControlName="time" placeholder=""/>
+                        </td>                                        
+                    </tr>
+                    <tr>
+                        <td>
+                            <input nz-input  formControlName="time" placeholder=""/>
+                        </td>
+                        <td>
+                            <input nz-input  formControlName="time" placeholder=""/>
+                        </td>
+                        <td>
+                            <input nz-input  formControlName="time" placeholder=""/>
+                        </td>
+                        <td>
+                            <input nz-input  formControlName="time" placeholder=""/>
+                        </td>
+                        <td>
+                            <input nz-input  formControlName="time" placeholder=""/>
+                        </td>
+                        <td>
+                            <input nz-input  formControlName="time" placeholder=""/>
+                        </td>
+                        <td>
+                            <input nz-input  formControlName="time" placeholder=""/>
+                        </td>
+                        <td>
+                            <input nz-input  formControlName="time" placeholder=""/>
+                        </td>
+                        <td>
+                            <input nz-input  formControlName="time" placeholder=""/>
+                        </td>
+                        <td>
+                            <input nz-input  formControlName="time" placeholder=""/>
+                        </td>                                        
+                    </tr>
+                    <tr>
+                        <td>
+                            <input nz-input  formControlName="time" placeholder=""/>
+                        </td>
+                        <td>
+                            <input nz-input  formControlName="time" placeholder=""/>
+                        </td>
+                        <td>
+                            <input nz-input  formControlName="time" placeholder=""/>
+                        </td>
+                        <td>
+                            <input nz-input  formControlName="time" placeholder=""/>
+                        </td>
+                        <td>
+                            <input nz-input  formControlName="time" placeholder=""/>
+                        </td>
+                        <td>
+                            <input nz-input  formControlName="time" placeholder=""/>
+                        </td>
+                        <td>
+                            <input nz-input  formControlName="time" placeholder=""/>
+                        </td>
+                        <td>
+                            <input nz-input  formControlName="time" placeholder=""/>
+                        </td>
+                        <td>
+                            <input nz-input  formControlName="time" placeholder=""/>
+                        </td>
+                        <td>
+                            <input nz-input  formControlName="time" placeholder=""/>
+                        </td>                                        
+                    </tr>
+                </table>
+            </form>
+        </nz-card>
+        <nz-card>
+            <form nz-form [nzLayout]="'inline'" [formGroup]="workForm">
+                <table style="text-align: left;">
+                    <tr>
+                        <td rowspan="10">
+                            <nz-form-label style="height:150px;"  [nzFor]="'address'" [nzNoColon]="true">自<br><br>我<br><br>評<br><br>述</nz-form-label>
+                        </td>
+                        <!-- <td></td>
+                        <td style="width:400px;"></td>                      -->
+                    </tr>
+                    <tr>
+                        <td style="width: 50px;">
+                            <nz-form-label>1.應徵本公司工作之動機是</nz-form-label>                            
+                        </td>                        
+                        <td>
+                            <input nz-input  formControlName="time" placeholder=""/>                          
+                        </td>
+                    </tr>
+                        <td>
+                            <nz-form-label>2.我上班的交通工具為</nz-form-label>  
+                        </td>
+                        <td>
+                            <input nz-input style="width: 120px;"  formControlName="time" placeholder=""/>                          
+
+                            <nz-form-label>，自住所到公司路程花費時間</nz-form-label>                            
+
+                            <input nz-input style="width: 80px;"   formControlName="time" placeholder="分鐘"/> 
+                        </td>
+                    <tr>
+                        <td>
+                            <nz-form-label [nzNoColon]="true">3.希望錄用後薪資為:NT$</nz-form-label>   
+                        </td>
+                        <td>
+                            <input nz-input style="width: 70px;"   formControlName="time" placeholder=""/>                          
+
+                            <nz-form-label [nzNoColon]="true">/月或年薪:NT$</nz-form-label>                            
+                       
+
+                            <input nz-input style="width: 70px;"   formControlName="time" placeholder="分鐘"/>                          
+
+                            <nz-form-label [nzNoColon]="true">/年，自通知錄取後，最快</nz-form-label>                            
+
+                            <input nz-input style="width: 40px;"   formControlName="time" placeholder=""/>                          
+
+                            <nz-form-label [nzNoColon]="true">日內可以至公司報到上班</nz-form-label>                            
+                        </td>
+                    </tr>
+                        <td colspan="2">
+                            <nz-form-label>4.如果因本身業務未能於下班時間內完成，經主管指示應延長工作完成後再下班，您的配合狀況</nz-form-label>                            
+                        </td> 
+                    
+                    <tr>  
+                        <td>
+                            <nz-form-label [nzNoColon]="true">5.語言能力:</nz-form-label>
+                        </td>
+                        <td>
+                            <nz-form-label style="width: 40px;">國語</nz-form-label>                            
+
+                            <input nz-input style="width: 60px;"  formControlName="time" placeholder=""/>                          
+
+                            <nz-form-label >閩南語</nz-form-label>                            
+
+                            <input nz-input style="width: 60px;"  formControlName="time" placeholder=""/>                          
+
+                            <nz-form-label >英語</nz-form-label>                            
+
+                            <input nz-input style="width: 60px;"  formControlName="time" placeholder=""/>                          
+
+                            <nz-form-label >其他</nz-form-label>                            
+
+                            <input nz-input style="width: 120px;"  formControlName="time" placeholder=""/>                          
+
+                            <nz-form-label [nzNoColon]="true">(佳、普通、差)</nz-form-label>                            
+                        </td>
+                    </tr>
+                    <tr>  
+                        <td>
+                            <nz-form-label >6.專長</nz-form-label>
+                        </td>
+                        <td>
+                            <nz-form-label style="width: 40px;">電腦</nz-form-label>                            
+
+                            <input nz-input style="width: 110px;"  formControlName="time" placeholder=""/>                          
+
+                            <nz-form-label >其他</nz-form-label>                            
+
+                            <input nz-input style="width: 280px;"  formControlName="time" placeholder=""/>                          
+                        </td>
+                    </tr>
+                    <tr>  
+                        <td>
+                            <nz-form-label >7.專業證名稱</nz-form-label>
+                        </td>
+                        <td>
+                            <nz-form-label style="width: 40px;" [nzNoColon]="true">1.</nz-form-label>                            
+
+                            <input nz-input style="width: 110px;"  formControlName="time" placeholder=""/>                          
+
+                            <nz-form-label [nzNoColon]="true">2.</nz-form-label>                            
+
+                            <input nz-input style="width: 110px;"  formControlName="time" placeholder=""/>
+                            
+                            <nz-form-label [nzNoColon]="true">3.</nz-form-label>                            
+
+                            <input nz-input style="width: 110px;"  formControlName="time" placeholder=""/>                          
+
+                            <nz-form-label [nzNoColon]="true">4.</nz-form-label>                            
+
+                            <input nz-input style="width: 110px;"  formControlName="time" placeholder=""/>                          
+
+                        </td>
+                    </tr>
+                    <tr>  
+                        <td>
+                            <nz-form-label >8.經濟狀況</nz-form-label>
+                        </td>
+                        <td>
+                            <label nz-checkbox formControlName="ck">自購住宅</label>
+
+                            <label nz-checkbox formControlName="ck">租賃</label>   
+                            
+                            <label nz-checkbox formControlName="ck">與家人同住:</label>                         
+
+                            <input nz-input style="width: 80px;"  formControlName="time" placeholder=""/>&nbsp;&nbsp;
+                            
+                            <label nz-checkbox formControlName="ck">負債金額:</label>                        
+
+                            <input nz-input style="width: 80px;"  formControlName="time" placeholder=""/>&nbsp;                        
+
+                            <label nz-checkbox formControlName="ck">無負債</label>                          
+                        </td>
+                    </tr>
+                    <tr>  
+                        <td>
+                            <nz-form-label >9.親戚朋友從事與本公司相同行業</nz-form-label>
+                        </td>
+                        <td>
+                            <label nz-checkbox formControlName="ck">無</label>  
+                            <label nz-checkbox formControlName="ck">有:</label>
+                            <input nz-input style="width: 80px;"  formControlName="time" placeholder=""/>
+                            
+                            <nz-form-label >關係</nz-form-label>                            
+
+                            <input nz-input style="width: 80px;"  formControlName="time" placeholder=""/>&nbsp;&nbsp;
+
+                            <label nz-checkbox formControlName="ck">任職本公司</label>  
+                            <label nz-checkbox formControlName="ck">從事相關行業</label>  
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </nz-card>
+        <nz-card>
+            <form nz-form [nzLayout]="'inline'" [formGroup]="workForm">
+                <table style="text-align: center;">
+                    <tr>
+                        <td colspan="5" style="text-align: left;">
+                            <nz-form-label [nzNoColon]="true">請列舉能提供有關填表人品行及能力之資料的前任工作主管或同事二人</nz-form-label>
+                        </td>                                                
+                    </tr>
+                    <tr>
+                        <td>
+                            <nz-form-label [nzNoColon]="true">姓 名</nz-form-label>
+                        </td>
+                        <td>
+                            <nz-form-label [nzNoColon]="true">服務單位</nz-form-label>
+                        </td>
+                        <td>
+                            <nz-form-label [nzNoColon]="true">職 稱</nz-form-label>
+                        </td>
+                        <td style="width: 250px;">
+                            <nz-form-label [nzNoColon]="true">地址</nz-form-label>
+                        </td>
+                        <td>
+                            <nz-form-label [nzNoColon]="true">電話</nz-form-label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input nz-input  formControlName="time" placeholder=""/>
+                        </td>
+                        <td>
+                            <input nz-input  formControlName="time" placeholder=""/>
+                        </td>
+                        <td>
+                            <input nz-input  formControlName="time" placeholder=""/>
+                        </td>
+                        <td>
+                            <input nz-input  formControlName="time" placeholder=""/>
+                        </td>
+                        <td>
+                            <input nz-input  formControlName="time" placeholder=""/>
+                        </td>                                 
+                    </tr>
+                    <tr>
+                        <td>
+                            <input nz-input  formControlName="time" placeholder=""/>
+                        </td>
+                        <td>
+                            <input nz-input  formControlName="time" placeholder=""/>
+                        </td>
+                        <td>
+                            <input nz-input  formControlName="time" placeholder=""/>
+                        </td>
+                        <td>
+                            <input nz-input  formControlName="time" placeholder=""/>
+                        </td>
+                        <td>
+                            <input nz-input  formControlName="time" placeholder=""/>
+                        </td>                                    
+                    </tr>
+                    <tr>
+                        <td colspan="5" style="text-align: left;">
+                            <nz-form-label [nzNoColon]="true">※以上各欄本人均城市詳細填寫以作為錄用之參考，若有不實，則如經錄取願受無條件解雇處分</nz-form-label>
+                        </td>                                                                    
+                    </tr>
+                    <tr>
+                        <td colspan="4"></td>       
+                        <td style="text-align: right;">
+                            <button nz-button class="mr-10" ><i nz-icon nzType="send"></i>確認送出</button>
+                        </td>                                                               
+                    </tr>
+                </table>
+            </form>
+        </nz-card>
     </div>
 </div>

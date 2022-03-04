@@ -1,105 +1,104 @@
-<div style="width:900px;height:1300px;margin:0px auto;margin-top: 10px;">
+<div style="width:900px;height:1350px;margin:0px auto;margin-top:10px;">
     
-    <div style="margin-left: 10px;
-    margin-right: 10px;">
-        <h1 style="font-family: 微軟正黑體;font-size:30px;text-align: center;">基本資料問題表</h1>
+    <div style="margin-top:20px;margin-left:10px;margin-right:10px;">
+        <h1 style="font-family: 微軟正黑體;font-size:32px;text-align: center;">基本資料問題表</h1>
         <button nz-button class="mr-10" ><i nz-icon nzType="save"></i>送出</button>
         <nz-card>
             <form nz-form [nzLayout]="'inline'" [formGroup]="imformationForm">
                 <nz-form-item>
-                    <nz-form-label nz-label class="label" [nzFor]="'iform_q1'" [nzNoColon]="true" style="width: 300px;text-align:left;font-size:18px!important;
-">1.您為什麼想離開目前的職務</nz-form-label>
+                    <nz-form-label [nzFor]="'iform_q1'" [nzNoColon]="true" style="width: 350px;text-align:left;
+">1. 您為什麼想離開目前的職務？</nz-form-label>
                     <nz-form-control> 
                       <textarea [attr.id]="'iform_q1'"
-                      formControlName="iform_q1" nz-input rows="3" style="width: 500px;"></textarea>
+                      formControlName="iform_q1" nz-input rows="3" style="width: 450px;"></textarea>
                     </nz-form-control>
                 </nz-form-item>
                 <nz-form-item>
-                    <nz-form-label [nzFor]="'iform_q2'" [nzNoColon]="true" style="width: 300px;text-align:left;font-size:18px!important;
-">2.對我們公司了解多少呢？</nz-form-label>
+                    <nz-form-label [nzFor]="'iform_q2'" [nzNoColon]="true" style="width: 350px;text-align:left;
+">2. 對我們公司了解多少呢？</nz-form-label>
                     <nz-form-control> 
                       <textarea [attr.id]="'iform_q2'"
-                      formControlName="iform_q2" nz-input rows="3" style="width: 500px;"></textarea>
+                      formControlName="iform_q2" nz-input rows="3" style="width: 450px;"></textarea>
                     </nz-form-control>
                 </nz-form-item>
                 <nz-form-item>
-                    <nz-form-label [nzFor]="'iform_q3'" [nzNoColon]="true" style="width: 300px;text-align:left;font-size:18px!important;
-">3.請您分享多年的工作經驗中，曾做過對公司<br>最有貢獻且具體可衡量的事件</nz-form-label>
+                    <nz-form-label [nzFor]="'iform_q3'" [nzNoColon]="true" style="width: 350px;text-align:left;font-size:18px!important;
+">3. 請您分享多年的工作經驗中，曾做過對公司<br>最有貢獻且具體可衡量的事件</nz-form-label>
                     <nz-form-control> 
                       <textarea [attr.id]="'iform_q3'"
-                      formControlName="iform_q3" nz-input rows="3" style="width: 500px;"></textarea>
+                      formControlName="iform_q3" nz-input rows="3" style="width: 450px;"></textarea>
                     </nz-form-control>
                 </nz-form-item>
                 <nz-form-item>
-                    <nz-form-label [nzFor]="'iform_q4'" [nzNoColon]="true" style="width: 300px;text-align:left;font-size:18px!important;
-">4.您找工作時，最重要的考慮因素為何？</nz-form-label>
+                    <nz-form-label [nzFor]="'iform_q4'" [nzNoColon]="true" style="width: 350px;text-align:left;font-size:18px!important;
+">4. 您找工作時，最重要的考慮因素為何？</nz-form-label>
                     <nz-form-control> 
                       <textarea [attr.id]="'iform_q4'"
-                      formControlName="iform_q4" nz-input rows="3" style="width: 500px;"></textarea>
+                      formControlName="iform_q4" nz-input rows="3" style="width: 450px;"></textarea>
                     </nz-form-control>
                 </nz-form-item>
                 <nz-form-item>
-                    <nz-form-label [nzFor]="'iform_q5'" [nzNoColon]="true" style="width: 300px;text-align:left;font-size:18px!important;
-">5.您覺得我們公司為什麼要慮用您？</nz-form-label>
+                    <nz-form-label [nzFor]="'iform_q5'" [nzNoColon]="true" style="width: 350px;text-align:left;font-size:18px!important;
+">5. 您覺得我們公司為什麼要錄用您？</nz-form-label>
                     <nz-form-control> 
                       <textarea [attr.id]="'iform_q5'"
-                      formControlName="iform_q5" nz-input rows="3" style="width: 500px;"></textarea>
+                      formControlName="iform_q5" nz-input rows="3" style="width: 450px;"></textarea>
                     </nz-form-control>
                 </nz-form-item>
                 <nz-form-item>
-                    <nz-form-label [nzFor]="'iform_q6'" [nzNoColon]="true" style="width: 300px;text-align:left;font-size:18px!important;
-">6.您來應徵千附的原因？</nz-form-label>
+                    <nz-form-label [nzFor]="'iform_q6'" [nzNoColon]="true" style="width: 350px;text-align:left;font-size:18px!important;
+">6. 您來應徵千附的原因？</nz-form-label>
                     <nz-form-control> 
                       <textarea [attr.id]="'iform_q6'"
-                      formControlName="iform_q6" nz-input rows="3" style="width: 500px;"></textarea>
+                      formControlName="iform_q6" nz-input rows="3" style="width: 450px;"></textarea>
                     </nz-form-control>
                 </nz-form-item>
                 <nz-form-item>
-                    <nz-form-label [nzFor]="'iform_q7'" [nzNoColon]="true" style="width: 300px;text-align:left;font-size:18px!important;
-">7.請談談您的家庭狀況</nz-form-label>
+                    <nz-form-label [nzFor]="'iform_q7'" [nzNoColon]="true" style="width: 350px;text-align:left;font-size:18px!important;
+">7. 請談談您的家庭狀況</nz-form-label>
                     <nz-form-control> 
                       <textarea [attr.id]="'iform_q7'"
-                      formControlName="iform_q7" nz-input rows="3" style="width: 500px;"></textarea>
+                      formControlName="iform_q7" nz-input rows="3" style="width: 450px;"></textarea>
                     </nz-form-control>
                 </nz-form-item>
                 <nz-form-item>
-                    <nz-form-label [nzFor]="'iform_q8'" [nzNoColon]="true" style="width: 300px;text-align:left;font-size:18px!important;
-">8.請談談您的優缺點</nz-form-label>
+                    <nz-form-label [nzFor]="'iform_q8'" [nzNoColon]="true" style="width: 350px;text-align:left;font-size:18px!important;
+">8. 請談談您的優缺點</nz-form-label>
                     <nz-form-control> 
                       <textarea [attr.id]="'iform_q8'"
-                      formControlName="iform_q8" nz-input rows="3" style="width: 500px;"></textarea>
+                      formControlName="iform_q8" nz-input rows="3" style="width: 450px;"></textarea>
                     </nz-form-control>
                 </nz-form-item>
                 <nz-form-item>
-                    <nz-form-label [nzFor]="'iform_q9'" [nzNoColon]="true" style="width: 300px;text-align:left;font-size:18px!important;
-">9.您人生中曾有甚麼失敗挫折的經驗呢？<br>當時如何解決突破？</nz-form-label>
+                    <nz-form-label [nzFor]="'iform_q9'" [nzNoColon]="true" style="width: 350px;text-align:left;font-size:18px!important;
+">9. 您人生中曾有甚麼失敗挫折的經驗呢？<br>當時如何解決突破？</nz-form-label>
                     <nz-form-control> 
                       <textarea [attr.id]="'iform_q9'"
-                      formControlName="iform_q9" nz-input rows="3" style="width: 500px;"></textarea>
+                      formControlName="iform_q9" nz-input rows="3" style="width: 450px;"></textarea>
                     </nz-form-control>
                 </nz-form-item>
                 <nz-form-item>
-                    <nz-form-label [nzFor]="'iform_q10'" [nzNoColon]="true" style="width: 300px;text-align:left;font-size:18px!important;
-">10.您希望與怎麼樣的上級共事？</nz-form-label>
+                    <nz-form-label [nzFor]="'iform_q10'" [nzNoColon]="true" style="width: 350px;text-align:left;font-size:18px!important;
+">10. 您希望與怎麼樣的上級共事？</nz-form-label>
                     <nz-form-control> 
                       <textarea [attr.id]="'iform_q10'"
-                      formControlName="iform_q10" nz-input rows="3" style="width: 500px;"></textarea>
+                      formControlName="iform_q10" nz-input rows="3" style="width: 450px;"></textarea>
                     </nz-form-control>
                 </nz-form-item>
                 <nz-form-item>
-                    <nz-form-label [nzFor]="'iform_q11'" [nzNoColon]="true" style="width: 300px;text-align:left;font-size:18px!important;
-">11.您覺得一個好的(應徵職務)，應該需要具備哪<br>些工作技能和態度？您擁有那些？請舉例分享</nz-form-label>
+                    <nz-form-label [nzFor]="'iform_q11'" [nzNoColon]="true" style="width: 350px;text-align:left;font-size:18px!important;
+">11. 您覺得一個好的(應徵職務)，應該需要具備哪<br>些工作技能和態度？您擁有那些？請舉例分享</nz-form-label>
                     <nz-form-control> 
                       <textarea [attr.id]="'iform_q11'"
-                      formControlName="iform_q11" nz-input rows="3" style="width: 500px;"></textarea>
+                      formControlName="iform_q11" nz-input rows="3" style="width: 450px;"></textarea>
                     </nz-form-control>
                 </nz-form-item>
                 <nz-form-item>
-                    <nz-form-label [nzFor]="'iform_q12'" [nzNoColon]="true" style="width: 300px;text-align:left;font-size:18px!important;
-">12.對這個工作，您有甚麼期待？</nz-form-label>
+                    <nz-form-label [nzFor]="'iform_q12'" [nzNoColon]="true" style="width: 350px;text-align:left;font-size:18px!important;
+">12. 對這個工作，您有甚麼期待？</nz-form-label>
                     <nz-form-control> 
                       <textarea [attr.id]="'iform_q12'"
-                      formControlName="iform_q12" nz-input rows="3" style="width: 500px;"></textarea>
+                      formControlName="iform_q12" nz-input rows="3" style="width: 450px;"></textarea>
                     </nz-form-control>
                 </nz-form-item>
             </form>

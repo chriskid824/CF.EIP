@@ -12,6 +12,7 @@ import { AppCommonModule } from '../app-common/app-common.module';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NzTimePickerModule } from 'ng-zorro-antd/time-picker';
+import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 
 import { HrFormConsentComponent } from './hr-form-consent/hr-form-consent.component';
 import { HrFormImformationComponent } from './hr-form-imformation/hr-form-imformation.component';
@@ -37,6 +38,7 @@ import { HrFormWorkComponent } from './hr-form-work/hr-form-work.component';
     NzIconModule,
     NzDatePickerModule,
     NzTimePickerModule,
+    NzCheckboxModule,
     RouterModule.forChild([
       { path: "hr-form-consent", component: HrFormConsentComponent},
       { path: "hr-form-imformation", component: HrFormImformationComponent},

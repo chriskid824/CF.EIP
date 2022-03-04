@@ -1,9 +1,29 @@
-<div style="width:900px;height:1400px;margin:0px auto;margin-top: 10px;">
+<div style="width:850px;height:1200px;margin:0px auto;margin-top: 10px;">
+    <nz-card>
+        <img src="\assets\個人資料使用同意書.jpg" style="display:block; margin:auto;"><br>
+        <div style="margin-left: 75%;">
+            <nz-form-item [formGroup]="consentForm">
+                <nz-form-label [nzFor]="'name'">受告知人</nz-form-label>
+                <nz-form-control nzErrorTip="欄位必填">
+                <input nz-input [formControlName]="'name'" [attr.id]="'name'"
+                        autocomplete="off" />
+                </nz-form-control>
+                <nz-form-label [nzFor]="'id'">身分證字號</nz-form-label>
+                <nz-form-control nzErrorTip="欄位必填">
+                <input nz-input [formControlName]="'id'" [attr.id]="'id'"
+                        autocomplete="off" />
+                </nz-form-control>
+            </nz-form-item>
+            <button nz-button class="mr-10" style="margin-left:62%" ><i nz-icon nzType="send"></i>送出</button>
+        </div>
+    </nz-card>
     
-    <div style="margin-left: 10px;
+    <!-- <div style="margin-left: 10px;
     margin-right: 10px;">
         <h1 style="font-family: 微軟正黑體;font-size:30px;text-align: center;">個人資料使用同意書</h1>
         <button nz-button class="mr-10" ><i nz-icon nzType="save"></i>送出</button>
-        <nz-card></nz-card>
-    </div>
+        <nz-card>
+            <img src="\assets\個人資料使用同意書.jpg" style="display:block; margin:auto;">
+        </nz-card>
+    </div> -->
 </div>
