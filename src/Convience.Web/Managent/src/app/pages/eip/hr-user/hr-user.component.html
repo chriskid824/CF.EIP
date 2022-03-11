@@ -30,9 +30,12 @@
             <thead>
               <tr>
                 <th nzAlign="center" nzWidth="40px">操作</th>
-                <th nzAlign="center" nzWidth="60px">應聘者姓名</th>
-                <th nzAlign="center" nzWidth="60px">手機</th>
-                <th nzAlign="center" nzWidth="100px">Email</th>
+                <th nzAlign="center" nzWidth="50px">應聘者姓名</th>
+                <th nzAlign="center" nzWidth="50px">手機</th>
+                <th nzAlign="center" nzWidth="80px">Email</th>
+                <th nzAlign="center" nzWidth="50px">工作申請表</th>
+                <th nzAlign="center" nzWidth="60px">個資使用同意書</th>
+                <th nzAlign="center" nzWidth="60px">基本資料問題表</th>
                 <th nzAlign="center" nzWidth="40px">狀態</th>                
               </tr>
             </thead>
@@ -41,10 +44,13 @@
                 <td nzAlign="center" nzWidth="40px"><button nz-button nz-tooltip nzTooltipTitle="編輯" nzShape="circle"  (click)="edit(editUserTitleTpl,userContentTpl,data)" ><i nz-icon nzType="edit"></i></button>
                 &nbsp;<button nz-button nz-tooltip nzTooltipTitle="刪除" nzShape="circle" (click)="delete(editUserTitleTpl,userContentTpl,data)" ><i nz-icon nzType="delete"></i></button></td>
                 <td nzAlign="center" hidden>{{ data.candidateId }}</td>
-                <td nzAlign="center" nzWidth="60px">{{ data.username }}</td>
-                <td nzAlign="center" nzWidth="60px">{{ data.cellphone }}</td>
-                <td nzAlign="center" nzWidth="100px">{{ data.email }}</td>
-                <td nzAlign="center" nzWidth="40px">{{ data.status }}</td>
+                <td nzAlign="center" nzWidth="50px">{{ data.username }}</td>
+                <td nzAlign="center" nzWidth="50px">{{ data.cellphone }}</td>
+                <td nzAlign="center" nzWidth="80px">{{ data.email }}</td>
+                <td nzAlign="center"><a href="javascript:void(0);"  *ngIf="data.status!=1" (click)="openwork(data.guid)">工作申請表</a></td>
+                <td nzAlign="center"><a href="javascript:void(0);"  *ngIf="data.status!=1" (click)="openconsent(data.guid)">個資使用同意書</a></td>
+                <td nzAlign="center" ><a href="javascript:void(0);" *ngIf="data.status!=1" (click)="openimformation(data.guid)">基本資料問題表</a></td>
+                <td nzAlign="center" nzWidth="40px">{{ data.statusDesc }}</td>
                 
               </tr>
             </tbody>            

@@ -26,7 +26,7 @@ export class HrInterviewComponent implements OnInit {
   size: number = 6;
   total: number;
   data;
-  fileList: any[] = [];
+  candidateList = [];
 
   editedInterview: hr;
 
@@ -46,6 +46,7 @@ export class HrInterviewComponent implements OnInit {
       date:[null]
     });
   }
+
   submitSearch() {
     this.refresh();
   }
@@ -56,25 +57,22 @@ export class HrInterviewComponent implements OnInit {
     var query = {
       InterviewId:interview.interviewId,
     }
-    console.log(query);
     this._eipHrInterviewService.GetInterviewDetail(query).subscribe(result => {      
-
-      console.log(result);
-
       this.isNewUser = false;
       this.editedInterview = result;
       this.editForm = this._formBuilder.group({
         interviewId: [result['interviewId']],
-        candidate: [result['candidate']],
+        candidate: [result['userName']],
         dept: [result['dept']],
         noticeDate: [result['noticeDate']],  
         interviewDate: [result['interviewDate']],  
         interviewer: [result['interviewer']],
         place: [result['place']],
-        replyDate: [result['replyDate']],
-        checkDate: [result['checkDate']],  
+        // replyDate: [result['replyDate']],
+        // checkDate: [result['checkDate']],  
         validDate: [result['validDate']],
       });
+      //console.info(result);
       this.tplModal = this._modalService.create({
         nzTitle: title,
         nzContent: content,
@@ -86,7 +84,7 @@ export class HrInterviewComponent implements OnInit {
   }
   initaddForm() {
     this.addForm = this._formBuilder.group({
-      interviewId: [null],
+      //interviewId: [null],
       candidate: [null, [Validators.required]],
       dept: [null, [Validators.required]],
       noticedate: [null, [Validators.required]],
@@ -95,11 +93,22 @@ export class HrInterviewComponent implements OnInit {
       place: [null, [Validators.required]],
       // replydate: [null],
       // checkdate: [null],
-      validdate: [null],
+      validdate: [null, [Validators.required]],
     });
-    this.fileList = [];
+    //this.initList();
   }
-  add(title: TemplateRef<{}>, content: TemplateRef<{}>) {   
+  initList() {   
+    var querylist = {
+      page: 1,
+      size: 999
+    }
+    this._eipHrInterviewService.GetCandidateList(querylist).subscribe(result => {
+      console.log(result);
+      this.candidateList = result["data"];
+    });   
+  }
+  add(title: TemplateRef<{}>, content: TemplateRef<{}>) {
+    this.initList();
     this.initaddForm(); 
     this.tplModal = this._modalService.create({
       nzTitle: title,
@@ -146,15 +155,18 @@ export class HrInterviewComponent implements OnInit {
     if (this.editForm.valid) {
       let interview: any = {};
       interview.interviewId = this.editForm.value['interviewId'];     
-      interview.candidate = this.editForm.value['candidate'];
+      //interview.candidate = this.editForm.value['candidate'];
       interview.dept = this.editForm.value['dept'];
-      interview.noticeDate = this.editForm.value['noticeDate'];
-      interview.interviewDate = this.editForm.value['interviewDate'];  
+      //interview.noticeDate = `${this.editForm.value['noticeDate'].getFullYear()}-${this.editForm.value['noticeDate'].getMonth() + 1}-${this.editForm.value['noticeDate'].getDate()}`;
+      interview.interviewDate = `${this.editForm.value['interviewdate'].getFullYear()}-${this.editForm.value['interviewdate'].getMonth() + 1}-${this.editForm.value['interviewdate'].getDate()} ${this.editForm.value['interviewdate'].getHours()}:${this.editForm.value['interviewdate'].getMinutes()}`; 
       interview.interviewer = this.editForm.value['interviewer'];
-      interview.replyDate = this.editForm.value['replyDate'];
-      interview.checkDate = this.editForm.value['checkDate'];
-      interview.validDate = this.editForm.value['validDate'];   
-      interview.user = this._storageService.userName;      
+      interview.place = this.editForm.value['place'];
+      // interview.replyDate = this.editForm.value['replyDate'];
+      // interview.checkDate = this.editForm.value['checkDate'];
+      interview.validDate = `${this.editForm.value['validDate'].getFullYear()}-${this.editForm.value['validDate'].getMonth() + 1}-${this.editForm.value['validDate'].getDate()}`; 
+      interview.user = this._storageService.userName;  
+      
+      console.info(interview);
 
       this._eipHrInterviewService.update(interview).subscribe(result => {
         this._messageService.success("更新成功！");
@@ -164,6 +176,7 @@ export class HrInterviewComponent implements OnInit {
     }
   } 
   submitadd(title: TemplateRef<{}>, content: TemplateRef<{}>,HR:hr) {
+    console.info(123);
     for (const i in this.addForm.controls) {
       this.addForm.controls[i].markAsDirty();
       this.addForm.controls[i].updateValueAndValidity();
@@ -180,11 +193,11 @@ export class HrInterviewComponent implements OnInit {
       // interview.replydate = this.addForm.value['replydate'];
       // interview.checkdate = this.addForm.value['checkdate'];
       interview.validdate = this.addForm.value['validdate'];
-      interview.user = this._storageService.userName;
+      interview.user = this._storageService.userName;  
+      
+      console.info(interview);
 
-      console.log(interview);
-
-      this._eipHrInterviewService.add(interview).subscribe(result => {
+      this._eipHrInterviewService.add(interview).subscribe(() => {
         this._messageService.success("新增成功");
         this.tplModal.close();
         this.refresh();
@@ -206,9 +219,17 @@ export class HrInterviewComponent implements OnInit {
     }
     //console.log(query);
     this._eipHrInterviewService.GetInterviewList(query).subscribe(result => {
-      console.log(this.data);
       this.data = result["data"];
       this.total = result["count"];
+    });
+  }
+  sendMail(interview:hr){
+    var query = {
+      InterviewId:interview.interviewId,
+      User:this._storageService.userName,
+    }
+    this._eipHrInterviewService.SendMail(query).subscribe(result => {   
+      this._messageService.success("面試邀請寄送成功");
     });
   }
 }

@@ -66,5 +66,22 @@ namespace Convience.ManagentApi.Controllers.EIP
                 return this.BadRequestResult(ex.Message);
             }
         }
+        [HttpPost("GetCandidateList")]
+        public IActionResult GetCandidateList(QueryCandidate data)
+        {
+            return Ok(_hrInterviewService.GetCandidateList(data));
+        }
+        [HttpPost("SendMail")]
+        public IActionResult SendMail(ViewhrInterview data)
+        {
+            try
+            {
+                return Ok(_hrInterviewService.SendMail(data));
+            }
+            catch (Exception ex)
+            {
+                return this.BadRequestResult(ex.Message);
+            }
+        }
     }
 }

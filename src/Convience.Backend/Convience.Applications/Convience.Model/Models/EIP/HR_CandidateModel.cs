@@ -12,6 +12,7 @@ namespace Convience.Model.Models.EIP
         public string StatusDesc { get; set; }
         //public string UnitDesc { get; set; }
         public string User { get; set; }
+        public string Guid { get; set; }
     }
     public record QueryCandidate : PageQueryModel
     {

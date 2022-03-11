@@ -10,7 +10,7 @@ namespace Convience.Entity.Entity.EIP
     public partial class HrInterview
     {
         public int InterviewId { get; set; }
-        public string Candidate { get; set; }
+        public int? Candidate { get; set; }
         public string Dept { get; set; }
         public DateTime? NoticeDate { get; set; }
         public DateTime? InterviewDate { get; set; }

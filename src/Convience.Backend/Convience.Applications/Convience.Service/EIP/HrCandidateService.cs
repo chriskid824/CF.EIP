@@ -36,16 +36,20 @@ namespace Convience.Service.EIP
         {
             int skip = (query.Page - 1) * query.Size;
 
-            var resultQuery = (from hr in _context.HrCandidates
+            var resultQuery = (from user in _context.HrCandidates                   
+                               join interview in _context.HrInterviews on new { user.CandidateId } equals new { CandidateId=interview.Candidate.Value }
+                               into a from interview in a.DefaultIfEmpty()
+                               join statusdesc in _context.HrStatusdescs on user.Status equals statusdesc.StatusId
 
                                select new ViewhrCandidate
                                {
-                                   CandidateId = hr.CandidateId,
-                                   Username = hr.Username,
-                                   Cellphone = hr.Cellphone,
-                                   Email = hr.Email,
-                                   Status = hr.Status,
-
+                                   CandidateId = user.CandidateId,
+                                   Username = user.Username,
+                                   Cellphone = user.Cellphone,
+                                   Email = user.Email,
+                                   Status = user.Status,
+                                   Guid = interview.Guid,
+                                   StatusDesc = statusdesc.StatusDesc,
                                })
                           .AndIfHaveValue(query.name, r => r.Username.Contains(query.name));
 

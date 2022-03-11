@@ -1,5 +1,13 @@
+
 <div style="width:850px;height:1200px;margin:0px auto;margin-top: 10px;">
-    <nz-card>
+    <div style="height: 50px;">
+        <!-- <h1>千附實業招募系統</h1> -->
+        <img src="\assets\千附實業.png">
+        <button nz-button class="bar" (click)="work()" >工作申請表</button>
+        <button nz-button class="bar" (click)="consent()" >個資使用同意書</button>
+        <button nz-button class="bar" (click)="imformation()" >基本資料問題表</button>
+    </div>
+    <nz-card class="card">
         <img src="\assets\個人資料使用同意書.jpg" style="display:block; margin:auto;"><br>
         <div style="margin-left: 75%;">
             <nz-form-item [formGroup]="consentForm">
@@ -14,7 +22,7 @@
                         autocomplete="off" />
                 </nz-form-control>
             </nz-form-item>
-            <button nz-button class="mr-10" style="margin-left:62%" ><i nz-icon nzType="send"></i>送出</button>
+            <button nz-button type="button" class="mr-10" *ngIf="logonid==null" (click)="send()" style="margin-left:50%" ><i nz-icon nzType="send"></i>確認送出</button>
         </div>
     </nz-card>
     
@@ -22,7 +30,7 @@
     margin-right: 10px;">
         <h1 style="font-family: 微軟正黑體;font-size:30px;text-align: center;">個人資料使用同意書</h1>
         <button nz-button class="mr-10" ><i nz-icon nzType="save"></i>送出</button>
-        <nz-card>
+        <nz-card class="card">
             <img src="\assets\個人資料使用同意書.jpg" style="display:block; margin:auto;">
         </nz-card>
     </div> -->

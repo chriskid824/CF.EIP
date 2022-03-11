@@ -30,6 +30,78 @@ namespace Convience.ManagentApi.Controllers.EIP
             {
                 return this.BadRequestResult(ex.Message);
             }
-        }        
+        }
+        [HttpPost("SendImformation")]
+        public IActionResult SendImformation(ViewhrFormImformation data)
+        {
+            try
+            {
+                return Ok(_hrFormService.SendImformation(data));
+            }
+            catch (Exception ex)
+            {
+                return this.BadRequestResult(ex.Message);
+            }
+        }
+        [HttpPost("GetImformationData")]
+        public IActionResult GetWorkData(ViewhrFormImformation data)
+        {
+            try
+            {
+                return Ok(_hrFormService.GetImformationData(data));
+            }
+            catch (Exception ex)
+            {
+                return this.BadRequestResult(ex.Message);
+            }
+        }
+        [HttpPost("SendWork")]
+        public IActionResult SendWork(ViewhrFormWork data)
+        {
+            try
+            {
+                return Ok(_hrFormService.SendWork(data));
+            }
+            catch (Exception ex)
+            {
+                return this.BadRequestResult(ex.Message);
+            }
+        }
+        [HttpPost("GetWorkData")]
+        public IActionResult GetWorkData(ViewhrFormWork data)
+        {
+            try
+            {
+                return Ok(_hrFormService.GetWorkData(data));
+            }
+            catch (Exception ex)
+            {
+                return this.BadRequestResult(ex.Message);
+            }
+        }
+        [HttpPost("SendConsent")]
+        public IActionResult SendConsent(ViewhrFormConsent data)
+        {
+            try
+            {
+                return Ok(_hrFormService.SendConsent(data));
+            }
+            catch (Exception ex)
+            {
+                return this.BadRequestResult(ex.Message);
+            }
+        }
+        [HttpPost("GetConsentData")]
+        public IActionResult GetWorkData(ViewhrFormConsent data)
+        {
+            try
+            {
+                return Ok(_hrFormService.GetConsentData(data));
+            }
+            catch (Exception ex)
+            {
+                return this.BadRequestResult(ex.Message);
+            }
+        }
     }
 }

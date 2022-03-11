@@ -47,16 +47,23 @@ export class HrUserComponent implements OnInit {
       name:[null]
     });
   }
+  openwork(guid) {
+    //this._router.navigate(["hr-form/hr-form-work"],{queryParams:{GUID:guid}});
+    window.open('../hr-form/hr-form-work?GUID=' + guid);
+  }
+  openimformation(guid) {
+    //this._router.navigate(["hr-form/hr-form-work"],{queryParams:{GUID:guid}});
+    window.open('../hr-form/hr-form-imformation?GUID=' + guid);
+  }
+  openconsent(guid) {
+    //this._router.navigate(["hr-form/hr-form-work"],{queryParams:{GUID:guid}});
+    window.open('../hr-form/hr-form-consent?GUID=' + guid);
+  }
   submitSearch() {
     this.refresh();
   }
   pageChange() {
     this.refresh();
-  }
-  addmaterial() {
-    //this._layout.navigateTo('material-c');
-    this._router.navigate(['srm/material-c']);
-    //window.open('../srm/rfq');
   }
   edit(title: TemplateRef<{}>, content: TemplateRef<{}>,user:hr) {    
     var query = {

@@ -21,6 +21,8 @@ namespace Convience.Service.EIP
         public bool UpdateInterview(ViewhrInterview data);
         public bool DeleteList(ViewhrInterview data);
         public ViewhrInterview AddList(ViewhrInterview data);
+        public PagingResultModel<HrCandidate> GetCandidateList(QueryCandidate query);
+        public ViewhrInterview SendMail(ViewhrInterview data);
 
     }
     public class HrInterviewService : IHrInterviewService
@@ -42,18 +44,19 @@ namespace Convience.Service.EIP
 
 
             var resultQuery = (from hr in _context.HrInterviews
-
+                               join user in _context.HrCandidates on hr.Candidate equals user.CandidateId
+                               join work in _context.HrFormWorks on user.CandidateId equals work.CandidateId
                                select new ViewhrInterview
                                {
                                    InterviewId = hr.InterviewId,
-                                   Candidate = hr.Candidate,
+                                   UserName = user.Username,
                                    Dept = hr.Dept,
                                    NoticeDate = hr.NoticeDate,
                                    InterviewDate = hr.InterviewDate,
                                    Interviewer = hr.Interviewer,
                                    Place = hr.Place,
-                                   ReplyDate = hr.ReplyDate,
-                                   CheckDate = hr.CheckDate,
+                                   ReplyDate = work.LastUpdateDate,
+                                   //CheckDate = hr.CheckDate,
                                    ValidDate = hr.ValidDate,
                                    Status = hr.Status,
                                })                               
@@ -73,10 +76,11 @@ namespace Convience.Service.EIP
         public ViewhrInterview GetInterviewDetail(QueryInterview query)
         {
             var detail = (from hr in _context.HrInterviews
-                            select new ViewhrInterview
+                          join user in _context.HrCandidates on hr.Candidate equals user.CandidateId
+                          select new ViewhrInterview
                             {
                                 InterviewId = hr.InterviewId,
-                                Candidate = hr.Candidate,
+                                UserName = user.Username,
                                 Dept = hr.Dept,
                                 NoticeDate = hr.NoticeDate,
                                 InterviewDate = hr.InterviewDate,
@@ -97,7 +101,7 @@ namespace Convience.Service.EIP
             return new ViewhrInterview
             {
                 InterviewId = detail.InterviewId,
-                Candidate = detail.Candidate,
+                UserName = detail.UserName,
                 Dept = detail.Dept,
                 NoticeDate = detail.NoticeDate,
                 InterviewDate = detail.InterviewDate,
@@ -113,7 +117,7 @@ namespace Convience.Service.EIP
         {
             HrInterview hr = _context.HrInterviews.Where(p => p.InterviewId == data.InterviewId).FirstOrDefault();
 
-            hr.Candidate = data.Candidate;
+            //hr.Candidate = data.Candidate;
             hr.Dept = data.Dept;
             hr.NoticeDate = data.NoticeDate;
             hr.InterviewDate = data.InterviewDate;
@@ -143,10 +147,15 @@ namespace Convience.Service.EIP
         }
         public ViewhrInterview AddList(ViewhrInterview data)
         {
+            HrInterview repit = _context.HrInterviews.Where(p => p.Candidate == data.Candidate).FirstOrDefault();
             HrInterview interview = _context.HrInterviews.Where(p => p.Interviewer == data.Interviewer && p.InterviewDate == data.InterviewDate).FirstOrDefault();
-            HrCandidate user = _context.HrCandidates.Where(p => p.Username == data.Candidate).FirstOrDefault();
-            User interviewer = _context2.Users.Where(p => p.Username == data.Interviewer && p.Enable == "Y").FirstOrDefault();
+            HrCandidate user = _context.HrCandidates.Where(p => p.CandidateId == data.Candidate).FirstOrDefault();
+            User interviewer = _context2.Users.Where(p => p.Username == data.Interviewer && p.Enable == "Y" && p.Job!="9" ).FirstOrDefault();
 
+            if (repit != null)
+            {
+                throw new Exception("此應聘者已重複建立面試申請");
+            }
             if (interview != null)
             {
                 throw new Exception("該面試官此時段已有其他面試");
@@ -185,16 +194,69 @@ namespace Convience.Service.EIP
             _context.HrInterviews.Add(hr);
             _context.SaveChanges();
 
-            SendMail(data);
+            //Mail(data);
 
             return new ViewhrInterview
             {
                 //Username = hr.Username,
             };
         }
-        public void SendMail(ViewhrInterview data)
+        public PagingResultModel<HrCandidate> GetCandidateList(QueryCandidate query)
         {
-            User user = _context2.Users.Where(p => p.Username == data.Interviewer && p.Enable == "Y").FirstOrDefault();
+            int skip = (query.Page - 1) * query.Size;
+            var resultQuery = (from hr in _context.HrCandidates
+                               select hr);
+            var list = resultQuery.Skip(skip).Take(query.Size).ToArray();
+
+
+            return new PagingResultModel<HrCandidate>
+            {
+                Data = JsonConvert.DeserializeObject<HrCandidate[]>(JsonConvert.SerializeObject(list)),
+                Count = resultQuery.Count()
+            };
+        }
+        public ViewhrInterview SendMail(ViewhrInterview data)
+        {
+            HrInterview interview = _context.HrInterviews.Where(p => p.InterviewId == data.InterviewId).FirstOrDefault();
+            HrCandidate user = _context.HrCandidates.Where(p => p.CandidateId == interview.Candidate).FirstOrDefault();
+            if (interview == null)
+            {
+                throw new Exception("查無此筆面試申請");
+            }
+            if (interview.Status == 2)
+            {
+                throw new Exception("此筆面試申請已發送邀請");
+            }
+            if (interview != null)
+            {
+                Mail(interview);
+                interview.Status = 2;
+                interview.LastUpdateDate = DateTime.Now;
+                interview.LastUpdateBy = data.User;
+                user.Status = 2;
+                user.LastUpdateDate = DateTime.Now;
+                user.LastUpdateBy = data.User;
+
+                _context.HrCandidates.Update(user);
+                _context.HrInterviews.Update(interview);
+                _context.SaveChanges();
+            }
+            return new ViewhrInterview();
+        }
+        public void Mail(HrInterview data)
+        {
+            User boss = _context2.Users.Where(p => p.Username == data.Interviewer && p.Enable == "Y" && p.Job != "9").FirstOrDefault();
+            HrCandidate candidate = _context.HrCandidates.Where(p => p.CandidateId == data.Candidate).FirstOrDefault();
+
+
+            if (boss == null || string.IsNullOrWhiteSpace(boss.Email))
+            {
+                throw new Exception("查無面試主管mail");
+            }
+            if (candidate == null || string.IsNullOrWhiteSpace(candidate.Email))
+            {
+                throw new Exception("查無應聘人員mail");
+            }
 
             SmtpClient cv = new SmtpClient("mail.chenfull.com.tw", 25);
             //啟用SSL
@@ -209,9 +271,9 @@ namespace Convience.Service.EIP
                 sbHeading.AppendLine("<html>");
                 sbHeading.AppendLine("<body style='font-family:標楷體;'>");
                 sbHeading.AppendLine("<p>您好，我是千附實業HR，誠摯地邀請您前來參加面談，屆時請準時參加。</p><br/>");
-                sbHeading.AppendLine($"<p>應聘者：{data.Candidate}</p>");
+                sbHeading.AppendLine($"<p>應聘者：{candidate.Username}</p>");
                 sbHeading.AppendLine($"<p>面試職位：{data.Dept}</p>");
-                sbHeading.AppendLine($"<p>面試時間：{data.I_date}</p>");
+                sbHeading.AppendLine($"<p>面試時間：{data.InterviewDate.Value.ToString("yyyy/MM/dd HH:mm")}</p>");
                 sbHeading.AppendLine($"<p>面試地點：{data.Place}</p><br/>");
 
                 sbHeading.AppendLine("<p>請於面試前將以下資料填寫完畢：</p>");
@@ -228,20 +290,20 @@ namespace Convience.Service.EIP
                 sbHeading.AppendLine("</body>");
                 sbHeading.AppendLine("</html>");
 
-                string SendTo = string.Empty;
-                string where = string.Empty;
 
                 MailMessage msg = new MailMessage("mis@chenfull.com.tw","j556631235@gmail.com", "面試邀請通知", sbHeading.ToString());
+                //MailMessage msg = new MailMessage("mis@chenfull.com.tw", candidate.Email, "面試邀請通知", sbHeading.ToString());
+
                 msg.IsBodyHtml = true;
                 msg.Bcc.Add("jerrychen@chenfull.com.tw");
+                //msg.Bcc.Add(boss.Email);
                 cv.Send(msg);
 
 
             }
             catch (Exception ex)
             {
-                Console.WriteLine("email cannot  send sucessfully under below reasons");
-                Console.WriteLine(ex.Message);
+                throw new Exception("面試邀請寄送失敗，"+ex.ToString());
             }
         }
     }

@@ -23,4 +23,10 @@ export class HrInterviewService {
   add(data) {
     return this.httpClient.post(`${this.uriConstant.HrInterview}/AddList`, data);
   }
+  GetCandidateList(query){
+    return this.httpClient.post(`${this.uriConstant.HrInterview}/GetCandidateList`, query);
+  }
+  SendMail(query){
+    return this.httpClient.post(`${this.uriConstant.HrInterview}/SendMail`, query);
+  }
 }
