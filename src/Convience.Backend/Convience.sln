@@ -68,6 +68,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Convience.Helper", "Convience.Helper\Convience.Helper.csproj", "{FE0F8A60-367E-478E-AEE1-B3E58669E178}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -166,6 +168,10 @@ Global
 		{AE8C8D01-BE96-45E1-9FD0-944B2D917D2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AE8C8D01-BE96-45E1-9FD0-944B2D917D2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AE8C8D01-BE96-45E1-9FD0-944B2D917D2A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FE0F8A60-367E-478E-AEE1-B3E58669E178}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE0F8A60-367E-478E-AEE1-B3E58669E178}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE0F8A60-367E-478E-AEE1-B3E58669E178}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE0F8A60-367E-478E-AEE1-B3E58669E178}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -199,6 +205,7 @@ Global
 		{7E9225C6-BBA1-45FA-A3E8-AC0E45638C69} = {B2FBD460-03C9-44A5-8325-4DE983290B8E}
 		{4ABF02B1-1B1B-4D09-9A59-F895024AFCDE} = {116CE78A-855F-4077-B201-45C2564B8E51}
 		{AE8C8D01-BE96-45E1-9FD0-944B2D917D2A} = {4ABF02B1-1B1B-4D09-9A59-F895024AFCDE}
+		{FE0F8A60-367E-478E-AEE1-B3E58669E178} = {116CE78A-855F-4077-B201-45C2564B8E51}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {849E7953-7A28-4DDF-A3B5-B9FC5B203823}

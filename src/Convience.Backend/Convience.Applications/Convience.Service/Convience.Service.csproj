@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Convience.Helper\Convience.Helper.csproj" />
     <ProjectReference Include="..\Convience.Caching\Convience.Caching.csproj" />
   </ItemGroup>
 

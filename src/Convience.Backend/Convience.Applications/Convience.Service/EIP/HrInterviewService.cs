@@ -45,7 +45,9 @@ namespace Convience.Service.EIP
 
             var resultQuery = (from hr in _context.HrInterviews
                                join user in _context.HrCandidates on hr.Candidate equals user.CandidateId
-                               join work in _context.HrFormWorks on user.CandidateId equals work.CandidateId
+                               join work in _context.HrFormWorks on new { user.CandidateId } equals new { work.CandidateId }
+                               into a from work in a.DefaultIfEmpty()
+                               join statusdesc in _context.HrStatusdescs on user.Status equals statusdesc.StatusId
                                select new ViewhrInterview
                                {
                                    InterviewId = hr.InterviewId,
@@ -58,7 +60,7 @@ namespace Convience.Service.EIP
                                    ReplyDate = work.LastUpdateDate,
                                    //CheckDate = hr.CheckDate,
                                    ValidDate = hr.ValidDate,
-                                   Status = hr.Status,
+                                   StatusDesc = statusdesc.StatusDesc,
                                })                               
                           .AndIfHaveValue(query.date, r => r.InterviewDate.Value.Date.Equals(query.date.Value.Date)).ToList();
             //.AndIfHaveValue(query._date, r => r.InterviewDate.ToString().IndexOf(query._date)>0).ToList();

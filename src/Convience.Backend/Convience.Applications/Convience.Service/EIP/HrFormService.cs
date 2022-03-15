@@ -1,5 +1,6 @@
 ﻿using Convience.Entity.Entity.EIP;
 using Convience.EntityFrameWork.Repositories;
+using Convience.Helper;
 using Convience.Model.Models;
 using Convience.Model.Models.EIP;
 using Convience.Util.Extension;
@@ -23,6 +24,8 @@ namespace Convience.Service.EIP
         public ViewhrFormImformation GetImformationData(ViewhrFormImformation data);
         public ViewhrFormConsent SendConsent(ViewhrFormConsent data);
         public ViewhrFormConsent GetConsentData(ViewhrFormConsent data);
+
+        public ViewhrInterview PrintImformation(ViewhrInterview data);
     }
     public class HrFormService : IHrFormService
     {
@@ -336,6 +339,12 @@ namespace Convience.Service.EIP
                     LastUpdateBy = user.Username,
                 };
                 _context.HrFormWorks.Add(work);
+
+                user.Status = 3;
+                hr.Status = 3;
+
+                _context.HrCandidates.Update(user);
+                _context.HrInterviews.Update(hr);
             }
             else
             {
@@ -782,6 +791,36 @@ namespace Convience.Service.EIP
                     Identity = consent.Identity,
                 };
             }
+        }
+        public ViewhrInterview PrintImformation(ViewhrInterview data)
+        {
+            HrInterview interview = _context.HrInterviews.Where(p=> p.Guid == data.Guid).FirstOrDefault();
+            HrFormImformation imform = _context.HrFormImformations.Where(p => p.CandidateId == interview.Candidate).FirstOrDefault();
+            HrCandidate user = _context.HrCandidates.Where(p => p.CandidateId == interview.Candidate).FirstOrDefault();
+
+            WordHelper helper = new WordHelper();
+            string s = string.Empty;
+            Dictionary<string, string> fields = new Dictionary<string, string>();
+            fields.Add("q1", imform.Q1);
+            fields.Add("q2", imform.Q2);
+            fields.Add("q3", imform.Q3);
+            fields.Add("q4", imform.Q4);
+            fields.Add("q5", imform.Q5);
+            fields.Add("q6", imform.Q6);
+            fields.Add("q7", imform.Q7);
+            fields.Add("q8", imform.Q8);
+            fields.Add("q9", imform.Q9);
+            fields.Add("q10", imform.Q10);
+            fields.Add("q11", imform.Q11);
+            fields.Add("q12", imform.Q12);
+
+            s = helper.MakeDocxFile($"基本資料問題表.docx", "基本資料問題表_" + user.Username, fields);
+
+
+            return new ViewhrInterview 
+            {
+                FileName = "基本資料問題表_" + user.Username,
+            };
         }
     }
 }

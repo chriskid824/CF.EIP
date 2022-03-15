@@ -69,7 +69,6 @@ export class LayoutComponent implements OnInit {
       children: [
         { canOperate: 'user', routerLink: '/eip/hr-user', iconType: 'fund-view', firstBreadcrumb: 'HR招募系統', lastBreadcrumb: '應聘者資料', name: '應聘者資料', },
         { canOperate: 'interview', routerLink: '/eip/hr-interview', iconType: 'fund-view', firstBreadcrumb: 'HR招募系統', lastBreadcrumb: '面試申請', name: '面試申請', },
-        { canOperate: 'data', routerLink: '/eip/hr-data', iconType: 'fund-view', firstBreadcrumb: 'HR招募系統', lastBreadcrumb: '面試者資料管理', name: '面試者資料管理', },
       ]
     }
   ];

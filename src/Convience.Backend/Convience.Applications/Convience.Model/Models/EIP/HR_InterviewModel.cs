@@ -13,6 +13,7 @@ namespace Convience.Model.Models.EIP
         //public string UnitDesc { get; set; }
         public string User { get; set; }
         public string UserName { get; set; }
+        public string FileName { get; set; }
         public string N_date { get { return NoticeDate.HasValue ? NoticeDate.Value.ToString("yyyy/MM/dd") : ""; } }
         public string I_date { get { return InterviewDate.HasValue ? InterviewDate.Value.ToString("yyyy/MM/dd HH:mm") : ""; } }
         public string V_date { get { return ValidDate.HasValue ? ValidDate.Value.ToString("yyyy/MM/dd") : ""; } }

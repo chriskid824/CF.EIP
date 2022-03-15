@@ -3,6 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { StorageService } from '../../../services/storage.service';
+import { FileService } from '../../../business/file.service';
+import { FileInfo } from '../../content-manage/model/fileInfo';
 
 import { HrFormService } from '../../../business/eip/hr-form.service';
 @Component({
@@ -21,7 +23,8 @@ export class HrFormImformationComponent implements OnInit {
     private _eipHrFormService: HrFormService,
     private _router: Router,
     private _formBuilder: FormBuilder,
-    private _storageService: StorageService, ) { }
+    private _storageService: StorageService, 
+    private _fileService: FileService,) { }
 
   ngOnInit(): void {
     this.logonid=this._storageService.userName;
@@ -119,5 +122,24 @@ export class HrFormImformationComponent implements OnInit {
         this.imformationForm.controls[i].updateValueAndValidity();
       }
     }
+  }
+  print(){
+    var query = {
+      Guid: this.route.snapshot.queryParamMap.get('GUID'),
+    }
+    this._eipHrFormService.PrintImformation(query).subscribe(result => {
+      console.info(result);
+      var fileInfo = new FileInfo();
+      fileInfo.fileName= result["fileName"]+".docx";
+      fileInfo.directory = "Report/Output";
+      this._fileService.download(fileInfo.fileName, fileInfo.directory).subscribe((result: any) => {
+        const a = document.createElement('a');
+        const blob = new Blob([result], { 'type': "application/octet-stream" });
+        a.href = URL.createObjectURL(blob);
+        console.log(blob);
+        a.download = fileInfo.fileName;
+        a.click();
+      });
+    });
   }
 }

@@ -6,7 +6,7 @@ using Convience.Util.Extension;
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
+using System;
 using System.Threading.Tasks;
 
 namespace Convience.ManagentApi.Controllers.ContentManage
@@ -61,8 +61,15 @@ namespace Convience.ManagentApi.Controllers.ContentManage
         [LogFilter("内容管理", "文件管理", "下载文件")]
         public async Task<IActionResult> DownloadFile([FromQuery] FileViewModel viewModel)
         {
-            var stream = await _fileManageService.DownloadAsync(viewModel);
-            return File(stream, "application/octet-stream", viewModel.FileName);
+            try
+            {
+                var stream = await _fileManageService.DownloadAsync(viewModel);
+                return File(stream, "application/octet-stream", viewModel.FileName);
+            }
+            catch (Exception ex)
+            {
+                return this.BadRequestResult(ex.Message);
+            }
         }
     }
 }

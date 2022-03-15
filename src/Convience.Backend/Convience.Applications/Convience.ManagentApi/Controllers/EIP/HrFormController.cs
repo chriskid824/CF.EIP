@@ -103,5 +103,18 @@ namespace Convience.ManagentApi.Controllers.EIP
                 return this.BadRequestResult(ex.Message);
             }
         }
+        [HttpPost("PrintImformation")]
+        public IActionResult PrintImformation(ViewhrInterview data)
+        {
+            try
+            {
+                return Ok(_hrFormService.PrintImformation(data));
+            }
+            catch (Exception ex)
+            {
+                return this.BadRequestResult(ex.Message);
+            }
+        }
+
     }
 }

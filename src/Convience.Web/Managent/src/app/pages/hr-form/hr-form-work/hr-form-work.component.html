@@ -7,7 +7,9 @@
         <button nz-button class="bar" (click)="imformation()" >基本資料問題表</button>
     </div>
     <div>
-        <h1 style="font-family: 微軟正黑體;font-size:28px;text-align: center;">工作申請表</h1>
+        <h1 style="font-family: 微軟正黑體;font-size:28px;text-align: center;">工作申請表
+            <button nz-button style="float:right;margin-right: 5px;" *ngIf="logonid!=null" (click)="print()" ><i nz-icon nzType="printer"></i>列印</button>
+        </h1>
         <nz-card class="card">
             <form nz-form [nzLayout]="'inline'" [formGroup]="workForm">
                 <table>

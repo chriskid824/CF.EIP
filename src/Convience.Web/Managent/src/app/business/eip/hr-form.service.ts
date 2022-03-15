@@ -29,4 +29,7 @@ export class HrFormService {
   GetConsentData(GUID){
     return this.httpClient.post(`${this.uriConstant.HrForm}/GetConsentData`, GUID);
   }
+  PrintImformation(GUID){
+    return this.httpClient.post(`${this.uriConstant.HrForm}/PrintImformation`, GUID);
+  }
 }
