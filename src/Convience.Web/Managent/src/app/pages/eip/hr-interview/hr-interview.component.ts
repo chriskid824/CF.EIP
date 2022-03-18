@@ -73,9 +73,11 @@ export class HrInterviewComponent implements OnInit {
         place: [result['place']],
         // replyDate: [result['replyDate']],
         // checkDate: [result['checkDate']],  
-        validDate: [result['validDate']],
+        validDate: [result['validDate']],        
       });
       this.interviewDate=result['interviewDate'];
+      this.noticeDate=result['noticeDate'];
+      this.validDate=result['validDate'];
       //console.info(result);
       this.tplModal = this._modalService.create({
         nzTitle: title,
@@ -170,8 +172,7 @@ export class HrInterviewComponent implements OnInit {
     for (const i in this.editForm.controls) {
       this.editForm.controls[i].markAsDirty();
       this.editForm.controls[i].updateValueAndValidity();
-    }
-    
+    }    
     console.info(this.validDate);
     if (this.editForm.valid) {
       let interview: any = {};
