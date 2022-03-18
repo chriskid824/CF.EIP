@@ -23,6 +23,7 @@ namespace Convience.Entity.Entity.EIP
         public virtual DbSet<HrFormWork> HrFormWorks { get; set; }
         public virtual DbSet<HrFormConsent> HrFormConsents { get; set; }
         public virtual DbSet<HrStatusdesc> HrStatusdescs { get; set; }
+        public virtual DbSet<HrMailsign> HrMailsigns { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -931,6 +932,49 @@ namespace Convience.Entity.Entity.EIP
                     .IsRequired()
                     .HasMaxLength(10)
                     .HasColumnName("STATUS_DESC");
+            });
+
+            modelBuilder.Entity<HrMailsign>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToTable("HR_MAILSIGN");
+
+                entity.Property(e => e.Logonid)
+                    .HasMaxLength(10)
+                    .HasColumnName("LOGONID");
+
+                entity.Property(e => e.Sign1)
+                    .HasMaxLength(50)
+                    .HasColumnName("SIGN1");
+
+                entity.Property(e => e.Sign2)
+                    .HasMaxLength(50)
+                    .HasColumnName("SIGN2");
+
+                entity.Property(e => e.Sign3)
+                    .HasMaxLength(50)
+                    .HasColumnName("SIGN3");
+
+                entity.Property(e => e.Sign4)
+                    .HasMaxLength(50)
+                    .HasColumnName("SIGN4");
+
+                entity.Property(e => e.Sign5)
+                    .HasMaxLength(50)
+                    .HasColumnName("SIGN5");
+
+                entity.Property(e => e.Sign6)
+                    .HasMaxLength(50)
+                    .HasColumnName("SIGN6");
+
+                entity.Property(e => e.Sign7)
+                    .HasMaxLength(50)
+                    .HasColumnName("SIGN7");
+
+                entity.Property(e => e.Sign8)
+                    .HasMaxLength(50)
+                    .HasColumnName("SIGN8");
             });
 
             OnModelCreatingPartial(modelBuilder);

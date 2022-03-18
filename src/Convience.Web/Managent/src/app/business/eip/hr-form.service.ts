@@ -32,4 +32,7 @@ export class HrFormService {
   PrintImformation(GUID){
     return this.httpClient.post(`${this.uriConstant.HrForm}/PrintImformation`, GUID);
   }
+  PrintWork(GUID){
+    return this.httpClient.post(`${this.uriConstant.HrForm}/PrintWork`, GUID);
+  }
 }

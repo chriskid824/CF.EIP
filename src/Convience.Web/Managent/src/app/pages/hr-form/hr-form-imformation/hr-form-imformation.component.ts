@@ -28,22 +28,6 @@ export class HrFormImformationComponent implements OnInit {
 
   ngOnInit(): void {
     this.logonid=this._storageService.userName;
-    var query = {
-      Guid: this.route.snapshot.queryParamMap.get('GUID'),
-      User: this._storageService.userName,
-    }
-    this._eipHrFormService.CheckFormURL(query).subscribe(result => {
-      console.log(result);
-      if(!result)
-      {
-        alert("無權限進入此頁面，請聯繫HR");
-        this._router.navigate(['hr-form/hr-form-error']);
-      }
-      else
-      {
-        this.getData();
-      }
-    });
     this.imformationForm = this._formBuilder.group({
       iform_q1: [null,[Validators.required]],
       iform_q2: [null,[Validators.required]],
@@ -58,6 +42,44 @@ export class HrFormImformationComponent implements OnInit {
       iform_q11: [null,[Validators.required]],
       iform_q12: [null,[Validators.required]],
     });
+    this.checkPermission();
+    // var query = {
+    //   Guid: this.route.snapshot.queryParamMap.get('GUID'),
+    //   User: this._storageService.userName,
+    // }
+    // this._eipHrFormService.CheckFormURL(query).subscribe(result => {
+    //   console.log(result);
+    //   if(!result)
+    //   {
+    //     alert("無權限進入此頁面，請聯繫HR");
+    //     this._router.navigate(['hr-form/hr-form-error']);
+    //   }
+    //   else
+    //   {
+    //     this.getData();
+    //   }
+    // });   
+  }
+  checkPermission(){
+      var query = {
+        Guid: this.route.snapshot.queryParamMap.get('GUID'),
+        User: this._storageService.userName,
+      }
+      this._eipHrFormService.CheckFormURL(query).subscribe(result => {
+        console.log(result);
+        if(!result)
+        {
+          alert("無權限進入此頁面，請聯繫HR");
+          this._router.navigate(['hr-form/hr-form-error']);
+        }
+        else
+        {
+          if (this.logonid!=null)
+          {
+            this.getData();
+          }
+        }
+      });   
   }
   getData(){
     var query = {

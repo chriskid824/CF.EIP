@@ -79,8 +79,6 @@ namespace Convience.Service.EIP
                           //.Where(r => r.Ekorg == query.Ekorg)
                           ;
 
-            //var suppliers = supplier.ToArray();
-            //
             return new ViewhrCandidate
             {
                 CandidateId = detail.CandidateId,
@@ -109,21 +107,17 @@ namespace Convience.Service.EIP
         {
             HrCandidate candidate = _context.HrCandidates.Where(p => p.CandidateId == data.CandidateId).FirstOrDefault();
 
-
-            //if (rfqm != null || inforecord != null || qoth != null)
-            //{
-            //    throw new Exception("此料號已有申請紀錄，無法刪除");
-            //}
-
+            if (candidate.Status != 1)
+            {
+                throw new Exception("該應聘者已發送面試邀請，無法刪除");
+            }            
+            
             _context.HrCandidates.Remove(candidate);
             _context.SaveChanges();
             return true;
         }
         public ViewhrCandidate AddList(ViewhrCandidate data)
         {
-            string no = string.Empty;
-            string year = DateTime.Now.ToString("yy");
-
             HrCandidate name = _context.HrCandidates.Where(p => p.Username == data.Username).FirstOrDefault();
             HrCandidate cellphone = _context.HrCandidates.Where(p => p.Cellphone == data.Cellphone).FirstOrDefault();
 

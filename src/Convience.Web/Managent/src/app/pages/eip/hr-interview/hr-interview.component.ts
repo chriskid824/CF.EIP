@@ -29,6 +29,9 @@ export class HrInterviewComponent implements OnInit {
   candidateList = [];
 
   editedInterview: hr;
+  interviewDate:any;
+  noticeDate:any;
+  validDate:any;
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -72,6 +75,7 @@ export class HrInterviewComponent implements OnInit {
         // checkDate: [result['checkDate']],  
         validDate: [result['validDate']],
       });
+      this.interviewDate=result['interviewDate'];
       //console.info(result);
       this.tplModal = this._modalService.create({
         nzTitle: title,
@@ -146,27 +150,46 @@ export class HrInterviewComponent implements OnInit {
       this.tplModal.close();
     });
   }
+  interviewDatechange(result:Date)
+  {
+    this.interviewDate=`${this.editForm.value['interviewDate'].getFullYear()}-${this.editForm.value['interviewDate'].getMonth() + 1}-${this.editForm.value['interviewDate'].getDate()} ${this.editForm.value['interviewDate'].getHours()}:${this.editForm.value['interviewDate'].getMinutes()}`;
+    console.log(this.interviewDate);
+  }
+  noticeDatechange(result:Date)
+  {
+    this.noticeDate = `${this.editForm.value['noticeDate'].getFullYear()}-${this.editForm.value['noticeDate'].getMonth() + 1}-${this.editForm.value['noticeDate'].getDate()}`;
+    console.log(this.noticeDate);
+  }
+  validDatechange(result:Date)
+  {
+    this.validDate = `${this.editForm.value['validDate'].getFullYear()}-${this.editForm.value['validDate'].getMonth() + 1}-${this.editForm.value['validDate'].getDate()}`; 
+    console.log(this.validDate);
+  }
 
   submitEdit(title: TemplateRef<{}>, content: TemplateRef<{}>,HR:hr) {
     for (const i in this.editForm.controls) {
       this.editForm.controls[i].markAsDirty();
       this.editForm.controls[i].updateValueAndValidity();
     }
+    
+    console.info(this.validDate);
     if (this.editForm.valid) {
       let interview: any = {};
-      interview.interviewId = this.editForm.value['interviewId'];     
-      //interview.candidate = this.editForm.value['candidate'];
+      interview.interviewId = this.editForm.value['interviewId'];   
       interview.dept = this.editForm.value['dept'];
-      //interview.noticeDate = `${this.editForm.value['noticeDate'].getFullYear()}-${this.editForm.value['noticeDate'].getMonth() + 1}-${this.editForm.value['noticeDate'].getDate()}`;
-      interview.interviewDate = `${this.editForm.value['interviewdate'].getFullYear()}-${this.editForm.value['interviewdate'].getMonth() + 1}-${this.editForm.value['interviewdate'].getDate()} ${this.editForm.value['interviewdate'].getHours()}:${this.editForm.value['interviewdate'].getMinutes()}`; 
+      
+      interview.noticeDate = this.noticeDate;
+      interview.interviewDate = this.interviewDate;//this.editForm.value['interviewDate'];
+      interview.validDate = this.validDate;
+      // interview.noticeDate = `${this.editForm.value['noticeDate'].getFullYear()}-${this.editForm.value['noticeDate'].getMonth() + 1}-${this.editForm.value['noticeDate'].getDate()}`;
+      // interview.interviewDate = `${this.editForm.value['interviewDate'].getFullYear()}-${this.editForm.value['interviewDate'].getMonth() + 1}-${this.editForm.value['interviewDate'].getDate()} ${this.editForm.value['interviewDate'].getHours()}:${this.editForm.value['interviewDate'].getMinutes()}`; 
       interview.interviewer = this.editForm.value['interviewer'];
       interview.place = this.editForm.value['place'];
       // interview.replyDate = this.editForm.value['replyDate'];
       // interview.checkDate = this.editForm.value['checkDate'];
-      interview.validDate = `${this.editForm.value['validDate'].getFullYear()}-${this.editForm.value['validDate'].getMonth() + 1}-${this.editForm.value['validDate'].getDate()}`; 
+      // interview.validDate = `${this.editForm.value['validDate'].getFullYear()}-${this.editForm.value['validDate'].getMonth() + 1}-${this.editForm.value['validDate'].getDate()}`; 
       interview.user = this._storageService.userName;  
       
-      console.info(interview);
 
       this._eipHrInterviewService.update(interview).subscribe(result => {
         this._messageService.success("更新成功！");
@@ -230,6 +253,7 @@ export class HrInterviewComponent implements OnInit {
     }
     this._eipHrInterviewService.SendMail(query).subscribe(result => {   
       this._messageService.success("面試邀請寄送成功");
+      this.refresh();
     });
   }
 }

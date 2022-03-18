@@ -37,7 +37,10 @@ export class HrFormConsentComponent implements OnInit {
       }
       else
       {
-        this.getData();
+        if (this.logonid!=null)
+        {
+          this.getData();
+        }
       }
     });
     this.consentForm = this._formBuilder.group({

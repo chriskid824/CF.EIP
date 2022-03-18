@@ -99,7 +99,8 @@
             <nz-form-item>
                 <nz-form-label [nzSm]="8" [nzXs]="20" [nzFor]="'editnoticeDate'">通知日期</nz-form-label>
                 <nz-form-control [nzSm]="10" [nzXs]="20" nzErrorTip="欄位必填">
-                    <nz-date-picker style="width: 200px;" [nzSm]="10" [nzXs]="20" formControlName="noticeDate" nz-input placeholder="通知日期" autocomplete="off"></nz-date-picker>
+                    <nz-date-picker style="width: 200px;" (ngModelChange)="noticeDatechange($event)" [nzSm]="10" [nzXs]="20" nzFormat="yyyy-MM-dd" 
+                    formControlName="noticeDate" nz-input placeholder="通知日期" autocomplete="off"></nz-date-picker>
                 </nz-form-control>
             </nz-form-item>
             <nz-form-item>
@@ -107,6 +108,7 @@
                 <nz-form-control [nzSm]="10" [nzXs]="20" nzErrorTip="欄位必填">
                     <nz-date-picker style="width: 200px;" nzFormat="yyyy-MM-dd HH:mm"
                     [nzDisabledDate]="disabledEndDate"
+                    (nzOnOk)="interviewDatechange($event)"
                     [nzDisabledTime]="disabledDateTime"
                     [nzShowTime]="{nzMinuteStep:10,nzFormat: 'HH:mm' }" [nzSm]="10" [nzXs]="20" formControlName="interviewDate" placeholder="面試日期" autocomplete="off">
                     </nz-date-picker>
@@ -139,7 +141,9 @@
             <nz-form-item>
                 <nz-form-label [nzSm]="8" [nzXs]="20" [nzFor]="'editvalidDate'">邀約有效日期</nz-form-label>
                 <nz-form-control [nzSm]="10" [nzXs]="20" nzErrorTip="欄位必填">
-                    <nz-date-picker style="width: 200px;" [nzSm]="10" [nzXs]="20" formControlName="validDate" nz-input placeholder="邀約有效日期" autocomplete="off"></nz-date-picker>
+                    <nz-date-picker style="width: 200px;" [nzSm]="10" [nzXs]="20" 
+                    (ngModelChange)="validDatechange($event)"
+                    formControlName="validDate" nz-input placeholder="邀約有效日期" autocomplete="off"></nz-date-picker>
                 </nz-form-control>
             </nz-form-item>
   

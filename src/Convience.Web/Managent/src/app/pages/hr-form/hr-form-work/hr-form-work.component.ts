@@ -22,7 +22,8 @@ export class HrFormWorkComponent implements OnInit {
   workForm: FormGroup = new FormGroup({});
   checked = true;
   logonid:string;
-
+  militaryDateS:any;
+  militaryDateE:any;
   
   public GUID= this.route.snapshot.queryParamMap.get('GUID');
 
@@ -35,35 +36,19 @@ export class HrFormWorkComponent implements OnInit {
 
   ngOnInit(): void { 
     this.logonid=this._storageService.userName;
-    var query = {
-      Guid: this.route.snapshot.queryParamMap.get('GUID'),
-      User: this._storageService.userName,
-    }
-    this._eipHrFormService.CheckFormURL(query).subscribe(result => {
-      console.log(result);
-      if(!result)
-      {
-        alert("無權限進入此頁面，請聯繫HR");
-        this._router.navigate(['hr-form/hr-form-error']);
-      }
-      else
-      {
-        this.getData();
-      }
-    });
     this.workForm = this._formBuilder.group({
-      username_ch: [null],
-      username_en: [null],
-      birthday: [null],
-      gender: [null],
-      birthplace: [null],
-      bloodtype: [null],
-      identity: [null],
+      username_ch: [null,[Validators.required]],
+      username_en: [null,[Validators.required]],
+      birthday: [null,[Validators.required]],
+      gender: [null,[Validators.required]],
+      birthplace: [null,[Validators.required]],
+      bloodtype: [null,[Validators.required]],
+      identity: [null,[Validators.required]],
       phone: [null],
       cellphone: [null],
       tellphone: [null],
-      address_r: [null],
-      address_m: [null],
+      address_r: [null,[Validators.required]],
+      address_m: [null,[Validators.required]],
       family_1: [null],
       family_2: [null],
       family_3: [null],
@@ -186,19 +171,19 @@ export class HrFormWorkComponent implements OnInit {
       fm_job_4: [null],
       fm_job_5: [null],
       fm_job_6: [null],
-      sf_q1_1: [null],
-      sf_q2_1: [null],
-      sf_q2_2: [null],
-      sf_q3_1: [null],
-      sf_q3_2: [null],
-      sf_q3_3: [null],
+      sf_q1_1: [null,[Validators.required]],
+      sf_q2_1: [null,[Validators.required]],
+      sf_q2_2: [null,[Validators.required]],
+      sf_q3_1: [null,[Validators.required]],
+      sf_q3_2: [null,[Validators.required]],
+      sf_q3_3: [null,[Validators.required]],
       sf_q4_ck_1: [null],
       sf_q4_ck_2: [null],
       sf_q4_ck_3: [null],
       sf_q4_3: [null],
-      sf_q5_1: [null],
-      sf_q5_2: [null],
-      sf_q5_3: [null],
+      sf_q5_1: [null,[Validators.required]],
+      sf_q5_2: [null,[Validators.required]],
+      sf_q5_3: [null,[Validators.required]],
       sf_q5_4: [null],
       sf_q6_1: [null],
       sf_q6_2: [null],
@@ -230,6 +215,25 @@ export class HrFormWorkComponent implements OnInit {
       wm_phone_1: [null],
       wm_phone_2: [null],
     }); 
+    var query = {
+      Guid: this.route.snapshot.queryParamMap.get('GUID'),
+      User: this._storageService.userName,
+    }
+    this._eipHrFormService.CheckFormURL(query).subscribe(result => {
+      console.log(result);
+      if(!result)
+      {
+        alert("無權限進入此頁面，請聯繫HR");
+        this._router.navigate(['hr-form/hr-form-error']);
+      }
+      else
+      {
+        if (this.logonid!=null)
+        {
+          this.getData();
+        }
+      }
+    });
   }
   work(){
     this._router.navigate(["hr-form/hr-form-work"],{queryParams:{GUID:this.GUID}});
@@ -428,8 +432,19 @@ export class HrFormWorkComponent implements OnInit {
     });
   }
   send(){
+    this.checkdata();
     if(this.workForm.valid)
     {
+      if(this.workForm.value['military_date']!=null)
+      {
+        this.militaryDateS=this.workForm.value['military_date'][0];
+        this.militaryDateE=this.workForm.value['military_date'][1];
+      }
+      else
+      {
+        this.militaryDateS=null;
+        this.militaryDateE=null;
+      }      
       var work ={
         GUID : this.route.snapshot.queryParamMap.get('GUID'),
         usernameCh: this.workForm.value['username_ch'],
@@ -453,8 +468,8 @@ export class HrFormWorkComponent implements OnInit {
         military: this.workForm.value['military'],
         militaryReason: this.workForm.value['military_reason'],
         militaryCategory: this.workForm.value['military_category'],
-        militaryDateS: this.workForm.value['military_date'][0],
-        militaryDateE: this.workForm.value['military_date'][1],
+        militaryDateS: this.militaryDateS,
+        militaryDateE: this.militaryDateE,
         marriageCk1: this.workForm.value['marriage_ck_1'],
         marriageCk2: this.workForm.value['marriage_ck_2'],
         marriageCk3: this.workForm.value['marriage_ck_3'],
@@ -611,7 +626,7 @@ export class HrFormWorkComponent implements OnInit {
         wmPhone1: this.workForm.value['wm_phone_1'],
         wmPhone2: this.workForm.value['wm_phone_2'],
       }
-      console.info(this.workForm.value['military_date'][0]);
+
       this._eipHrFormService.SendWork(work).subscribe(result => {
         alert("儲存成功");
         // window.close();
@@ -629,11 +644,11 @@ export class HrFormWorkComponent implements OnInit {
     var query = {
       Guid: this.route.snapshot.queryParamMap.get('GUID'),
     }
-    this._eipHrFormService.PrintImformation(query).subscribe(result => {
-      //DownloadFile();
+    this._eipHrFormService.PrintWork(query).subscribe(result => {
+      console.info(result);
       var fileInfo = new FileInfo();
-      fileInfo.fileName = "基本資料問題表.docx"
-      fileInfo.directory = "範例";
+      fileInfo.fileName= result["fileName"]+".docx";
+      fileInfo.directory = "Report/Output";
       this._fileService.download(fileInfo.fileName, fileInfo.directory).subscribe((result: any) => {
         const a = document.createElement('a');
         const blob = new Blob([result], { 'type': "application/octet-stream" });
@@ -643,6 +658,35 @@ export class HrFormWorkComponent implements OnInit {
         a.click();
       });
     });
+  }
+  checkdata(){
+    console.info(this.workForm.value['military'])
+    if (this.workForm.value['military']==null)
+    {
+      alert("兵役未填");
+      return;    
+    }
+    if (this.workForm.value['sf_q1_1']==null)
+    {
+      alert("自我評述Q1未填");
+      return;    
+    }
+    if (this.workForm.value['sf_q2_1']==null || this.workForm.value['sf_q2_2']==null)
+    {
+      alert("自我評述Q2未填");
+      return;    
+    }
+    if (this.workForm.value['sf_q3_1']==null || this.workForm.value['sf_q3_2']==null || this.workForm.value['sf_q3_3']==null)
+    {
+      alert("自我評述Q3未填");
+      return;    
+    }
+    if (this.workForm.value['sf_q5_1']==null || this.workForm.value['sf_q5_2']==null || this.workForm.value['sf_q5_3']==null)
+    {
+      alert("自我評述Q5未填");
+      return;    
+    }
+
   }
 
 }

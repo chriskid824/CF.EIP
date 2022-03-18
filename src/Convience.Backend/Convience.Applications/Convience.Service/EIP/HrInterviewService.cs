@@ -118,6 +118,11 @@ namespace Convience.Service.EIP
         public bool UpdateInterview(ViewhrInterview data)
         {
             HrInterview hr = _context.HrInterviews.Where(p => p.InterviewId == data.InterviewId).FirstOrDefault();
+            User interviewer = _context2.Users.Where(p => p.Username == data.Interviewer && p.Enable == "Y").FirstOrDefault();
+            if (interviewer == null)
+            {
+                throw new Exception("查無此面試官，請重新輸入");
+            }
 
             //hr.Candidate = data.Candidate;
             hr.Dept = data.Dept;
@@ -142,7 +147,10 @@ namespace Convience.Service.EIP
         {
             HrInterview Interview = _context.HrInterviews.Where(p => p.InterviewId == data.InterviewId).FirstOrDefault();
 
-
+            if (Interview.Status != 1)
+            {
+                throw new Exception("該應聘者已發送面試邀請，無法刪除");
+            }
             _context.HrInterviews.Remove(Interview);
             _context.SaveChanges();
             return true;
@@ -152,7 +160,7 @@ namespace Convience.Service.EIP
             HrInterview repit = _context.HrInterviews.Where(p => p.Candidate == data.Candidate).FirstOrDefault();
             HrInterview interview = _context.HrInterviews.Where(p => p.Interviewer == data.Interviewer && p.InterviewDate == data.InterviewDate).FirstOrDefault();
             HrCandidate user = _context.HrCandidates.Where(p => p.CandidateId == data.Candidate).FirstOrDefault();
-            User interviewer = _context2.Users.Where(p => p.Username == data.Interviewer && p.Enable == "Y" && p.Job!="9" ).FirstOrDefault();
+            User interviewer = _context2.Users.Where(p => p.Username == data.Interviewer && p.Enable == "Y" ).FirstOrDefault();
 
             if (repit != null)
             {
@@ -225,13 +233,13 @@ namespace Convience.Service.EIP
             {
                 throw new Exception("查無此筆面試申請");
             }
-            if (interview.Status == 2)
+            if (interview.Status == 3)
             {
-                throw new Exception("此筆面試申請已發送邀請");
+                throw new Exception("此筆面試已將資料填寫完畢");
             }
             if (interview != null)
             {
-                Mail(interview);
+                Mail(interview,data.User);
                 interview.Status = 2;
                 interview.LastUpdateDate = DateTime.Now;
                 interview.LastUpdateBy = data.User;
@@ -245,10 +253,12 @@ namespace Convience.Service.EIP
             }
             return new ViewhrInterview();
         }
-        public void Mail(HrInterview data)
+        public void Mail(HrInterview data ,string User)
         {
-            User boss = _context2.Users.Where(p => p.Username == data.Interviewer && p.Enable == "Y" && p.Job != "9").FirstOrDefault();
+            User boss = _context2.Users.Where(p => p.Username == data.Interviewer && p.Enable == "Y").FirstOrDefault();
             HrCandidate candidate = _context.HrCandidates.Where(p => p.CandidateId == data.Candidate).FirstOrDefault();
+            User hrmail = _context2.Users.Where(p => p.Logonid == User).FirstOrDefault();
+            HrMailsign sign = _context.HrMailsigns.Where(p => p.Logonid == User).FirstOrDefault();
 
 
             if (boss == null || string.IsNullOrWhiteSpace(boss.Email))
@@ -264,14 +274,14 @@ namespace Convience.Service.EIP
             //啟用SSL
             //cv.EnableSsl = true;
             //憑證            AgentFlow文件管理[AgentFlow@chenfull.com.tw]
-            cv.Credentials = new NetworkCredential("mis@chenfull.com.tw", "Chen@full");
+            cv.Credentials = new NetworkCredential(hrmail.Email, "");
             try
             {
                 StringBuilder sb = new StringBuilder();
 
                 StringBuilder sbHeading = new StringBuilder();
                 sbHeading.AppendLine("<html>");
-                sbHeading.AppendLine("<body style='font-family:標楷體;'>");
+                sbHeading.AppendLine("<body style='font-family:微軟正黑體;'>");
                 sbHeading.AppendLine("<p>您好，我是千附實業HR，誠摯地邀請您前來參加面談，屆時請準時參加。</p><br/>");
                 sbHeading.AppendLine($"<p>應聘者：{candidate.Username}</p>");
                 sbHeading.AppendLine($"<p>面試職位：{data.Dept}</p>");
@@ -284,23 +294,23 @@ namespace Convience.Service.EIP
                 sbHeading.AppendLine($"<p><a href='http://localhost:4200/hr-form/hr-form-imformation?GUID={data.Guid}'>基本資料問題表</a></p><br/><br/>");
 
                 sbHeading.AppendLine($"<p>Best Regards,</p><br/>");
-                sbHeading.AppendLine($"<p>總管理處 管理部 周欣妤 Memin Chou</p>");
-                sbHeading.AppendLine($"<p>CHENFULL INTERNATIONAL CO., LTD</p>");
-                sbHeading.AppendLine($"<p>E-mail：Memin.chou@chenfull.com.tw</p>");
-                sbHeading.AppendLine($"<p>電    話：(02)6626-3000 #3017</p>");
-                sbHeading.AppendLine($"<p>地    址：10690台北市大安區忠孝東路四段107號12樓</p>");
+                sbHeading.AppendLine($"<p>{sign.Sign1}</p>");
+                sbHeading.AppendLine($"<p>{sign.Sign2}</p>");
+                sbHeading.AppendLine($"<p>{sign.Sign3}</p>");
+                sbHeading.AppendLine($"<p>{sign.Sign4}</p>");
+                sbHeading.AppendLine($"<p>{sign.Sign5}</p>");
+                sbHeading.AppendLine($"<p>{sign.Sign6}</p>");
+                sbHeading.AppendLine($"<p>{sign.Sign7}</p>");
                 sbHeading.AppendLine("</body>");
                 sbHeading.AppendLine("</html>");
 
 
-                MailMessage msg = new MailMessage("mis@chenfull.com.tw","j556631235@gmail.com", "面試邀請通知", sbHeading.ToString());
+                MailMessage msg = new MailMessage(hrmail.Email, candidate.Email, "(測試)面試邀請通知", sbHeading.ToString());
                 //MailMessage msg = new MailMessage("mis@chenfull.com.tw", candidate.Email, "面試邀請通知", sbHeading.ToString());
 
                 msg.IsBodyHtml = true;
-                msg.Bcc.Add("jerrychen@chenfull.com.tw");
-                //msg.Bcc.Add(boss.Email);
+                msg.Bcc.Add(boss.Email);                
                 cv.Send(msg);
-
 
             }
             catch (Exception ex)

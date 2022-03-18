@@ -18,7 +18,7 @@
                             <nz-form-label>中文姓名</nz-form-label>
                         </td>
                         <td colspan="6">
-                            <nz-form-control> 
+                            <nz-form-control nzErrorTip="欄位必填"> 
                                 <input nz-input formControlName="username_ch" placeholder="中文姓名"/>
                             </nz-form-control>
                         </td>
@@ -26,7 +26,7 @@
                             <nz-form-label>英文姓名</nz-form-label>
                         </td>
                         <td>
-                            <nz-form-control> 
+                            <nz-form-control nzErrorTip="欄位必填"> 
                                 <input nz-input formControlName="username_en" placeholder="英文姓名"/>
                             </nz-form-control>
                         </td>
@@ -34,7 +34,7 @@
                             <nz-form-label>出生日期</nz-form-label>
                         </td>
                         <td>
-                            <nz-form-control> 
+                            <nz-form-control nzErrorTip="欄位必填"> 
                                 <nz-date-picker style="width: 160px;" formControlName="birthday" placeholder="出生日期"></nz-date-picker>
                             </nz-form-control>
                         </td>
@@ -42,7 +42,7 @@
                             <nz-form-label>性別</nz-form-label>
                         </td>
                         <td>
-                            <nz-form-control> 
+                            <nz-form-control nzErrorTip="欄位必填"> 
                                 <input nz-input  formControlName="gender" placeholder="性別"/>
                             </nz-form-control>
                         </td>
@@ -52,7 +52,7 @@
                             <nz-form-label>籍貫</nz-form-label>
                         </td>
                         <td colspan="6">
-                            <nz-form-control> 
+                            <nz-form-control nzErrorTip="欄位必填">
                                 <input nz-input formControlName="birthplace" placeholder="                  省             縣"/>
                             </nz-form-control>
                         </td>  
@@ -60,8 +60,8 @@
                             <nz-form-label>身分證號</nz-form-label>
                         </td>
                         <td>
-                            <nz-form-control> 
-                                <input nz-input  formControlName="identity" placeholder="身分證號"/>
+                            <nz-form-control nzErrorTip="欄位必填"> 
+                                <input nz-input maxlength="10"  formControlName="identity" placeholder="身分證號"/>
                             </nz-form-control>
                         </td>   
                         <td rowspan="3">
@@ -78,7 +78,7 @@
                             <nz-form-label [nzFor]="'address_r'">戶籍地址</nz-form-label>
                         </td>
                         <td colspan="8">
-                            <nz-form-control> 
+                            <nz-form-control nzErrorTip="欄位必填"> 
                                 <input nz-input [attr.id]="'address_r'" formControlName="address_r" placeholder="戶籍地址" />
                             </nz-form-control>
                         </td>
@@ -91,7 +91,7 @@
                             <nz-form-label [nzFor]="'bloodtype'">血型</nz-form-label>
                         </td>
                         <td>
-                            <nz-form-control> 
+                            <nz-form-control nzErrorTip="欄位必填"> 
                                 <input nz-input [attr.id]="'bloodtype'" formControlName="bloodtype" placeholder="血型" />
                             </nz-form-control>
                         </td>                
@@ -101,7 +101,7 @@
                             <nz-form-label [nzFor]="'address_m'">通訊地址</nz-form-label>
                         </td>
                         <td colspan="8">
-                            <nz-form-control> 
+                            <nz-form-control nzErrorTip="欄位必填"> 
                                 <input nz-input [attr.id]="'address_m'" formControlName="address_m" placeholder="通訊地址" />
                             </nz-form-control>
                         </td>
@@ -135,10 +135,8 @@
                         </td>                            
 
                         <td colspan="6">
-
                             <nz-form-label style="margin-left:10px" >兵役</nz-form-label>
-
-                            <nz-select [formControlName]="'military'" style="width: 75px;" ngModel="1">
+                            <nz-select [formControlName]="'military'" style="width: 75px;">
                                 <nz-option nzValue="已服" nzLabel="已服"></nz-option>
                                 <nz-option nzValue="未服役" nzLabel="未服役"></nz-option>
                                 <nz-option nzValue="免役" nzLabel="免疫"></nz-option>
@@ -663,19 +661,19 @@
                             <input nz-input  formControlName="fm_job_2" placeholder="服務單位或職稱"/>
                         </td>
                         <td>
-                            <input nz-input  formControlName="fm_title_4" placeholder="稱謂"/>
+                            <input nz-input  formControlName="fm_title_5" placeholder="稱謂"/>
                         </td>
                         <td>
-                            <input nz-input  formControlName="fm_name_4" placeholder="姓名"/>
+                            <input nz-input  formControlName="fm_name_5" placeholder="姓名"/>
                         </td>
                         <td>
-                            <input nz-input  formControlName="fm_age_4" placeholder="年齡"/>
+                            <input nz-input  formControlName="fm_age_5" placeholder="年齡"/>
                         </td>
                         <td>
-                            <input nz-input  formControlName="fm_education_4" placeholder="學歷"/>
+                            <input nz-input  formControlName="fm_education_5" placeholder="學歷"/>
                         </td>
                         <td>
-                            <input nz-input  formControlName="fm_job_4" placeholder="服務單位或職稱"/>
+                            <input nz-input  formControlName="fm_job_5" placeholder="服務單位或職稱"/>
                         </td>                                        
                     </tr>
                     <tr>
@@ -726,7 +724,7 @@
                             <nz-form-label>1.應徵本公司工作之動機是</nz-form-label>                            
                         </td>                        
                         <td>
-                            <input nz-input  formControlName="sf_q1_1" placeholder=""/>                          
+                            <input nz-input  formControlName="sf_q1_1" placeholder=""/>                            
                         </td>
                     </tr>
                         <td>

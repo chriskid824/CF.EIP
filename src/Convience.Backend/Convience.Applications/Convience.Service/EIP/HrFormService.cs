@@ -25,7 +25,8 @@ namespace Convience.Service.EIP
         public ViewhrFormConsent SendConsent(ViewhrFormConsent data);
         public ViewhrFormConsent GetConsentData(ViewhrFormConsent data);
 
-        public ViewhrInterview PrintImformation(ViewhrInterview data);
+        public ViewhrInterview PrintImformation(ViewhrInterview data);        
+        public ViewhrInterview PrintWork(ViewhrInterview data);
     }
     public class HrFormService : IHrFormService
     {
@@ -54,6 +55,7 @@ namespace Convience.Service.EIP
             HrInterview hr = _context.HrInterviews.Where(p => p.Guid == data.GUID).FirstOrDefault();
             HrCandidate user = _context.HrCandidates.Where(p => p.CandidateId == hr.Candidate).FirstOrDefault();
             HrFormImformation imfom_check = _context.HrFormImformations.Where(p => p.CandidateId == user.CandidateId).FirstOrDefault();
+            HrFormWork work_check = _context.HrFormWorks.Where(p => p.CandidateId == user.CandidateId).FirstOrDefault();
 
             if (hr == null)
             {
@@ -84,6 +86,13 @@ namespace Convience.Service.EIP
                     LastUpdateBy = user.Username,
                 };
                 _context.HrFormImformations.Add(imformation);
+                if (work_check != null)
+                {
+                    user.Status = 3;
+                    hr.Status = 3;
+                    _context.HrCandidates.Update(user);
+                    _context.HrInterviews.Update(hr);
+                }
             }
             else
             {
@@ -143,6 +152,7 @@ namespace Convience.Service.EIP
             HrInterview hr = _context.HrInterviews.Where(p => p.Guid == data.GUID).FirstOrDefault();
             HrCandidate user = _context.HrCandidates.Where(p => p.CandidateId == hr.Candidate).FirstOrDefault();
             HrFormWork work_check = _context.HrFormWorks.Where(p => p.CandidateId == user.CandidateId).FirstOrDefault();
+            HrFormImformation imfrom = _context.HrFormImformations.Where(p => p.CandidateId == user.CandidateId).FirstOrDefault();
 
             if (hr == null)
             {
@@ -340,11 +350,13 @@ namespace Convience.Service.EIP
                 };
                 _context.HrFormWorks.Add(work);
 
-                user.Status = 3;
-                hr.Status = 3;
-
-                _context.HrCandidates.Update(user);
-                _context.HrInterviews.Update(hr);
+                if (imfrom != null)
+                {
+                    user.Status = 3;
+                    hr.Status = 3;
+                    _context.HrCandidates.Update(user);
+                    _context.HrInterviews.Update(hr);
+                }
             }
             else
             {
@@ -814,13 +826,370 @@ namespace Convience.Service.EIP
             fields.Add("q11", imform.Q11);
             fields.Add("q12", imform.Q12);
 
-            s = helper.MakeDocxFile($"基本資料問題表.docx", "基本資料問題表_" + user.Username, fields);
+            s = helper.MakePdfFile($"基本資料問題表.docx", "基本資料問題表_" + user.Username, fields);
 
 
             return new ViewhrInterview 
             {
                 FileName = "基本資料問題表_" + user.Username,
             };
+        }
+        public ViewhrInterview PrintWork(ViewhrInterview data)
+        {
+            HrInterview interview = _context.HrInterviews.Where(p => p.Guid == data.Guid).FirstOrDefault();
+            HrFormWork work = _context.HrFormWorks.Where(p => p.CandidateId == interview.Candidate).FirstOrDefault();
+            HrCandidate user = _context.HrCandidates.Where(p => p.CandidateId == interview.Candidate).FirstOrDefault();
+
+            if (work == null)
+            {
+                throw new Exception("應聘者尚未填寫表單");
+            }
+            WordHelper helper = new WordHelper();
+            string s = string.Empty;
+            Dictionary<string, string> fields = new Dictionary<string, string>();
+
+            fields.Add("name_ch", col(work.UsernameCh));
+            fields.Add("name_en", col(work.UsernameEn));
+            fields.Add("job", interview.Dept);
+            string[] date1 = work.CreateDate.Value.ToString("yyyy/MM/dd").Split('/');
+            fields.Add("y1",date1[0]);
+            fields.Add("m1", date1[1]);
+            fields.Add("d1", date1[2]);
+            string[] date2 = work.Birthday.Value.ToString("yyyy/MM/dd").Split('/');
+            fields.Add("y2", date2[0]);
+            fields.Add("m2", date2[1]);
+            fields.Add("d2", date2[2]);
+            fields.Add("from",work.Birthplace);
+
+            for (int i = 1; i <= 10; i++)
+            {
+                string id = work.Identity.Substring(i-1,1);
+                fields.Add($"i{i}",id);
+            }
+
+            fields.Add("phone", col(work.Phone));
+            fields.Add("tell", col(work.Tellphone));
+            fields.Add("cell", col(work.Cellphone));
+            fields.Add("address1", col(work.AddressM));
+            fields.Add("address2", col(work.AddressR));
+            fields.Add("gd", col(work.Gender));
+            fields.Add("bd", col(work.Bloodtype));
+            fields.Add("f1", col(work.Family1.ToString()));
+            fields.Add("f2", col(work.Family2.ToString()));
+            fields.Add("f3", col(work.Family3.ToString()));
+            fields.Add("f4", col(work.Family4.ToString()));
+            fields.Add("f5", col(work.Family5.ToString()));
+            fields.Add("f6", col(work.Family6.ToString()));
+            fields.Add("mi1", "□");
+            fields.Add("mi2", "□");
+            fields.Add("mi3", "□");
+            switch (work.Military)
+            {
+                case "已服":
+                    fields["mi1"] = "■";
+                    break;
+                case "未服役":
+                    fields["mi2"] = "■";
+                    break;
+                case "免役":
+                    fields["mi3"] = "■";
+                    break;
+            }
+            fields.Add("mi4", col(work.MilitaryReason));
+            if (string.IsNullOrWhiteSpace(work.MilitaryReason))
+            {
+                fields["mi4"] = "      ";
+            }
+            fields.Add("mi5", col(work.MilitaryCategory));
+            fields.Add("mi6", date(work.MilitaryDateS)+ "~"+ date(work.MilitaryDateE));
+            fields.Add("ma1", checkbox(work.MarriageCk1));
+            fields.Add("ma2", checkbox(work.MarriageCk2));
+            fields.Add("ma3", checkbox(work.MarriageCk3));
+            fields.Add("ma4", checkbox(work.MarriageCk4));
+            fields.Add("ma5", checkbox(work.MarriageCk5));
+            fields.Add("ma6", date(work.MarriageDate));
+            fields.Add("ma7", checkbox(work.MarriageCk6));
+
+            fields.Add("dg_n1", col(work.DgName1));
+            fields.Add("dg_n2", col(work.DgName2));
+            fields.Add("dg_n3", col(work.DgName3));
+            fields.Add("dg_n4", col(work.DgName4));
+            fields.Add("dg_n5", col(work.DgName5));
+            fields.Add("dg_m1", col(work.DgMajor1));
+            fields.Add("dg_m2", col(work.DgMajor2));
+            fields.Add("dg_m3", col(work.DgMajor3));
+            fields.Add("dg_m4", col(work.DgMajor4));
+            fields.Add("dg_m5", col(work.DgMajor5));
+            fields.Add("dg_d1", col(work.DgDegree1));
+            fields.Add("dg_d2", col(work.DgDegree2));
+            fields.Add("dg_d3", col(work.DgDegree3));
+            fields.Add("dg_d4", col(work.DgDegree4));
+            fields.Add("dg_d5", col(work.DgDegree5));
+            fields.Add("dg_y1", col(work.DgYear1));
+            fields.Add("dg_y2", col(work.DgYear2));
+            fields.Add("dg_y3", col(work.DgYear3));
+            fields.Add("dg_y4", col(work.DgYear4));
+            fields.Add("dg_y5", col(work.DgYear5));
+            fields.Add("dg_g1", grad(work.DgGrad1));
+            fields.Add("dg_g2", grad(work.DgGrad2));
+            fields.Add("dg_g3", grad(work.DgGrad3));
+            fields.Add("dg_g4", grad(work.DgGrad4));
+            fields.Add("dg_g5", grad(work.DgGrad5));
+            fields.Add("gy1", col(work.DgGradyear1));
+            fields.Add("gy2", col(work.DgGradyear2));
+            fields.Add("gy3", col(work.DgGradyear3));
+            fields.Add("gy4", col(work.DgGradyear4));
+            fields.Add("gy5", col(work.DgGradyear5));
+       
+            fields.Add("dg_t1", DgTime(col(work.DgTime1)));
+            fields.Add("dg_t2", DgTime(col(work.DgTime2)));
+            fields.Add("dg_t3", DgTime(col(work.DgTime3)));
+            fields.Add("dg_t4", DgTime(col(work.DgTime4)));
+            fields.Add("dg_t5", DgTime(col(work.DgTime5)));
+            
+            fields.Add("ed1", col(work.ExpDept1));
+            fields.Add("ed2", col(work.ExpDept2));
+            fields.Add("ed3", col(work.ExpDept3));
+            fields.Add("ed4", col(work.ExpDept4));
+            fields.Add("ed5", col(work.ExpDept5));
+            fields.Add("ep1", col(work.ExpPeriod1));
+            fields.Add("ep2", col(work.ExpPeriod2));
+            fields.Add("ep3", col(work.ExpPeriod3));
+            fields.Add("ep4", col(work.ExpPeriod4));
+            fields.Add("ep5", col(work.ExpPeriod5));
+            fields.Add("ei1", col(work.ExpIncomeM1));
+            fields.Add("ei2", col(work.ExpIncomeM2));
+            fields.Add("ei3", col(work.ExpIncomeM3));
+            fields.Add("ei4", col(work.ExpIncomeM4));
+            fields.Add("ei5", col(work.ExpIncomeM5));
+            fields.Add("ey1", col(work.ExpIncomeY1));
+            fields.Add("ey2", col(work.ExpIncomeY2));
+            fields.Add("ey3", col(work.ExpIncomeY3));
+            fields.Add("ey4", col(work.ExpIncomeY4));
+            fields.Add("ey5", col(work.ExpIncomeY5));
+            fields.Add("en1", col(work.ExpPosition1));
+            fields.Add("en2", col(work.ExpPosition2));
+            fields.Add("en3", col(work.ExpPosition3));
+            fields.Add("en4", col(work.ExpPosition4));
+            fields.Add("en5", col(work.ExpPosition5));
+            fields.Add("eb1", col(work.ExpBoss1));
+            fields.Add("eb2", col(work.ExpBoss2));
+            fields.Add("eb3", col(work.ExpBoss3));
+            fields.Add("eb4", col(work.ExpBoss4));
+            fields.Add("eb5", col(work.ExpBoss5));
+
+
+            fields = resign(work.ExpResign1, fields,1);
+            fields = resign(work.ExpResign2, fields,2);
+            fields = resign(work.ExpResign3, fields,3);
+            fields = resign(work.ExpResign4, fields,4);
+            fields = resign(work.ExpResign5, fields,5);
+
+
+
+            fields.Add("er1", col(work.ExpReason1));
+            fields.Add("er2", col(work.ExpReason2));
+            fields.Add("er3", col(work.ExpReason3));
+            fields.Add("er4", col(work.ExpReason4));
+            fields.Add("er5", col(work.ExpReason5));
+
+            fields.Add("ft1", col(work.FmTitle1));
+            fields.Add("ft2", col(work.FmTitle2));
+            fields.Add("ft3", col(work.FmTitle3));
+            fields.Add("ft4", col(work.FmTitle4));
+            fields.Add("ft5", col(work.FmTitle5));
+            fields.Add("ft6", col(work.FmTitle6));
+            fields.Add("fn1", col(work.FmName1));
+            fields.Add("fn2", col(work.FmName2));
+            fields.Add("fn3", col(work.FmName3));
+            fields.Add("fn4", col(work.FmName4));
+            fields.Add("fn5", col(work.FmName5));
+            fields.Add("fn6", col(work.FmName6));
+            fields.Add("fg1", col(work.FmAge1));
+            fields.Add("fg2", col(work.FmAge2));
+            fields.Add("fg3", col(work.FmAge3));
+            fields.Add("fg4", col(work.FmAge4));
+            fields.Add("fg5", col(work.FmAge5));
+            fields.Add("fg6", col(work.FmAge6));
+            fields.Add("fe1", col(work.FmEducation1));
+            fields.Add("fe2", col(work.FmEducation2));
+            fields.Add("fe3", col(work.FmEducation3));
+            fields.Add("fe4", col(work.FmEducation4));
+            fields.Add("fe5", col(work.FmEducation5));
+            fields.Add("fe6", col(work.FmEducation6));
+            fields.Add("fj1", col(work.FmJob1));
+            fields.Add("fj2", col(work.FmJob2));
+            fields.Add("fj3", col(work.FmJob3));
+            fields.Add("fj4", col(work.FmJob4));
+            fields.Add("fj5", col(work.FmJob5));
+            fields.Add("fj6", col(work.FmJob6));
+
+            fields.Add("sq1", col(work.SfQ11));
+            fields.Add("sq2_1", col(work.SfQ21));
+            fields.Add("sq2_2", col(work.SfQ22));
+            fields.Add("sq3_1", col(work.SfQ31));
+            fields.Add("sq3_2", col(work.SfQ32));
+            fields.Add("sq3_3", col(work.SfQ33));
+            fields.Add("sq4_1", checkbox(work.SfQ4Ck1));
+            fields.Add("sq4_2", checkbox(work.SfQ4Ck2));
+            fields.Add("sq4_3", checkbox(work.SfQ4Ck3));
+            fields.Add("sq4_4", col(work.SfQ43));
+            fields.Add("sq5_1", col(work.SfQ51));
+            fields.Add("sq5_2", col(work.SfQ52));
+            fields.Add("sq5_3", col(work.SfQ53));
+            fields.Add("sq5_4", col(work.SfQ54));
+            if (!string.IsNullOrWhiteSpace(work.SfQ61))
+            {
+                fields.Add("sq6_1ck", "■");
+            }
+            else
+            {
+                fields.Add("sq6_1ck", "□");
+            }
+            if (!string.IsNullOrWhiteSpace(work.SfQ62))
+            {
+                fields.Add("sq6_2ck", "■");
+            }
+            else
+            {
+                fields.Add("sq6_2ck", "□");
+            }
+            fields.Add("sq6_1", col(work.SfQ61));
+            fields.Add("sq6_2", col(work.SfQ62));
+            fields.Add("sq7_1", col(work.SfQ71));
+            fields.Add("sq7_2", col(work.SfQ72));
+            fields.Add("sq7_3", col(work.SfQ73));
+            fields.Add("sq7_4", col(work.SfQ74));
+
+            fields.Add("sq8ck1", checkbox(work.SfQ8Ck1));
+            fields.Add("sq8ck2", checkbox(work.SfQ8Ck2));
+            fields.Add("sq8ck3", checkbox(work.SfQ8Ck3));
+            fields.Add("sq8ck4", checkbox(work.SfQ8Ck4));
+            fields.Add("sq8ck5", checkbox(work.SfQ8Ck5));
+            fields.Add("sq8_3", col(work.SfQ83));
+            fields.Add("sq8_4", col(work.SfQ84));
+
+            fields.Add("sq9ck1", checkbox(work.SfQ9Ck1));
+            fields.Add("sq9ck2", checkbox(work.SfQ9Ck2));
+            fields.Add("sq9ck4", checkbox(work.SfQ9Ck4));
+            fields.Add("sq9ck5", checkbox(work.SfQ9Ck5));
+            fields.Add("sq9_2", col(work.SfQ92));
+            fields.Add("sq9_3", col(work.SfQ93));
+
+            fields.Add("wn1", col(work.WmName1));
+            fields.Add("wn2", col(work.WmName2));
+            fields.Add("wd1", col(work.WmDept1));
+            fields.Add("wd2", col(work.WmDept2));
+            fields.Add("wt1", col(work.WmTitle1));
+            fields.Add("wt2", col(work.WmTitle2));
+            fields.Add("wa1", col(work.WmAddress1));
+            fields.Add("wa2", col(work.WmAddress2));
+            fields.Add("wp1", col(work.WmPhone1));
+            fields.Add("wp2", col(work.WmPhone2));
+
+
+            s = helper.MakeDocxFile($"工作申請表.docx", "工作申請表_" + user.Username, fields);
+
+
+            return new ViewhrInterview
+            {
+                FileName = "工作申請表_" + user.Username,
+            };
+        }
+        public string col(string data)
+        {
+            if (string.IsNullOrWhiteSpace(data))
+            {
+                return "";
+            }
+            else
+            {
+                return data;
+            }
+        }
+        public string grad(string? data)
+        {
+            if (data == "畢")
+            {
+                return "■  □";
+            }
+            else if (data == "肄")
+            {
+                return "□  ■";
+            }
+            else
+            {
+                return "□  □";
+            }
+        }
+        public Dictionary<string, string> resign(string data, Dictionary<string, string> fields,int i)
+        {
+            if (data == "自願")
+            {
+                fields.Add($"ry{i}", "■");
+                fields.Add($"rn{i}", "□");
+            }
+            else if (data == "非自願")
+            {
+
+                fields.Add($"ry{i}", "□");
+                fields.Add($"rn{i}", "■");
+
+            }
+            else
+            {
+                fields.Add($"ry{i}", "□");
+                fields.Add($"rn{i}", "□");
+            }
+            return fields;
+        }
+        public string date(DateTime? data)
+        {
+            if (data==null)
+            {
+                return "";
+            }
+            else
+            {
+                return data.Value.ToString("yyyy/MM/dd");
+            }
+        }
+        public string DgTime(string data)
+        {
+            if (data == "日間")
+            {
+                return "■     □     □";
+            }
+            else if (data == "夜間")
+            {
+                return "□     ■     □";
+            }
+            else if (data == "假日")
+            {
+                return "□     □     ■";
+            }
+            else
+            {
+                return "□     □     □";
+            }
+        }
+        public string checkbox(bool? data)
+        {
+            if (data != null)
+            {
+                if (data.Value)
+                {
+                    return "■";
+                }
+                else
+                {
+                    return "□";
+                }
+            }
+            else
+            {
+                return "□";
+            }
         }
     }
 }
