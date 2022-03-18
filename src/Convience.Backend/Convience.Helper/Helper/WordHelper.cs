@@ -24,10 +24,10 @@ namespace Convience.Helper
         {
             string app = System.Diagnostics.Process.GetCurrentProcess().ProcessName.ToLower();
 
-            templatePath = @"D:\CF.EIP\src\Convience.Backend\Convience.Applications\Convience.ManagentApi\fileStore\Report\Template";
+            templatePath = @"D:\wwwroot\EIPService\fileStore\Report\Template";
 
             //templatePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"\" +@"Report\Template";
-            outputPath = @"D:\CF.EIP\src\Convience.Backend\Convience.Applications\Convience.ManagentApi\fileStore\Report\Output\";
+            outputPath = @"D:\wwwroot\EIPService\fileStore\Report\Output";
 
             if (!templatePath[templatePath.Length - 1].Equals(@"\"))
             {

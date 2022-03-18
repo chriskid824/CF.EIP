@@ -826,7 +826,7 @@ namespace Convience.Service.EIP
             fields.Add("q11", imform.Q11);
             fields.Add("q12", imform.Q12);
 
-            s = helper.MakePdfFile($"基本資料問題表.docx", "基本資料問題表_" + user.Username, fields);
+            s = helper.MakeDocxFile($"基本資料問題表.docx", "基本資料問題表_" + user.Username, fields);
 
 
             return new ViewhrInterview 
