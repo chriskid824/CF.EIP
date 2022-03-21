@@ -30,7 +30,7 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     this.validateForm = this._formBuilder.group({
       userName: [null, [Validators.required]],
-      password: [null, [Validators.required]],
+      password: [null],
       captchaValue: [null, [Validators.required]],
       remember: [true]
     });
