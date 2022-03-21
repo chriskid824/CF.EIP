@@ -89,6 +89,7 @@ namespace Convience.ManagentApi.Controllers
             {
                 //return this.BadRequestResult(result.Message);
                 //throw new Exception(result.Message);
+                return this.BadRequestResult(AccountConstants.ACCOUNT_WRONG_INPUT);
             }
             returnData returnData = JsonConvert.DeserializeObject<returnData>(result.Options.ToString());
             UserData UserData = JsonConvert.DeserializeObject<UserData>(returnData.data.ToString());
