@@ -6,4 +6,5 @@ export class hr {
     dept?:string;
     i_date?: Date;
     interviewdate?: Date;
+    userName?: string;
 }

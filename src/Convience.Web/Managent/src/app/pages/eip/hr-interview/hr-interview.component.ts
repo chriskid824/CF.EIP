@@ -127,14 +127,14 @@ export class HrInterviewComponent implements OnInit {
   delete(title: TemplateRef<{}>, content: TemplateRef<{}>,interview:hr){
     var data = {
       interviewId:interview.interviewId,
-      candidate:interview.candidate,
+      candidate:interview.userName,
       interviewDate:interview.i_date.toString(),
       dept:interview.dept,
     }
     console.log(data);
 
     this.tplModal = this._modalService.confirm({
-      nzTitle: '你確定要刪除此面試申請嗎？<br/><br/>應聘者：'+interview.candidate+'<br/>面試職位：'+interview.dept+'<br/>面試時段：'+interview.i_date,
+      nzTitle: '你確定要刪除此面試申請嗎？<br/><br/>應聘者：'+interview.userName+'<br/>面試職位：'+interview.dept+'<br/>面試時段：'+interview.i_date,
       //nzContent: '<b style="color: red;">Some descriptions</b>',
       nzOkText: '確認',
       nzOkType: 'primary',
