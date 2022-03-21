@@ -127,7 +127,6 @@ export class HrInterviewComponent implements OnInit {
   delete(title: TemplateRef<{}>, content: TemplateRef<{}>,interview:hr){
     var data = {
       interviewId:interview.interviewId,
-      candidate:interview.userName,
       interviewDate:interview.i_date.toString(),
       dept:interview.dept,
     }
