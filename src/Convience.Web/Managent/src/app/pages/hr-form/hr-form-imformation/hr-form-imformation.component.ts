@@ -74,10 +74,10 @@ export class HrFormImformationComponent implements OnInit {
         }
         else
         {
-          if (this.logonid!=null)
-          {
+          // if (this.logonid!=null)
+          // {
             this.getData();
-          }
+          //}
         }
       });   
   }
@@ -86,20 +86,23 @@ export class HrFormImformationComponent implements OnInit {
       Guid: this.route.snapshot.queryParamMap.get('GUID'),
     }
     this._eipHrFormService.GetImformationData(query).subscribe(result => {
-      this.imformationForm = this._formBuilder.group({
-        iform_q1: [result['q1']],
-        iform_q2: [result['q2']],
-        iform_q3: [result['q3']],
-        iform_q4: [result['q4']],
-        iform_q5: [result['q5']],
-        iform_q6: [result['q6']],
-        iform_q7: [result['q7']],
-        iform_q8: [result['q8']],
-        iform_q9: [result['q9']],
-        iform_q10: [result['q10']],
-        iform_q11: [result['q11']],
-        iform_q12: [result['q12']],
-      });
+      if (result["candidateId"]!=0)
+      {
+        this.imformationForm = this._formBuilder.group({
+          iform_q1: [result['q1']],
+          iform_q2: [result['q2']],
+          iform_q3: [result['q3']],
+          iform_q4: [result['q4']],
+          iform_q5: [result['q5']],
+          iform_q6: [result['q6']],
+          iform_q7: [result['q7']],
+          iform_q8: [result['q8']],
+          iform_q9: [result['q9']],
+          iform_q10: [result['q10']],
+          iform_q11: [result['q11']],
+          iform_q12: [result['q12']],
+        });
+      }
       console.info(result);
     });
   }
@@ -133,7 +136,6 @@ export class HrFormImformationComponent implements OnInit {
       }
       this._eipHrFormService.SendImformation(imformation).subscribe(result => {
         alert("儲存成功");
-        window.close();
       });
     }
     else

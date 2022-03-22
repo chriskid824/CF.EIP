@@ -132,6 +132,7 @@ namespace Convience.Service.EIP
             {
                 return new ViewhrFormImformation
                 {
+                    CandidateId = imform.CandidateId,
                     Q1 = imform.Q1,
                     Q2 = imform.Q2,
                     Q3 = imform.Q3,
@@ -563,6 +564,7 @@ namespace Convience.Service.EIP
             {
                 return new ViewhrFormWork
                 {
+                    CandidateId = work.CandidateId,
                     UsernameCh = work.UsernameCh,
                     UsernameEn = work.UsernameEn,
                     Birthday = work.Birthday,
