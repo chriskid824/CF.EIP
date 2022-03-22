@@ -273,7 +273,7 @@ export class HrFormWorkComponent implements OnInit {
           military: [result['military']],
           military_reason: [result['militaryReason']],
           military_category: [result['militaryCategory']],
-          military_date: [result['militaryDateS'],result['militaryDateE']],   
+          military_date:[[result['militaryDateS'],result['militaryDateE']]],   
           marriage_ck_1: [result['marriageCk1']],
           marriage_ck_2: [result['marriageCk2']],
           marriage_ck_3: [result['marriageCk3']],
@@ -430,11 +430,11 @@ export class HrFormWorkComponent implements OnInit {
           wm_phone_1: [result['wmPhone1']],
           wm_phone_2: [result['wmPhone2']],
         });
-      }
-      console.log(result);
+      }      
     });
   }
   send(){
+    console.log(this.workForm.value['military_date']);
     this.checkdata();
     if(this.workForm.valid)
     {
