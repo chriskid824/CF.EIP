@@ -46,6 +46,7 @@ export class HrUserComponent implements OnInit {
       //candidateId:[null],
       name:[null]
     });
+    this.refresh();
   }
   openwork(guid) {
     //this._router.navigate(["hr-form/hr-form-work"],{queryParams:{GUID:guid}});

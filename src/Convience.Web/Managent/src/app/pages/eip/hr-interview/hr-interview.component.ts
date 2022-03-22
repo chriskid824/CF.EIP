@@ -48,6 +48,7 @@ export class HrInterviewComponent implements OnInit {
       //candidateId:[null],
       date:[null]
     });
+    this.refresh();
   }
 
   submitSearch() {
