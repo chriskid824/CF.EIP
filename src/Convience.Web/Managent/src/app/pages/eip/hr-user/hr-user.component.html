@@ -36,7 +36,7 @@
                 <th nzAlign="center" nzWidth="50px">工作申請表</th>
                 <th nzAlign="center" nzWidth="60px">個資使用同意書</th>
                 <th nzAlign="center" nzWidth="60px">基本資料問題表</th>
-                <th nzAlign="center" nzWidth="40px">狀態</th>                
+                <!-- <th nzAlign="center" nzWidth="40px">狀態</th>                 -->
               </tr>
             </thead>
             <tbody>
@@ -50,7 +50,7 @@
                 <td nzAlign="center"><a href="javascript:void(0);"  *ngIf="data.status!=1" (click)="openwork(data.guid)">工作申請表</a></td>
                 <td nzAlign="center"><a href="javascript:void(0);"  *ngIf="data.status!=1" (click)="openconsent(data.guid)">個資使用同意書</a></td>
                 <td nzAlign="center" ><a href="javascript:void(0);" *ngIf="data.status!=1" (click)="openimformation(data.guid)">基本資料問題表</a></td>
-                <td nzAlign="center" nzWidth="40px">{{ data.statusDesc }}</td>
+                <td nzAlign="center" nzWidth="40px" hidden>{{ data.statusDesc }}</td>
                 
               </tr>
             </tbody>            
@@ -118,20 +118,20 @@
               </nz-form-item>
             <nz-form-item>
                 <nz-form-label [nzSm]="8" [nzXs]="20" [nzFor]="'add_username'">應聘者</nz-form-label>
-                <nz-form-control [nzSm]="10" [nzXs]="20" [nzErrorTip]="usernameErrorTpl">
+                <nz-form-control [nzSm]="10" [nzXs]="20" nzErrorTip="欄位必填">
                     <input [attr.id]="'add_username'" formControlName="username" nz-input placeholder="應聘者"
                         autocomplete="off"/>
                 </nz-form-control>
             </nz-form-item>
             <nz-form-item>
               <nz-form-label [nzSm]="8" [nzXs]="20" [nzFor]="'add_cellphone'">手機</nz-form-label>
-              <nz-form-control [nzSm]="10" [nzXs]="20">
+              <nz-form-control [nzSm]="10" [nzXs]="20" nzErrorTip="欄位必填">
                   <input [attr.id]="'add_cellphone'" formControlName="cellphone" nz-input placeholder="手機" autocomplete="off" />
               </nz-form-control>
             </nz-form-item>
             <nz-form-item>
                 <nz-form-label [nzSm]="8" [nzXs]="20" [nzFor]="'add_email'">Email</nz-form-label>
-                <nz-form-control [nzSm]="10" [nzXs]="20">
+                <nz-form-control [nzSm]="10" [nzXs]="20" nzErrorTip="欄位必填">
                     <input [attr.id]="'add_email'" formControlName="email" nz-input placeholder="Email" autocomplete="off" />
                 </nz-form-control>
             </nz-form-item>

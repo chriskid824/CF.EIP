@@ -1,10 +1,8 @@
 import { Component, OnInit,ViewEncapsulation,ViewChild,TemplateRef } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { StorageService } from '../../../services/storage.service';
-import { LayoutComponent } from '../../layout/layout/layout.component';
 import { Router } from '@angular/router';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
-import { EipModule } from '../eip.module';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { hr } from '../../system-manage/model/hr';
 
@@ -160,11 +158,11 @@ export class HrUserComponent implements OnInit {
     }
   } 
   submitadd(title: TemplateRef<{}>, content: TemplateRef<{}>,user:hr) {
-    for (const i in this.editForm.controls) {
-      this.editForm.controls[i].markAsDirty();
-      this.editForm.controls[i].updateValueAndValidity();
+    for (const i in this.addForm.controls) {
+      this.addForm.controls[i].markAsDirty();
+      this.addForm.controls[i].updateValueAndValidity();
     }
-    if (this.editForm.valid) {
+    if (this.addForm.valid) {
       let candidate: any = {};  
       candidate.username = this.addForm.value['username'];
       candidate.cellphone = this.addForm.value['cellphone'];
